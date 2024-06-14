@@ -19,11 +19,12 @@ class BaseDatos{
     {
         $this->HOSTNAME = "127.0.0.1";
         $this->BASEDATOS = "bdviajes";
+        /* credenciales por defecto: */
         $this->USUARIO = "root";
-        $this->CLAVE = ""; /* credenciales por defecto */
+        $this->CLAVE = ""; 
         /* variables instancia utilizadas para guardar información en la implementación de la clase: */
         $this->RESULT = 0; /* guardamos los resultados de la operación realizada en el motor de bd */
-        $this->QUERY = ""; /* con cuál query */
+        $this->QUERY = ""; /* para almacenar la query ejecutada */
         $this->ERROR = ""; /* guardar información del error que puede ocurrir */
     }
 
@@ -119,7 +120,7 @@ class BaseDatos{
                 $this->CONEXION = $conexion; #la guardamos en la variable instancia.
                             
                 //porqué unset de esas variables
-                unset($this->QUERY); #eliminamos estas propiedades porque se puso establecer una conexión exitosa
+                unset($this->QUERY); #eliminamos estas propiedades porque se pudo establecer una conexión exitosa
                 unset($this->ERROR);
                 $resp = true;
             }else{#no se pudo cambiar la base de datos.

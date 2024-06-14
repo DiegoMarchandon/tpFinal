@@ -114,7 +114,7 @@ class Persona{
 					$Apellido=$row2['apellido'];
 					$nroTel=$row2['nroTelefono'];
 					$perso=new Persona();
-					$perso->cargar($NroDoc,$Nombre,$Apellido,$nroTel);
+					$perso->cargar($NroDoc,$Nombre,$Apellido,$nroTel); /* en persona (clase padre) cargamos los datos en el arreglo.*/
 					array_push($arregloPersona,$perso);
 	
 				}

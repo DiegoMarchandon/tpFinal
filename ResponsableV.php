@@ -4,11 +4,11 @@ class ResponsableV extends Persona{
     private $numEmpleado;
     private $numLicencia;
 
-    public function __construct($numEmpleado,$numLicencia)
+    public function __construct()
     {
         parent::__construct();
-        $this->numEmpleado = $numEmpleado;
-        $this->numLicencia = $numLicencia;
+        $this->numEmpleado = "";
+        $this->numLicencia = "";
     }
 
     /* METODOS SQL */
@@ -25,7 +25,7 @@ class ResponsableV extends Persona{
         }
     }
 
-    public function buscar($dni){
+    public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
         $consulta = "SELECT * FROM empleado WHERE pdocumento=".$dni;
         $resp = false;

@@ -51,7 +51,7 @@ switch($respuesta){
         if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe.
             echo "desea modificar el nombre ? si/no";
             $rta1 = trim(fgets(STDIN));
-            if($rta1 == "si"){
+            if(strcasecmp($rta1, "si") == 0){
                 echo "ingrese el nuevo nombre: ";
                 $newNombre = trim(fgets(STDIN));
                 $empresaViajes->setNombre($newNombre);
@@ -60,14 +60,14 @@ switch($respuesta){
             }
             echo "desea modificar la direccion ? si/no";
             $rta2 = trim(fgets(STDIN));
-            if($rta2 == "si"){
+            if(strcasecmp($rta2, "si") == 0){
                 echo "ingrese la nueva dirección: ";
                 $newDireccion = trim(fgets(STDIN));
                 $empresaViajes->setDireccion($newDireccion);
                 $modificarDireccion = " edireccion= '".$newDireccion."' ";
                 $empresaViajes->modificar($modificarDireccion);
             }
-            if($rta1 != "si" && $rta2 != "si"){
+            if((strcasecmp($rta1, "si") != 0) && (strcasecmp($rta2, "si") != 0)){
                 echo "No se modificó ningún dato.";
             }
         }else{
@@ -75,6 +75,7 @@ switch($respuesta){
         }
         break;
     case 3: 
+        $empresaViajes->eliminar();
         if($empresaViajes->eliminar()){ #con ponerlo acá ya se ejecuta o debo guardarlo en una variable y poner esa variable ?
             echo "empresa eliminada.";
         }else{
@@ -89,11 +90,15 @@ switch($respuesta){
         $nombreResponsable = trim(fgets(STDIN));
         echo "ingrese su apellido: ";
         $apellResponsable = trim(fgets(STDIN));
-
+        echo "ingrese su teléfono: ";
+        $telefono = trim(fgets(STDIN));
         echo "Ingrese su numero de empleado: ";
         $numEmpleado = trim(fgets(STDIN));
         echo "ingrese su número de licencia:";
         $numLicencia = trim(fgets(STDIN));
+        $responsable = new ResponsableV();
+        $responsable->cargar($numDoc,$nombreResponsable,$apellResponsable,$telefono,$numEmpleado,$numLicencia);
+        $respuesta = $responsable->insertar();
         echo "ingrese un destino: ";
         $destino = trim(fgets(STDIN));
         echo "ingrese una cantidad máxima de pasajeros para el viaje: ";

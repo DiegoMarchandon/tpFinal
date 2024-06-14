@@ -62,6 +62,21 @@ class Empresa{
         $this->setDireccion($direccion);
     }
 
+    /* utilizo a buscar exclusivamente para buscar a la empresa por id en lugar de modificar los datos. */
+    public function Buscar($idEmpresa){
+        $base = new BaseDatos(); 
+        $consultaEmpresa = "SELECT * FROM empresa WHERE idEmpresa = ".$idEmpresa;
+        $resp = false;
+        if($base->Iniciar()){ #para cualquier consulta, lo que necesito hacer primero es establacer una conexión.
+            if($base->Ejecutar($consultaEmpresa)){ #envío la consulta al gestor de base de datos
+                $resp = true;
+            }   
+        }else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
     	/**
 	 * podemos buscar a todas las empresas que cumplan determinada condicion 
 	 * que dependerá de lo que queremos listar.
@@ -75,7 +90,7 @@ class Empresa{
 		    $consultaEmpresas .= ' where '.$condicion;
 		}
 		$consultaEmpresas.=" order by idempresa ";
-		//echo $consultaPersonas;
+		
 		if($base->Iniciar()){/* iniciar la conexión */
 			if($base->Ejecutar($consultaEmpresas)){				 /* ejecutar la consulta */
 				$arregloEmpresa= array();
@@ -145,21 +160,6 @@ class Empresa{
             }
         }else{
             $this->setMensajeoperacion($base->getERROR());
-        }
-        return $resp;
-    }
-
-    /* utilizo a buscar exclusivamente para buscar a la empresa por id en lugar de modificar los datos. */
-    public function buscar($idEmpresa){
-        $base = new BaseDatos(); 
-        $consultaEmpresa = "SELECT * FROM empresa WHERE idEmpresa = ".$idEmpresa;
-        $resp = false;
-        if($base->Iniciar()){ #para cualquier consulta, lo que necesito hacer primero es establacer una conexión.
-            if($base->Ejecutar($consultaEmpresa)){ #envío la consulta al gestor de base de datos
-                $resp = true;
-            }   
-        }else {
-            $this->setmensajeoperacion($base->getError());
         }
         return $resp;
     }

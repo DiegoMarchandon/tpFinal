@@ -26,7 +26,7 @@ class Pasajero extends Persona{
         }
     }
 
-    public function buscar($dni){
+    public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
         $consulta = "SELECT * FROM pasajero WHERE pdocumento=".$dni;
         $resp = false;
@@ -35,13 +35,45 @@ class Pasajero extends Persona{
                 if($registros = $base->Registro()){
                     parent::Buscar($dni);
                     $this->setObjViaje($registros['idviaje']);
-                    $this->setNroPasaporte($registros['']);
-                    /* hasta acá */
+                    $this->setNroPasaporte($registros['nroPasaporte']);
+                    $resp = true;
                 }
+            }else{
+                $this->getmensajeoperacion($base->getERROR());
             }
+        }else{
+            $this->getmensajeoperacion($base->getERROR());
         }
+        return $resp;
     }
 
+    public function listar($condicion=""){
+	    $arreglo = null;
+		$base=new BaseDatos();
+		$consulta="Select * from pasajero ";
+		if ($condicion!=""){
+		    $consulta .=' where '.$condicion;
+		}
+		$consulta.=" order by nroPasaporte ";
+		//echo $consultaPersonas;
+		if($base->Iniciar()){ /* iniciar la conexión */
+		    if($base->Ejecutar($consulta)){				
+			    $arreglo= array();
+				while($row2=$base->Registro()){
+					$obj=new Pasajero();
+					$obj->Buscar($row2['nrodoc']); /* en clases hijas de Persona, buscamos los atributos restantes con Buscar($dni) y los  */
+					array_push($arreglo,$obj);
+				}
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 }	
+		 return $arreglo;
+	}
+
+    
 
     /* GETTERS Y SETTERS */
 
