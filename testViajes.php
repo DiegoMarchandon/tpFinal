@@ -33,7 +33,7 @@ switch($respuesta){
         $nombre = trim(fgets(STDIN));
         echo "ingrese la direccion de la empresa: ";
         $direccion = trim(fgets(STDIN));
-        $empresaViajes->cargar($nombre,$direccion); #cargo los datos en la clase
+        $empresaViajes->cargar($idEmpresa, $nombre,$direccion); #cargo los datos en la clase
         $resultado = $empresaViajes->insertar();
         if($resultado){
             echo "datos cargados correctamente.\n";

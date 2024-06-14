@@ -57,7 +57,8 @@ class Empresa{
 
     /* MÉTODOS SQL INSERTAR, MODIFICAR, ELIMINAR */
 
-    public function cargar($nombre,$direccion){
+    public function cargar($idEmpresa, $nombre,$direccion){
+        $this->setIdEmpresa($idEmpresa);
         $this->setNombre($nombre);
         $this->setDireccion($direccion);
     }
@@ -98,8 +99,9 @@ class Empresa{
 					
 					$Nombre=$registros['enombre'];
 					$Direccion=$registros['edireccion'];
+                    $idEmpresa=$registros['idempresa'];
 					$empresa=new Empresa();
-					$empresa->cargar($Nombre,$Direccion);
+					$empresa->cargar($Nombre,$Direccion,$idEmpresa);
 					array_push($arregloEmpresa,$empresa);
 	
 				}
