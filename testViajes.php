@@ -24,32 +24,41 @@ echo "\n| Bienvenido. Qué desea hacer? |\n|------------------------------|\n".
 
 $viaje = new Viaje();
 $empresaViajes = new Empresa();
-
 $respuesta = trim(fgets(STDIN));
 
 switch($respuesta){
     case 1:
-        echo "ingrese el nombre de la empresa: ";
-        $nombre = trim(fgets(STDIN));
-        echo "ingrese la direccion de la empresa: ";
-        $direccion = trim(fgets(STDIN));
-        $empresaViajes->cargar($idEmpresa, $nombre,$direccion); #cargo los datos en la clase
-        $resultado = $empresaViajes->insertar();
-        if($resultado){
-            echo "datos cargados correctamente.\n";
-            $coleccion = $empresaViajes->listar();
-            foreach($coleccion as $dato){
-                echo $dato;
-                echo "-------------------------------------------------------";
+        if(count($empresaViajes->listar()) == 0){
+
+            echo "ingrese el nombre de la empresa: ";
+            $nombre = trim(fgets(STDIN));
+            echo "ingrese la direccion de la empresa: ";
+            $direccion = trim(fgets(STDIN));
+            $empresaViajes->cargar(null, $nombre,$direccion); #cargo los datos en la clase
+            $resultado = $empresaViajes->insertar();
+            if($resultado){
+                echo "datos cargados correctamente.\n";
+                $coleccion = $empresaViajes->listar();
+                foreach($coleccion as $dato){
+                    echo $dato;
+                    echo "-------------------------------------------------------";
+                }
+            }
+        }else{
+            echo "ya hay una empresa existente. Desea modificar sus datos? si/no: ";
+            $respuesta = trim(fgets(STDIN));
+            if(strcasecmp($respuesta, "si") == 0){
+                goto modificar;
             }
         }
         break;
     case 2:
-
-        echo "ingrese el id de la empresa: ";
-        $idEmpresa = trim(fgets(STDIN));
-        if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe.
-            echo "desea modificar el nombre ? si/no";
+        # las líneas comentadas 
+        // echo "ingrese el id de la empresa: ";
+        // $idEmpresa = trim(fgets(STDIN));
+        // if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe. 
+            modificar:
+            echo "desea modificar el nombre ? si/no: ";
             $rta1 = trim(fgets(STDIN));
             if(strcasecmp($rta1, "si") == 0){
                 echo "ingrese el nuevo nombre: ";
@@ -58,7 +67,7 @@ switch($respuesta){
                 $modificarNombre = " enombre= '".$newNombre."' ";
                 $empresaViajes->modificar($modificarNombre);
             }
-            echo "desea modificar la direccion ? si/no";
+            echo "desea modificar la direccion ? si/no: ";
             $rta2 = trim(fgets(STDIN));
             if(strcasecmp($rta2, "si") == 0){
                 echo "ingrese la nueva dirección: ";
@@ -70,19 +79,23 @@ switch($respuesta){
             if((strcasecmp($rta1, "si") != 0) && (strcasecmp($rta2, "si") != 0)){
                 echo "No se modificó ningún dato.";
             }
-        }else{
-            echo "Error. id de empresa no encontrado. ";
-        }
+        // }else{
+        //     echo "Error. id de empresa no encontrado. ";
+        // }
         break;
     case 3: 
-        $empresaViajes->eliminar();
-        if($empresaViajes->eliminar()){ #con ponerlo acá ya se ejecuta o debo guardarlo en una variable y poner esa variable ?
+        echo "inserte el id de la empresa que desea eliminar: ";
+        $idEmpresa = trim(fgets(STDIN));
+        if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta o debo guardarlo en una variable y poner esa variable ?
             echo "empresa eliminada.";
         }else{
             echo "no se ha podido eliminar";
         }
         break;
     case 4: 
+        /* NOT NULL destino, cantMaxPasajeros, responsable, */
+        echo "ingrese el destino: ";
+        
         echo "Antes de crear el viaje, debe crear al responsable del mismo.";
         echo "ingrese su numero de documento: ";
         $numDoc = trim(fgets(STDIN));

@@ -15,13 +15,6 @@ class Persona{
 		$this->apellido = "";
 		$this->telefono = "";
 	}
-
-	public function cargar($NroD,$Nom,$Ape,$NroTel){		
-		$this->setNrodoc($NroD);
-		$this->setNombre($Nom);
-		$this->setApellido($Ape);
-		$this->setTelefono($NroTel);
-    }
 	
 	public function setmensajeoperacion($mensajeoperacion){
 		$this->mensajeoperacion=$mensajeoperacion;
@@ -57,6 +50,13 @@ class Persona{
     public function getTelefono()
     {
         return $this->telefono;
+    }
+
+	public function cargar($NroD,$Nom,$Ape,$NroTel){		
+		$this->setNrodoc($NroD);
+		$this->setNombre($Nom);
+		$this->setApellido($Ape);
+		$this->setTelefono($NroTel);
     }
 
 	/**

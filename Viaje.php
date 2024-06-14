@@ -1,19 +1,22 @@
 <?php
 
 class Viaje{
-    
     private $idViaje;
+    private $fecha;
     private $destino;
     private $cantMaxPasajeros;
     private $objEmpresa; /* idEmpresa */
-    private $colObjPasajeros;
+    private $colObjPasajeros; /* resultado de la consulta listar() con select from pasajeros where idViaje = $this...*/
     private $objResponsable; /* numEmpleado */
     private $importe;
     private $mensajeoperacion;
 
+    #la coleccion de pasajeros que nos va a devolver el listar es lo que vamos a setear como atributos de la coleccion de pasajeros
+
     public function __construct()
     {
         $this->idViaje = 0; /* no */
+        $this->fecha;
         $this->destino ="";
         $this->cantMaxPasajeros = "";
         // $this->objEmpresa = "";
@@ -23,6 +26,16 @@ class Viaje{
     }
 
     /* GETTERS Y SETTERS */
+
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
 
     public function getIdViaje()
     {
@@ -118,8 +131,8 @@ class Viaje{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO viaje(vdestino,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte) 
-        VALUES ("."'".$this->getDestino()."',".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$this->getObjResponsable()->getNumEmpleado().",".$this->getImporte().");";
+        $consultaInsertar = "INSERT INTO viaje(vdestino, fecha ,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte) 
+        VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$this->getObjResponsable()->getNumEmpleado().",".$this->getImporte().");";
 
         /*1) si se inicia la conexión*/
         if($base->Iniciar()){
@@ -136,10 +149,11 @@ class Viaje{
         return $resp;
     }
 
+    /* hacer que se puedan pedir modificaciones personalizadas*/
     public function modificar(){
         $base = new BaseDatos();
         $resp = false;
-        $consultaModificar = "UPDATE viaje SET vdestino='".$this->getDestino()."',vcantmaxpasajeros=".$this->getCantMaxPasajeros().
+        $consultaModificar = "UPDATE viaje SET vdestino= '".$this->getDestino()."', fecha= '".$this->getFecha()."' ,vcantmaxpasajeros=".$this->getCantMaxPasajeros().
         ", idempresa=".$this->getObjEmpresa()->getIdEmpresa().", rnumeroempleado=".$this->getObjResponsable()->getNumEmpleado().", vimporte=".$this->getImporte()."
         WHERE idViaje = ".$this->getIdViaje().";";
         if($base->iniciar()){ # 1) iniciamos la conexión
@@ -173,12 +187,12 @@ class Viaje{
     public function __toString()
     {
         return "id del viaje: ".$this->getIdViaje()."\n Destino: ".$this->getDestino().
+        "\n Fecha: ".$this->getFecha().
         "\n Cantidad maxima de pasajeros: ".$this->getCantMaxPasajeros().
         "\n id de la empresa: ".$this->getObjEmpresa()->getIdEmpresa().
         "pasajeros: \n".$this->arrToString($this->getColObjPasajeros()).
         "\n Responsable del viaje: ".$this->getObjResponsable().
         "\n Importe del viaje: ".$this->getImporte();
     }
-
 
 }

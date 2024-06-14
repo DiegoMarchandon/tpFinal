@@ -101,7 +101,7 @@ class Empresa{
 					$Direccion=$registros['edireccion'];
                     $idEmpresa=$registros['idempresa'];
 					$empresa=new Empresa();
-					$empresa->cargar($Nombre,$Direccion,$idEmpresa);
+					$empresa->cargar($idEmpresa,$Nombre,$Direccion);
 					array_push($arregloEmpresa,$empresa);
 	
 				}
@@ -135,7 +135,7 @@ class Empresa{
     public function modificar($consultaModificar){
         $resp = false;
         $base = new BaseDatos();
-        $consulta="UPDATE empresa SET ".$consultaModificar. " WHERE idEmpresa = ".$this->getIdEmpresa();
+        $consulta="UPDATE empresa SET ".$consultaModificar. ";"; /* WHERE idEmpresa = ".$this->getIdEmpresa(); */
 
         if($base->Iniciar()){ #iniciamos la conexión
             if($base->Ejecutar($consulta)){

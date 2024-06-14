@@ -28,10 +28,11 @@ CREATE TABLE responsable (
 	
 CREATE TABLE viaje (
     idviaje bigint AUTO_INCREMENT,
-	vdestino varchar(150),
-    vcantmaxpasajeros int,
+    fecha DATE NOT NULL,
+	vdestino varchar(150) NOT NULL,
+    vcantmaxpasajeros int NOT NULL,
 	idempresa bigint,
-    rnumeroempleado bigint,
+    rnumeroempleado bigint NOT NULL,
     vimporte float,
     PRIMARY KEY (idviaje),
     FOREIGN KEY (idempresa) REFERENCES empresa (idempresa),

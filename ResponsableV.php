@@ -39,7 +39,8 @@ class ResponsableV extends Persona{
         }
     } */
 
-    
+    /* terminar Buscar(), 
+    agregar listar(), insertar(), modificar(), eliminar() */
 
     /* GETTERS Y SETTERS */
 

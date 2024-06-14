@@ -73,7 +73,7 @@ class Pasajero extends Persona{
 		 return $arreglo;
 	}
 
-    
+    // agregar insertar(), modificar(), eliminar()
 
     /* GETTERS Y SETTERS */
 
