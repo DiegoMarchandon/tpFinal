@@ -54,31 +54,39 @@ class Pasajero extends Persona{
         return $resp;
     }
 
-    // public function listar($condicion=""){
-	//     $arreglo = null;
-	// 	$base=new BaseDatos();
-	// 	$consulta="Select * from pasajero ";
-	// 	if ($condicion!=""){
-	// 	    $consulta .=' where '.$condicion;
-	// 	}
-	// 	$consulta.=" order by nroPasaporte ";
+    public function listar($condicion=""){
+	    $arreglo = null;
+		$base=new BaseDatos();
+		$consulta="SELECT * FROM pasajero INNER JOIN persona ON pasajero.pdocumento = persona.nrodoc";
+		if ($condicion!=""){
+		    $consulta .=' WHERE '.$condicion;
+		}
+		$consulta.=" ORDER BY nroPasaporte ";
 
-    //     if($base->Iniciar()){ 
-	// 	    if($base->Ejecutar($consulta)){				
-	// 		    $arreglo= array();
-	// 			while($registros=$base->Registro()){
-	// 				$obj = new Pasajero();
-	// 				$obj->Buscar($registros['nrodoc']); 
-	// 				array_push($arreglo,$obj);
-	// 			}
-	// 	 	}	else {
-	// 	 			$this->setmensajeoperacion($base->getError());
-	// 		}
-	// 	 }	else {
-	// 	 		$this->setmensajeoperacion($base->getError());
-	// 	 }	
-	// 	 return $arreglo;
-	// }
+        if($base->Iniciar()){ 
+		    if($base->Ejecutar($consulta)){				
+			    $arreglo= array();
+
+				while($registros=$base->Registro()){
+					$pasajero = new Pasajero();
+                    $nroDoc = $registros['nrodoc'];
+                    $nombre = $registros['nombre'];
+                    $apellido = $registros['apellido'];
+                    $telefono = $registros['telefono'];
+                    $objViaje = new Viaje();
+                    $objViaje->Buscar($registros['idviaje']);
+                    $nroPasaporte = $registros['nroPasaporte'];
+                    $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
+					$arreglo[] = $pasajero;
+				}
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 }	
+		 return $arreglo;
+	}
 
     // agregar métodos insertar(), modificar(), eliminar()
 
