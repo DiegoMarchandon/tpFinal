@@ -185,7 +185,7 @@ class Viaje{
         $consultaViajes.= 'ORDER BY idviaje';
     
         if($base->Iniciar()){ /* iniciar la conexión */
-            if($base->Ejecutar($consultaViajes)){
+            if($base->Ejecutar($consultaViajes)){ #envío la consulta al gestor de base de datos
                 $arregloViaje = array();
                 while($registros = $base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
                     $idviaje = $registros['idviaje'];
