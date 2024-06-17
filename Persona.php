@@ -132,7 +132,7 @@ class Persona{
 	}	
 	
 	
-
+	/* realiza la inserción en la base de datos siempre y cuando se pueda iniciar la conexión y se pueda ejecutar la consulta */
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
