@@ -196,9 +196,9 @@ class Viaje{
                     $numEmpleado = $registros['rnumeroempleado'];
                     $importe = $registros['vimporte'];
                     #la coleccion de pasajeros que nos va a devolver el listar es lo que vamos a setear como atributos de la coleccion de pasajeros
-                    /* $cantPasajeros = utilizar el count */
+                    $colPasajeros = COUNT();
                     $viaje = new Viaje();
-                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa);
+                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, $colPasajeros, $numEmpleado,$importe);
                 }
             }
         }
