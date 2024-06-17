@@ -48,6 +48,76 @@ class ResponsableV extends Persona{
 
     /* agregar listar(), insertar(), modificar(), eliminar() */
 
+    public function listar($condicion=""){
+	    $arreglo = null;
+		$base = new BaseDatos();
+
+		$consulta = "SELECT * FROM empleado";
+		if ($condicion!=""){
+		    $consulta .=  " WHERE " .$condicion;
+		}
+		$consulta.=" ORDER BY rnumeroempleado";
+
+        if($base->Iniciar()){ 
+		    if($base->Ejecutar($consulta)){				
+			    $arreglo = [];
+				while($registros=$base->Registro()){
+					$obj=new ResponsableV();
+					$obj->Buscar($registros['nrodoc']); 
+					$arreglo[] = $obj;
+				}
+		 	}	else $this->setmensajeoperacion($base->getError());
+		 }	else $this->setmensajeoperacion($base->getError());
+         
+         
+		return $arreglo;
+	}
+
+    public function insertar(){
+        $base = new BaseDatos();
+        $resp = false;
+        $consultaInsertar = "INSERT INTO responsable VALUES (".$this->getNroEmpleado().",".$this->getNroLicencia().",".$this->getNrodoc().")";
+
+        if ($base->Iniciar()){
+            if ($base->Ejecutar($consultaInsertar)){
+                $resp = true;
+            } else $this->setmensajeoperacion($base->getERROR());
+        } else $this->setmensajeoperacion($base->getERROR());
+
+        return $resp;
+    }
+
+    public function modificar(){
+        $base = new BaseDatos();
+        $resp = false;
+
+        $consultaModificar = "UPDATE responsable SET rnumeroempleado=".$this->getNroEmpleado().", rnumerolicencia=".$this->getNroLicencia().
+        " WHERE rnrodoc = " . $this->getNrodoc();
+
+        if ($base->Iniciar()){
+            if ($base->Ejecutar($consultaModificar)){
+                $resp = true;
+            } else $this->setmensajeoperacion($base->getERROR());
+        } else $this->setmensajeoperacion($base->getERROR());
+
+        return $resp;
+    }
+
+    public function eliminar(){
+        $base = new BaseDatos();
+        $resp = false;
+
+        $consultaEliminar = "DELETE FROM responsable WHERE rnrodoc = " . $this->getNrodoc();
+
+        if ($base->Iniciar()){
+            if ($base->Ejecutar($consultaEliminar)){
+                $resp = true;
+            } else $this->setmensajeoperacion($base->getERROR());
+        } else $this->setmensajeoperacion($base->getERROR());
+
+        return $resp;
+    }
+
     /* GETTERS Y SETTERS */
 
     public function getNumEmpleado()
