@@ -14,19 +14,43 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
 
-/* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
-echo "\n| Bienvenido. Qué desea hacer? |\n|------------------------------|\n".
-"|informacion de empresa viajes:|\n".
-"|1)Ingresar                    |\n|2)Modificar                   |\n|3)Eliminar                    |\n".
-"|------------------------------|\n|información de un viaje:      |\n".
-"|4)Ingresar                    |\n|5)Modificar                   |\n|6)Eliminar                    |";
+
+function solicitarNumeroEntre($min, $max){
+    //int $numero
+    $numero = trim(fgets(STDIN));
+
+    while (!(is_numeric($numero) && ($numero >= $min && $numero <= $max))) {
+        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
+        $numero = trim(fgets(STDIN));
+        if (is_numeric($numero)) {
+            $numero  = $numero * 1;
+        }
+    }
+    return $numero;
+}
+
+function menuPrincipal(){
+    /* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
+    echo "\n|                 Bienvenido. Qué desea hacer?                 |\n
+|--------------------------------------------------------------|\n".
+    "|informacion de empresa viajes: |información de un viaje:      |\n".
+    "|1)Ingresar                     |4)Ingresar                    |\n
+|2)Modificar                    |5)Modificar                   |\n
+|3)Eliminar                     |6)Eliminar                    |\n".
+    "|--------------------------------------------------------------|\n
+|7)Salir                                                       |\n";
+    $opcion = solicitarNumeroEntre(1, 6);
+    return $opcion;
+}
+
 
 
 $viaje = new Viaje();
 $empresaViajes = new Empresa();
-$respuesta = trim(fgets(STDIN));
 
-switch($respuesta){
+do{
+    $respuesta = menuPrincipal();
+    switch($respuesta){
     case 1:
         if(count($empresaViajes->listar()) == 0){
 
@@ -123,4 +147,4 @@ switch($respuesta){
     case 6: 
         /* Eliminar Viaje */
         break;
-}
+}} while ($opcion != 7);
