@@ -57,27 +57,19 @@ class Pasajero extends Persona{
     public function listar($condicion=""){
 	    $arreglo = null;
 		$base=new BaseDatos();
-		$consulta="SELECT * FROM pasajero INNER JOIN persona ON pasajero.pdocumento = persona.nrodoc";
+		$consulta="Select * from pasajero ";
 		if ($condicion!=""){
-		    $consulta .=' WHERE '.$condicion;
+		    $consulta .=' where '.$condicion;
 		}
-		$consulta.=" ORDER BY nroPasaporte ";
+		$consulta.=" order by nroPasaporte ";
 
         if($base->Iniciar()){ 
 		    if($base->Ejecutar($consulta)){				
 			    $arreglo= array();
-
 				while($registros=$base->Registro()){
-					$pasajero = new Pasajero();
-                    $nroDoc = $registros['nrodoc'];
-                    $nombre = $registros['nombre'];
-                    $apellido = $registros['apellido'];
-                    $telefono = $registros['telefono'];
-                    $objViaje = new Viaje();
-                    $objViaje->Buscar($registros['idviaje']);
-                    $nroPasaporte = $registros['nroPasaporte'];
-                    $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
-					$arreglo[] = $pasajero;
+					$obj = new Pasajero();
+					$obj->Buscar($registros['nrodoc']); 
+					array_push($arreglo,$obj);
 				}
 		 	}	else {
 		 			$this->setmensajeoperacion($base->getError());
