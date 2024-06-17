@@ -52,7 +52,7 @@ class ResponsableV extends Persona{
 	    $arreglo = null;
 		$base = new BaseDatos();
 
-		$consulta = "SELECT * FROM empleado";
+		$consulta = "SELECT * FROM responsable r INNER JOIN persona p ON r.rnrodoc = p.nrodoc";
 		if ($condicion!=""){
 		    $consulta .=  " WHERE " .$condicion;
 		}
