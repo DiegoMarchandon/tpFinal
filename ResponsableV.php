@@ -27,7 +27,7 @@ class ResponsableV extends Persona{
 
     public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
-        $consulta = "SELECT * FROM empleado WHERE pdocumento=".$dni;
+        $consulta = "SELECT * FROM responsable WHERE pdocumento=".$dni;
         $resp = false;
         if($base->Iniciar()){ # acá me conecto
             if($base->Ejecutar($consulta)){ #envío la consulta al gestor de base de datos
@@ -52,7 +52,7 @@ class ResponsableV extends Persona{
 	    $arreglo = null;
 		$base = new BaseDatos();
 
-		$consulta = "SELECT * FROM empleado";
+		$consulta = "SELECT * FROM responsable";
 		if ($condicion!=""){
 		    $consulta .=  " WHERE " .$condicion;
 		}

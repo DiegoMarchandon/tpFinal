@@ -14,12 +14,14 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
 
-/* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
-echo "\n| Bienvenido. Qué desea hacer? |\n|------------------------------|\n".
-"|informacion de empresa viajes:|\n".
-"|1)Ingresar                    |\n|2)Modificar                   |\n|3)Eliminar                    |\n".
-"|------------------------------|\n|información de un viaje:      |\n".
-"|4)Ingresar                    |\n|5)Modificar                   |\n|6)Eliminar                    |";
+echo 
+"|             Bienvenido. Qué desea hacer?                         |\n".
+"|------------------------------------------------------------------|\n".
+"| informacion de empresa viajes: ||    información de un viaje:    |\n".
+"|(1) Ingresar                    ||(4) Ingresar                    |\n".
+"|(2) Modificar                   ||(5) Modificar                   |\n".
+"|(3) Eliminar                    ||(6) Eliminar                    |\n".
+"|__________________________________________________________________|\n";
 
 
 $viaje = new Viaje();
