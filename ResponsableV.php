@@ -25,7 +25,7 @@ class ResponsableV extends Persona{
         }
     }
 
- /*    public function Buscar($dni){
+    public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
         $consulta = "SELECT * FROM empleado WHERE pdocumento=".$dni;
         $resp = false;
@@ -33,14 +33,20 @@ class ResponsableV extends Persona{
             if($base->Ejecutar($consulta)){ #envío la consulta al gestor de base de datos
                 if($registros = $base->Registro()){
                     parent::Buscar($dni);
-                    $this->setNrodoc();
+                    $this->setNumEmpleado($registros['rnumeroempleado']);
+                    $this->setNumLicencia($registros['rnumerolicencia']);
+                    $resp = true;
                 }
+            }else{
+                $this->getmensajeoperacion($base->getERROR());
             }
+        }else{
+            $this->getmensajeoperacion($base->getERROR());
         }
-    } */
+        return $resp;
+    }
 
-    /* terminar Buscar(), 
-    agregar listar(), insertar(), modificar(), eliminar() */
+    /* agregar listar(), insertar(), modificar(), eliminar() */
 
     /* GETTERS Y SETTERS */
 

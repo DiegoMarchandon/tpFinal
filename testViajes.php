@@ -48,16 +48,16 @@ switch($respuesta){
             echo "ya hay una empresa existente. Desea modificar sus datos? si/no: ";
             $respuesta = trim(fgets(STDIN));
             if(strcasecmp($respuesta, "si") == 0){
-                goto modificar;
+                goto modificar; /* El operador goto puede ser usado para saltar a otra sección en el programa (https://www.php.net/manual/es/control-structures.goto.php)*/
             }
         }
         break;
     case 2:
-        # las líneas comentadas 
+        # las líneas comentadas sirven de ejemplificación para implementar una estructura de control que busca viajes por idViaje
         // echo "ingrese el id de la empresa: ";
         // $idEmpresa = trim(fgets(STDIN));
         // if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe. 
-            modificar:
+            modificar: /* punto de destino especificado */
             echo "desea modificar el nombre ? si/no: ";
             $rta1 = trim(fgets(STDIN));
             if(strcasecmp($rta1, "si") == 0){
@@ -117,4 +117,10 @@ switch($respuesta){
         echo "ingrese una cantidad máxima de pasajeros para el viaje: ";
         $cantMaxPasajeros = trim(fgets(STDIN));
         echo "ingrese el id de la empresa al que hará referencia el viaje: ";
+    case 5:
+        /* Modificar Viaje */
+        break;
+    case 6: 
+        /* Eliminar Viaje */
+        break;
 }

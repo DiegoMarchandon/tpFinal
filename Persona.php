@@ -70,11 +70,11 @@ class Persona{
 		$resp= false;
 		if($base->Iniciar()){#para cualquier acción que vaya a realizar, lo primero que necesito es establecer una conexión
 			if($base->Ejecutar($consultaPersona)){
-				if($row2=$base->Registro()){	 # registro devolverá un arreglo asociativo
-				    $this->setNrodoc($dni); #$this->setNrodoc($row['nrodoc]);
-					$this->setNombre($row2['nombre']);
-					$this->setApellido($row2['apellido']);
-					$this->setTelefono($row2['nroTelefono']);
+				if($registros =$base->Registro()){	 # registro devolverá un arreglo asociativo
+				    $this->setNrodoc($dni); #$this->setNrodoc($registros['nrodoc]);
+					$this->setNombre($registros['nombre']);
+					$this->setApellido($registros['apellido']);
+					$this->setTelefono($registros['nroTelefono']);
 					$resp= true;
 				}				
 			
@@ -98,21 +98,21 @@ class Persona{
 	public function listar($condicion=""){
 	    $arregloPersona = null;
 		$base=new BaseDatos();
-		$consultaPersonas="Select * from persona "; /* consulta con la condicion vacía */
+		$consultaPersonas="SELECT * FROM persona "; 
 		if ($condicion!=""){
-		    $consultaPersonas=$consultaPersonas.' where '.$condicion;
+		    $consultaPersonas.= ' WHERE '.$condicion;
 		}
-		$consultaPersonas.=" order by apellido ";
+		$consultaPersonas.=" ORDER BY apellido ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){/* iniciar la conexión */
 			if($base->Ejecutar($consultaPersonas)){				 /* ejecutar la consulta */
 				$arregloPersona= array();
-				while($row2=$base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
+				while($registros =$base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
 					
-					$NroDoc=$row2['nroDoc'];
-					$Nombre=$row2['nombre'];
-					$Apellido=$row2['apellido'];
-					$nroTel=$row2['nroTelefono'];
+					$NroDoc=$registros['nroDoc'];
+					$Nombre=$registros['nombre'];
+					$Apellido=$registros['apellido'];
+					$nroTel=$registros['nroTelefono'];
 					$perso=new Persona();
 					$perso->cargar($NroDoc,$Nombre,$Apellido,$nroTel); /* en persona (clase padre) cargamos los datos en el arreglo.*/
 					array_push($arregloPersona,$perso);
@@ -131,6 +131,8 @@ class Persona{
 		 return $arregloPersona; #n registros que cumplen la condicion
 	}	
 	
+	
+
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;

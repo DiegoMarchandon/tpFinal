@@ -126,6 +126,84 @@ class Viaje{
         $this->importe = $importe;
     }
 
+    public function cargar($idViaje, $fecha, $destino, $cantMaxPasajeros, $objEmpresa, $colObjPasajeros, $objResponsable, $importe){
+        $this->setIdViaje($idViaje);
+        $this->setFecha($fecha);
+        $this->setDestino($destino);
+        $this->setCantMaxPasajeros($cantMaxPasajeros);
+        $this->setObjEmpresa($objEmpresa);
+        $this->setColObjPasajeros($colObjPasajeros);
+        $this->setObjResponsable($objResponsable);
+        $this->setImporte($importe);
+    }
+
+
+    /**
+	 * Recupera los datos de un viaje por id (por ser su dato único)
+	 * @param int $dni
+	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 */	
+    public function Buscar($id){
+        $base=new BaseDatos();
+		$consultaViaje="SELECT * FROM viaje WHERE idViaje=".$id;
+		$resp= false;   
+
+        if($base->Iniciar()){#para cualquier acción que vaya a realizar, lo primero que necesito es establecer una conexión
+            if($base->Ejecutar($consultaViaje)){
+                if($registros = $base->Registro()){
+                    $this->setIdViaje($registros['idviaje']);
+                    $this->setDestino($registros['vdestino']);
+                    $this->setFecha($registros['fecha']);
+                    $this->setCantMaxPasajeros($registros['vcantmaxpasajeros']);
+                    $this->setObjEmpresa($registros['idempresa']);
+                    $this->setObjResponsable($registros['rnumeroempleado']);
+                    $this->setImporte($registros['vimporte']);
+                    $resp = true;
+                }
+            }else{
+                $this->setMensajeoperacion($base->getError());    
+            }
+        }else{
+            $this->setMensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
+
+    /**
+	 * podemos buscar a todos los viajes que cumplan determinada condicion 
+	 * que dependerá de lo que queremos listar.
+	 * la condicion vacía (la que está por defecto) devolverá la consulta ya almacenada en consultaInsertar
+	 */
+    public function listar($condicion = ""){
+        $arregloViaje = null;
+        $base = new BaseDatos();
+        $consultaViajes = "SELECT * FROM viaje"; /* consulta con la condicion vacía */
+        if($condicion != ""){
+            $consultaViajes .= 'WHERE '. $condicion;
+        }
+        $consultaViajes.= 'ORDER BY idviaje';
+    
+        if($base->Iniciar()){ /* iniciar la conexión */
+            if($base->Ejecutar($consultaViajes)){
+                $arregloViaje = array();
+                while($registros = $base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
+                    $idviaje = $registros['idviaje'];
+                    $destino = $registros['destino'];
+                    $fecha = $registros['fecha'];
+                    $cantmax = $registros['vcantmaxpasajeros'];
+                    $idempresa = $registros['idempresa'];
+                    $numEmpleado = $registros['rnumeroempleado'];
+                    $importe = $registros['vimporte'];
+                    #la coleccion de pasajeros que nos va a devolver el listar es lo que vamos a setear como atributos de la coleccion de pasajeros
+                    /* $cantPasajeros = utilizar el count */
+                    $viaje = new Viaje();
+                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa);
+                }
+            }
+        }
+    }
+
     /* MÉTODOS SQL INSERTAR, MODIFICAR, ELIMINAR */
 
     public function insertar(){

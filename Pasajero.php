@@ -26,6 +26,12 @@ class Pasajero extends Persona{
         }
     }
 
+    /**
+	 * Recupera los datos de una persona por dni (por ser su dato único)
+	 * @param int $dni
+	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 */	
+
     public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
         $consulta = "SELECT * FROM pasajero WHERE pdocumento=".$dni;
@@ -56,12 +62,13 @@ class Pasajero extends Persona{
 		}
 		$consulta.=" order by nroPasaporte ";
 		//echo $consultaPersonas;
-		if($base->Iniciar()){ /* iniciar la conexión */
+		if($base->Iniciar()){ /* inicia la conexión */
 		    if($base->Ejecutar($consulta)){				
 			    $arreglo= array();
-				while($row2=$base->Registro()){
+				while($registros=$base->Registro()){
 					$obj=new Pasajero();
-					$obj->Buscar($row2['nrodoc']); /* en clases hijas de Persona, buscamos los atributos restantes con Buscar($dni) y los  */
+                    /* buscamos los atributos restantes con Buscar($dni) que devuelve los atributos de la clase padre y los guardaen el arreglo retornardo */
+					$obj->Buscar($registros['nrodoc']); 
 					array_push($arreglo,$obj);
 				}
 		 	}	else {
@@ -73,7 +80,7 @@ class Pasajero extends Persona{
 		 return $arreglo;
 	}
 
-    // agregar insertar(), modificar(), eliminar()
+    // agregar métodos insertar(), modificar(), eliminar()
 
     /* GETTERS Y SETTERS */
 
