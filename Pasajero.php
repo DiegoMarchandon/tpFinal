@@ -54,31 +54,31 @@ class Pasajero extends Persona{
         return $resp;
     }
 
-    // public function listar($condicion=""){
-	//     $arreglo = null;
-	// 	$base=new BaseDatos();
-	// 	$consulta="Select * from pasajero ";
-	// 	if ($condicion!=""){
-	// 	    $consulta .=' where '.$condicion;
-	// 	}
-	// 	$consulta.=" order by nroPasaporte ";
+    public function listar($condicion=""){
+	    $arreglo = null;
+		$base=new BaseDatos();
+		$consulta="Select * from pasajero ";
+		if ($condicion!=""){
+		    $consulta .=' where '.$condicion;
+		}
+		$consulta.=" order by nroPasaporte ";
 
-    //     if($base->Iniciar()){ 
-	// 	    if($base->Ejecutar($consulta)){				
-	// 		    $arreglo= array();
-	// 			while($registros=$base->Registro()){
-	// 				$obj = new Pasajero();
-	// 				$obj->Buscar($registros['nrodoc']); 
-	// 				array_push($arreglo,$obj);
-	// 			}
-	// 	 	}	else {
-	// 	 			$this->setmensajeoperacion($base->getError());
-	// 		}
-	// 	 }	else {
-	// 	 		$this->setmensajeoperacion($base->getError());
-	// 	 }	
-	// 	 return $arreglo;
-	// }
+        if($base->Iniciar()){ 
+		    if($base->Ejecutar($consulta)){				
+			    $arreglo= array();
+				while($registros=$base->Registro()){
+					$obj = new Pasajero();
+					$obj->Buscar($registros['nrodoc']); 
+					array_push($arreglo,$obj);
+				}
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 }	
+		 return $arreglo;
+	}
 
     // agregar métodos insertar(), modificar(), eliminar()
 
