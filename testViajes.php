@@ -14,53 +14,50 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
 
+<<<<<<< HEAD
 
-/* generador de caracteres random */
-$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';   
-$nrodoc = rand(8212412,58212412);
-$numEmpleado = rand(100,999);
+function solicitarNumeroEntre($min, $max){
+    //int $numero
+    $numero = trim(fgets(STDIN));
 
-/* instancias de responsable para ser seleccionados a un determinado viaje creado. 
-Se crean en la tabla Responsable y en la tabla Persona */
-$responsable1 = new ResponsableV();
-$responsable1->cargar($nrodoc,"jorge","rodriguez",299432123,$numEmpleado,9009);
-$insercion1 = $responsable1->insertar();
-
-$responsable2 = new ResponsableV();
-$responsable2->cargar($nrodoc,"luis","ramirez",298456432,$numEmpleado,8888);
-$insercion2 = $responsable2->insertar();
-
-$responsable3 = new ResponsableV();
-$responsable3->cargar(42999888,"pedro","sanchez",299143543,545,1230);
-$insercion3 = $responsable3->insertar();
-
-
- // $responsable = new ResponsableV();
-
-/* de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos */
-$colResponsables = $responsable->listar();
-
-
-foreach($colResponsables as $responsable){
-    echo $responsable.
-    "\n------------------------------------------------------------";
+    while (!(is_numeric($numero) && ($numero >= $min && $numero <= $max))) {
+        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
+        $numero = trim(fgets(STDIN));
+        if (is_numeric($numero)) {
+            $numero  = $numero * 1;
+        }
+    }
+    return $numero;
 }
 
+function menuPrincipal(){
+    /* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
+    echo "|             Bienvenido. Qué desea hacer?                         |\n".
+=======
 echo 
 "|             Bienvenido. Qué desea hacer?                         |\n".
+>>>>>>> refs/remotes/origin/main
 "|------------------------------------------------------------------|\n".
 "| informacion de empresa viajes: ||    información de un viaje:    |\n".
 "|(1) Ingresar                    ||(4) Ingresar                    |\n".
 "|(2) Modificar                   ||(5) Modificar                   |\n".
 "|(3) Eliminar                    ||(6) Eliminar                    |\n".
 "|__________________________________________________________________|\n";
+<<<<<<< HEAD
+    $opcion = solicitarNumeroEntre(1, 6);
+    return $opcion;
+}
+// salir?
+=======
+>>>>>>> refs/remotes/origin/main
 
 
 $viaje = new Viaje();
 $empresaViajes = new Empresa();
-$respuesta = trim(fgets(STDIN));
 
-switch($respuesta){
+do{
+    $respuesta = menuPrincipal();
+    switch($respuesta){
     case 1:
         if(count($empresaViajes->listar()) == 0){
 
@@ -157,4 +154,4 @@ switch($respuesta){
     case 6: 
         /* Eliminar Viaje */
         break;
-}
+}} while ($opcion != 7);
