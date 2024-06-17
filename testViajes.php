@@ -14,6 +14,7 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
 
+<<<<<<< HEAD
 
 function solicitarNumeroEntre($min, $max){
     //int $numero
@@ -32,16 +33,23 @@ function solicitarNumeroEntre($min, $max){
 function menuPrincipal(){
     /* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
     echo "|             Bienvenido. Qué desea hacer?                         |\n".
+=======
+echo 
+"|             Bienvenido. Qué desea hacer?                         |\n".
+>>>>>>> refs/remotes/origin/main
 "|------------------------------------------------------------------|\n".
 "| informacion de empresa viajes: ||    información de un viaje:    |\n".
 "|(1) Ingresar                    ||(4) Ingresar                    |\n".
 "|(2) Modificar                   ||(5) Modificar                   |\n".
 "|(3) Eliminar                    ||(6) Eliminar                    |\n".
 "|__________________________________________________________________|\n";
+<<<<<<< HEAD
     $opcion = solicitarNumeroEntre(1, 6);
     return $opcion;
 }
 // salir?
+=======
+>>>>>>> refs/remotes/origin/main
 
 
 $viaje = new Viaje();
