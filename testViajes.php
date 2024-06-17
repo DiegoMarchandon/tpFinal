@@ -14,6 +14,38 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
 
+
+/* generador de caracteres random */
+$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';   
+$nrodoc = rand(8212412,58212412);
+$numEmpleado = rand(100,999);
+
+/* instancias de responsable para ser seleccionados a un determinado viaje creado. 
+Se crean en la tabla Responsable y en la tabla Persona */
+$responsable1 = new ResponsableV();
+$responsable1->cargar($nrodoc,"jorge","rodriguez",299432123,$numEmpleado,9009);
+$insercion1 = $responsable1->insertar();
+
+$responsable2 = new ResponsableV();
+$responsable2->cargar($nrodoc,"luis","ramirez",298456432,$numEmpleado,8888);
+$insercion2 = $responsable2->insertar();
+
+$responsable3 = new ResponsableV();
+$responsable3->cargar(42999888,"pedro","sanchez",299143543,545,1230);
+$insercion3 = $responsable3->insertar();
+
+
+ // $responsable = new ResponsableV();
+
+/* de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos */
+$colResponsables = $responsable->listar();
+
+
+foreach($colResponsables as $responsable){
+    echo $responsable.
+    "\n------------------------------------------------------------";
+}
+
 echo 
 "|             Bienvenido. Qué desea hacer?                         |\n".
 "|------------------------------------------------------------------|\n".
