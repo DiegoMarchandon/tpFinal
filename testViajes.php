@@ -31,18 +31,17 @@ function solicitarNumeroEntre($min, $max){
 
 function menuPrincipal(){
     /* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
-    echo "\n|                 Bienvenido. Qué desea hacer?                 |\n
-|--------------------------------------------------------------|\n".
-    "|informacion de empresa viajes: |información de un viaje:      |\n".
-    "|1)Ingresar                     |4)Ingresar                    |\n
-|2)Modificar                    |5)Modificar                   |\n
-|3)Eliminar                     |6)Eliminar                    |\n".
-    "|--------------------------------------------------------------|\n
-|7)Salir                                                       |\n";
+    echo "|             Bienvenido. Qué desea hacer?                         |\n".
+"|------------------------------------------------------------------|\n".
+"| informacion de empresa viajes: ||    información de un viaje:    |\n".
+"|(1) Ingresar                    ||(4) Ingresar                    |\n".
+"|(2) Modificar                   ||(5) Modificar                   |\n".
+"|(3) Eliminar                    ||(6) Eliminar                    |\n".
+"|__________________________________________________________________|\n";
     $opcion = solicitarNumeroEntre(1, 6);
     return $opcion;
 }
-
+// salir?
 
 
 $viaje = new Viaje();
