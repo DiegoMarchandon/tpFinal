@@ -186,7 +186,7 @@ class Viaje{
     
         if($base->Iniciar()){ /* iniciar la conexión */
             if($base->Ejecutar($consultaViajes)){ #envío la consulta al gestor de base de datos
-                $arregloViaje = array();
+                $arregloViaje = [];
                 while($registros = $base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
                     $idviaje = $registros['idviaje'];
                     $destino = $registros['destino'];
@@ -196,13 +196,38 @@ class Viaje{
                     $numEmpleado = $registros['rnumeroempleado'];
                     $importe = $registros['vimporte'];
                     #la coleccion de pasajeros que nos va a devolver el listar es lo que vamos a setear como atributos de la coleccion de pasajeros
-                    $colPasajeros = COUNT();
+                    // $colPasajeros = COUNT();
                     $viaje = new Viaje();
-                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, $colPasajeros, $numEmpleado,$importe);
+                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, null, $numEmpleado,$importe);
+                    $arregloViaje[] = $viaje;
                 }
-            }
-        }
+            }else $this->setmensajeoperacion($base->getERROR());
+        } else $this->setmensajeoperacion($base->getERROR());
+        return $arregloViaje;
     }
+
+
+    /**
+     * devuelve la cantidad de pasajeros de un viaje a través de una consulta sql.
+     * DUDA sobre implementarlo o no, por ser prácticamente igual al listar() de Pasajero. 
+     * */
+    /* public function listarPasajeros(){
+        $colPasajeros = null;
+        $base = new BaseDatos();
+        $consultaCantPasajeros = "SELECT * FROM pasajeros WHERE idviaje = ".$this->getIdViaje();
+        if($base->Iniciar()){
+            if($base->Ejecutar($consultaCantPasajeros)){ #si la consulta se pudo ejecutar...
+                $colPasajeros = [];
+                while($registros = $base->Registro()){ # se devolverán todos los registros de pasajeros que tengan ese idViaje
+                    $pasajero = new Pasajero();
+					$pasajero->Buscar($registros['nrodoc']); 
+					$colPasajeros[] = $pasajero;
+                }
+                 
+            }else $this->setmensajeoperacion($base->getError());
+        }else $this->setmensajeoperacion($base->getError());
+        return $colPasajeros;
+    } */
 
     /* MÉTODOS SQL INSERTAR, MODIFICAR, ELIMINAR */
 

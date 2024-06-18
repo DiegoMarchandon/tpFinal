@@ -129,7 +129,7 @@ do{
     case 3: 
         echo "inserte el id de la empresa que desea eliminar: ";
         $idEmpresa = trim(fgets(STDIN));
-        if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta o debo guardarlo en una variable y poner esa variable ?
+        if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta
             echo "empresa eliminada.";
         }else{
             echo "no se ha podido eliminar";
