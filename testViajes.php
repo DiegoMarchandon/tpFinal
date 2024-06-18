@@ -35,17 +35,6 @@ $responsable3->cargar(42999888,"pedro","sanchez",299143543,545,1230);
 $insercion3 = $responsable3->insertar();
 
 
- // $responsable = new ResponsableV();
-
-/* de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos */
-$colResponsables = $responsable->listar();
-
-
-foreach($colResponsables as $responsable){
-    echo $responsable.
-    "\n------------------------------------------------------------";
-}
-
 function solicitarNumeroEntre($min, $max){
     //int $numero
     $numero = trim(fgets(STDIN));
@@ -107,7 +96,7 @@ do{
         }
         break;
     case 2:
-        # las líneas comentadas sirven de ejemplificación para implementar una estructura de control que busca viajes por idViaje
+        # las líneas comentadas sirven de ejemplificación para implementar una estructura de control que busca (para eliminar o modificar) viajes por idViaje
         // echo "ingrese el id de la empresa: ";
         // $idEmpresa = trim(fgets(STDIN));
         // if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe. 
@@ -146,10 +135,10 @@ do{
             echo "no se ha podido eliminar";
         }
         break;
-    case 4: 
-        /* NOT NULL destino, cantMaxPasajeros, responsable, */
-        echo "ingrese el destino: ";
-        
+    case 4:
+        /* insertar viaje (INCOMPLETO) */ 
+        /* NOT NULL destino, cantMaxPasajeros, responsable, fecha*/
+        /* 
         echo "Antes de crear el viaje, debe crear al responsable del mismo.";
         echo "ingrese su numero de documento: ";
         $numDoc = trim(fgets(STDIN));
@@ -165,16 +154,36 @@ do{
         $numLicencia = trim(fgets(STDIN));
         $responsable = new ResponsableV();
         $responsable->cargar($numDoc,$nombreResponsable,$apellResponsable,$telefono,$numEmpleado,$numLicencia);
-        $respuesta = $responsable->insertar();
+        $respuesta = $responsable->insertar(); */
+        
         echo "ingrese un destino: ";
         $destino = trim(fgets(STDIN));
         echo "ingrese una cantidad máxima de pasajeros para el viaje: ";
         $cantMaxPasajeros = trim(fgets(STDIN));
-        echo "ingrese el id de la empresa al que hará referencia el viaje: ";
+        echo "ingrese la fecha del viaje (Formato YYYY-MM-DD): ";
+        $fechaViaje = trim(fgets(STDIN));
+
+        echo "seleccione al responsable encargado del viaje. Los que se encuentran disponibles son: \n";
+        // de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos los responsables
+        $colResponsables = $responsable1->listar();
+        foreach($colResponsables as $responsable){
+            echo $responsable.
+            "\n------------------------------------------------------------";
+        }
+        echo "desea ingresar el importe de viaje ahora ? si/no: ";
+        $respuesta = trim(fgets(STDIN));
+        if(strcasecmp($rta2, "si") == 0){
+            echo "ingrese el importe del viaje: ";
+            $importeViaje = trim(fgets(STDIN));
+        }
     case 5:
         /* Modificar Viaje */
         break;
     case 6: 
         /* Eliminar Viaje */
+
+                
+        
+            
         break;
 }} while ($opcion != 7);
