@@ -17,12 +17,12 @@ include 'Viaje.php';
 
 /* generador de caracteres random */
 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';   
-$nrodoc = rand(8212412,58212412);
+$nrodoc = rand(40000000,45000000);
 $numEmpleado = rand(100,999);
 
 /* instancias de responsable para ser seleccionados a un determinado viaje creado. 
 Se crean en la tabla Responsable y en la tabla Persona */
-$responsable1 = new ResponsableV();
+/* $responsable1 = new ResponsableV();
 $responsable1->cargar($nrodoc,"jorge","rodriguez",299432123,$numEmpleado,9009);
 $insercion1 = $responsable1->insertar();
 
@@ -32,7 +32,7 @@ $insercion2 = $responsable2->insertar();
 
 $responsable3 = new ResponsableV();
 $responsable3->cargar(42999888,"pedro","sanchez",299143543,545,1230);
-$insercion3 = $responsable3->insertar();
+$insercion3 = $responsable3->insertar(); */
 
 
 function solicitarNumeroEntre($min, $max){
@@ -50,14 +50,15 @@ function solicitarNumeroEntre($min, $max){
 }
 
 function menuPrincipal(){
-    /* editar el menú para poner las opciones 4,5,6 a la derecha en lugar de abajo. Y el "Bienvenido..." como primera columna entre medio de ambas */
-    echo "|             Bienvenido. Qué desea hacer?                         |\n".
+    echo "|------------------------------------------------------------------|\n".
+"|             Bienvenido. Qué desea hacer?                         |\n".
 "|------------------------------------------------------------------|\n".
 "| informacion de empresa viajes: ||    información de un viaje:    |\n".
 "|(1) Ingresar                    ||(4) Ingresar                    |\n".
 "|(2) Modificar                   ||(5) Modificar                   |\n".
 "|(3) Eliminar                    ||(6) Eliminar                    |\n".
-"|__________________________________________________________________|\n";
+"|__________________________________________________________________|\n".
+" Respuesta: ";
     $opcion = solicitarNumeroEntre(1, 6);
     return $opcion;
 }
@@ -177,7 +178,11 @@ do{
             $importeViaje = trim(fgets(STDIN));
         }
     case 5:
-        /* Modificar Viaje */
+        /* Modificar Viaje 
+        En Empresa le puse un parámetro al método modificar() 
+        para que el usuario pudiera ingresar de a uno los atributos que quisiera modificar (case 2).
+        Te encargo si querés hacer lo mismo ocn el método modificar de Viaje :))) 
+        */
         break;
     case 6: 
         /* Eliminar Viaje */

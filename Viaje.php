@@ -195,10 +195,12 @@ class Viaje{
                     $idempresa = $registros['idempresa'];
                     $numEmpleado = $registros['rnumeroempleado'];
                     $importe = $registros['vimporte'];
-                    #la coleccion de pasajeros que nos va a devolver el listar es lo que vamos a setear como atributos de la coleccion de pasajeros
-                    // $colPasajeros = COUNT();
+                    #creo una instancia de pasajero para poder acceder a sus métodos
+                    $pasajero = new Pasajero();
+                    #almaceno en colPasajeros los pasajeros que tengan ese idViaje
+                    $colPasajeros = $pasajero->listar('idviaje = '.$this->getIdViaje());
                     $viaje = new Viaje();
-                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, null, $numEmpleado,$importe);
+                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, $colPasajeros, $numEmpleado,$importe);
                     $arregloViaje[] = $viaje;
                 }
             }else $this->setmensajeoperacion($base->getERROR());
