@@ -149,7 +149,6 @@ do{
                         }
                         break;
                     case 2:
-                        modificar:
                         // modificar una empresa
                         # las líneas comentadas sirven de ejemplificación para implementar una estructura de control que busca (para eliminar o modificar) viajes por idViaje
                         // echo "ingrese el id de la empresa: ";
