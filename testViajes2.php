@@ -16,23 +16,40 @@ include 'Viaje.php';
 
 
 /* generador de caracteres random */
-$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';   
-$nrodoc = rand(40000000,45000000);
-$numEmpleado = rand(100,999);
+$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
 
+$nrodoc1 = rand(40000000,45000000);
+$numEmpleado1 = rand(100,999);
 /* instancias de responsable para ser seleccionados a un determinado viaje creado. 
 Se crean en la tabla Responsable y en la tabla Persona */
-/* $responsable1 = new ResponsableV();
-$responsable1->cargar($nrodoc,"jorge","rodriguez",299432123,$numEmpleado,9009);
+$persona1 = new Persona();
+$persona1->cargar($nrodoc1,"jorge","rodriguez",299432123);
+$persona1->insertar();
+$responsable1 = new ResponsableV();
+$responsable1->cargar($persona1->getNrodoc(),$persona1->getNombre(),$persona1->getApellido(),$persona1->getTelefono(),$numEmpleado1,7070);
 $insercion1 = $responsable1->insertar();
 
+
+$nrodoc2 = rand(40000000,45000000);
+$numEmpleado2 = rand(100,999);
+
+$persona2 = new Persona();
+$persona2->cargar($nrodoc2,"luis","ramirez",298456432);
+$persona2->insertar();
 $responsable2 = new ResponsableV();
-$responsable2->cargar($nrodoc,"luis","ramirez",298456432,$numEmpleado,8888);
+$responsable2->cargar($persona2->getNrodoc(),$persona2->getNombre(),$persona2->getApellido(),$persona2->getTelefono(),$numEmpleado2,8888);
 $insercion2 = $responsable2->insertar();
 
+$nrodoc3 = rand(40000000,45000000);
+$numEmpleado3 = rand(100,999);
+
+$persona3 = new Persona();
+$persona3->cargar($nrodoc3,"pedro","sanchez",299143543);
+$persona3->insertar();
 $responsable3 = new ResponsableV();
-$responsable3->cargar(42999888,"pedro","sanchez",299143543,545,1230);
-$insercion3 = $responsable3->insertar(); */
+$responsable3->cargar($persona3->getNrodoc(),$persona3->getNombre(),$persona3->getApellido(),$persona3->getTelefono(),$numEmpleado3,1230);
+$insercion3 = $responsable3->insertar();
+
 
 
 function solicitarNumeroEntre($min, $max){
@@ -69,12 +86,15 @@ function menuPrincipal(){
 }
 
 function menuEmpresa(){
-    echo "|------------------------------------------------------------------|\n".
+    echo "\n|------------------------------------------------------------------|\n".
 "|                       MENÚ DE EMPRESA                            |\n".
 "|------------------------------------------------------------------|\n".
 "|(1) Ingresar una empresa           ||(4) Ver datos de la empresa  |\n".
 "|(2) Modificar empresa              ||(5) Volver atrás             |\n".
 "|(3) Eliminar empresa                                              |\n".
+"|(1) Ingresar empresa               ||(4) Ver empresa              |\n".
+"|(2) Modificar empresa              ||(5) Volver atrás             |\n".
+"|(3) Eliminar empresa               ||                             |\n".
 "|__________________________________________________________________|\n".
 " Respuesta: ";
     $opcion = solicitarNumeroEntre(1, 5);
@@ -82,7 +102,7 @@ function menuEmpresa(){
 }
 
 function menuViajes(){
-    echo "|------------------------------------------------------------------|\n".
+    echo "\n|------------------------------------------------------------------|\n".
 "|                        MENÚ DE VIAJES                            |\n".
 "|------------------------------------------------------------------|\n".
 "|(1) Ingresar un viaje           ||(4) Ver viajes                  |\n".
@@ -95,7 +115,7 @@ function menuViajes(){
 }
 
 function menuPasajeros(){
-    echo "|------------------------------------------------------------------|\n".
+    echo "\n|------------------------------------------------------------------|\n".
 "|                        MENÚ DE PASAJEROS                         |\n".
 "|------------------------------------------------------------------|\n".
 "|(1) Ingresar un pasajero           ||(4) Ver pasajeros            |\n".
@@ -108,7 +128,7 @@ function menuPasajeros(){
 }
 
 function menuResponsables(){
-    echo "|------------------------------------------------------------------|\n".
+    echo "\n|------------------------------------------------------------------|\n".
 "|                      MENÚ DE RESPONSABLES                        |\n".
 "|------------------------------------------------------------------|\n".
 "|(1) Ingresar un responsable        ||(4) Ver responsables         |\n".
@@ -196,9 +216,14 @@ do{
                         }
                         break;
                     case 4:
-                        // ver LA empresa
-
-                        break;
+                        $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
+                        if($empresaViajes->Buscar($idEmpresa)){
+                            $coleccion = $empresaViajes->listar();
+                                foreach($coleccion as $dato){
+                                    echo $dato;
+                                }
+                        }
+                    break;
                 }
             } while ($opcionEmpresa <> 5);
             break;
@@ -320,7 +345,7 @@ do{
                     case 2:
                         modificarpasajero:
                         // modificar
-                        
+
                         break;
                     case 3:
                         // eliminar
