@@ -120,6 +120,7 @@ function menuResponsables(){
     return $opcion;
 }
 
+$empresaViajes = new Empresa();
 
 do{
     $respuesta = menuPrincipal();
@@ -129,9 +130,11 @@ do{
                 $opcionEmpresa = menuEmpresa();
                 switch ($opcionEmpresa){
                     case 1:
-                        // ingresar una empresa
+                        // Acceder a LA empresa
+                        // necesitamos sí o sí una empresa creada para acceder a sus métodos (o nos van a dar todos error),
+                            //  por lo que siempre nos mostrará el mensaje de "Empresa existente".
                         if(count($empresaViajes->listar()) == 0){
-
+                            leer("no hay una empresa existente. Debe crearla primero: \n");
                             $nombre = leer("ingrese el nombre de la empresa: ");
                             $direccion = leer("ingrese la direccion de la empresa: ");
                             $empresaViajes->cargar(null, $nombre,$direccion); #cargo los datos en la clase
@@ -180,19 +183,20 @@ do{
                         // }
                         break;
                     case 3:
-                        // eliminar una empresa
-                        $idEmpresa = leer("inserte el id de la empresa que desea eliminar: ");
+                        // eliminar LA empresa
+                        $idEmpresa = leer("como método de seguridad, inserte el id de la empresa: ");
                         if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta
-                            echo "empresa eliminada.";
+                            leer("empresa eliminada.\n");
                         }else{
-                            echo "no se ha podido eliminar";
+                            leer("no se ha podido eliminar.\n");
                         }
                         break;
                     case 4:
-                        // ver empresas
+                        // ver LA empresa
+
                         break;
                     case 5:
-                        // buscar una empresa x id
+                        // buscar una empresa x id (no sé si conviene hacerlo)
                         break;
                 }
             } while ($opcionEmpresa <> 6);
