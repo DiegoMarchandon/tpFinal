@@ -46,8 +46,6 @@ class ResponsableV extends Persona{
         return $resp;
     }
 
-    /* agregar listar(), insertar(), modificar(), eliminar() */
-
     public function listar($condicion=""){
 	    $arreglo = null;
 		$base = new BaseDatos();

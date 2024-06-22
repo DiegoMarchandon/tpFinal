@@ -80,8 +80,6 @@ class Pasajero extends Persona{
 		 return $arreglo;
 	}
 
-    // agregar métodos insertar(), modificar(), eliminar()
-
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
