@@ -49,6 +49,12 @@ function solicitarNumeroEntre($min, $max){
     return $numero;
 }
 
+function leer($mensaje){
+    echo $mensaje;
+    $rta = trim(fgets(STDIN));
+    return $rta;
+}
+
 function menuPrincipal(){
     echo "|------------------------------------------------------------------|\n".
 "|             Bienvenido. Qué desea hacer?                         |\n".
@@ -126,10 +132,8 @@ do{
                         // ingresar una empresa
                         if(count($empresaViajes->listar()) == 0){
 
-                            echo "ingrese el nombre de la empresa: ";
-                            $nombre = trim(fgets(STDIN));
-                            echo "ingrese la direccion de la empresa: ";
-                            $direccion = trim(fgets(STDIN));
+                            $nombre = leer("ingrese el nombre de la empresa: ");
+                            $direccion = leer("ingrese la direccion de la empresa: ");
                             $empresaViajes->cargar(null, $nombre,$direccion); #cargo los datos en la clase
                             $resultado = $empresaViajes->insertar();
                             if($resultado){
@@ -141,8 +145,7 @@ do{
                                 }
                             }
                         }else{
-                            echo "ya hay una empresa existente. Desea modificar sus datos? si/no: ";
-                            $respuesta = trim(fgets(STDIN));
+                            $respuesta = leer("ya hay una empresa existente. Desea modificar sus datos? si/no: ");
                             if(strcasecmp($respuesta, "si") == 0){
                                 goto modificar; /* El operador goto puede ser usado para saltar a otra sección en el programa (https://www.php.net/manual/es/control-structures.goto.php)*/
                             }
@@ -155,20 +158,16 @@ do{
                         // $idEmpresa = trim(fgets(STDIN));
                         // if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe. 
                         modificar: /* punto de destino especificado */
-                        echo "desea modificar el nombre ? si/no: ";
-                        $rta1 = trim(fgets(STDIN));
+                        $rta1 = leer("desea modificar el nombre ? si/no: ");
                         if (strcasecmp($rta1, "si") == 0) {
-                            echo "ingrese el nuevo nombre: ";
-                            $newNombre = trim(fgets(STDIN));
+                            $newNombre = leer("ingrese el nuevo nombre: ");
                             $empresaViajes->setNombre($newNombre);
                             $modificarNombre = " enombre= '" . $newNombre . "' ";
                             $empresaViajes->modificar($modificarNombre);
                         }
-                        echo "desea modificar la direccion ? si/no: ";
-                        $rta2 = trim(fgets(STDIN));
+                        $rta2 = leer("desea modificar la direccion ? si/no: ");
                         if (strcasecmp($rta2, "si") == 0) {
-                            echo "ingrese la nueva dirección: ";
-                            $newDireccion = trim(fgets(STDIN));
+                            $newDireccion = leer("ingrese la nueva dirección: ");
                             $empresaViajes->setDireccion($newDireccion);
                             $modificarDireccion = " edireccion= '" . $newDireccion . "' ";
                             $empresaViajes->modificar($modificarDireccion);
@@ -182,8 +181,7 @@ do{
                         break;
                     case 3:
                         // eliminar una empresa
-                        echo "inserte el id de la empresa que desea eliminar: ";
-                        $idEmpresa = trim(fgets(STDIN));
+                        $idEmpresa = leer("inserte el id de la empresa que desea eliminar: ");
                         if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta
                             echo "empresa eliminada.";
                         }else{
@@ -226,12 +224,9 @@ do{
                         $responsable->cargar($numDoc,$nombreResponsable,$apellResponsable,$telefono,$numEmpleado,$numLicencia);
                         $respuesta = $responsable->insertar(); */
 
-                        echo "ingrese un destino: ";
-                        $destino = trim(fgets(STDIN));
-                        echo "ingrese una cantidad máxima de pasajeros para el viaje: ";
-                        $cantMaxPasajeros = trim(fgets(STDIN));
-                        echo "ingrese la fecha del viaje (Formato YYYY-MM-DD): ";
-                        $fechaViaje = trim(fgets(STDIN));
+                        $destino = leer("ingrese un destino: ");
+                        $cantMaxPasajeros = leer("ingrese una cantidad máxima de pasajeros para el viaje: ");
+                        $fechaViaje = leer("ingrese la fecha del viaje (Formato YYYY-MM-DD): ");
 
                         echo "seleccione al responsable encargado del viaje. Los que se encuentran disponibles son: \n";
                         // de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos los responsables
@@ -240,11 +235,9 @@ do{
                             echo $responsable .
                                 "\n------------------------------------------------------------";
                         }
-                        echo "desea ingresar el importe de viaje ahora ? si/no: ";
-                        $respuesta = trim(fgets(STDIN));
+                        $respuesta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
                         if (strcasecmp($rta2, "si") == 0) {
-                            echo "ingrese el importe del viaje: ";
-                            $importeViaje = trim(fgets(STDIN));
+                            $importeViaje = leer("ingrese el importe del viaje: ");
                         }
                         break;
                     case 2:
