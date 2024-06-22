@@ -208,7 +208,6 @@ class Viaje{
         return $arregloViaje;
     }
 
-
     /**
      * devuelve la cantidad de pasajeros de un viaje a través de una consulta sql.
      * DUDA sobre implementarlo o no, por ser prácticamente igual al listar() de Pasajero. 
