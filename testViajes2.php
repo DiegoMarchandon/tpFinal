@@ -132,7 +132,7 @@ do{
                             $resultado = $empresaViajes->insertar();
                             if($resultado){
                                 echo "datos cargados correctamente.\n";
-                                $empresaDatos = $empresaViajes->listar();
+                                $empresaDatos = $empresaViajes->listar(); /* con la condicion vacía listaba todas las empresas. Como tenemos una sola da lo mismo. */
                                 foreach($empresaDatos as $dato){
                                     echo $dato;
                                     echo "-------------------------------------------------------";
@@ -215,21 +215,27 @@ do{
                         $colResponsables = $responsables->listar(); 
                         $viajes = new Viaje();
                         $colViajes = $viajes->listar('');
+                        
                         foreach ($colResponsables as $responsable) {
-                            foreach($colViajes as $viaje){
-                                if($responsable->getNumEmpleado() == ){
-
+                            
+                                if(!(in_array($responsable->getNumEmpleado(), $colViajes))){
+                                    $numEmpleado = $responsable->getNumEmpleado();
+                                    $responsable->listar('rnumeroempleado = '.$numEmpleado);
+                                    "\n------------------------------------------------------------";
                                 }
-                            }
-                            echo $responsable .
-                                "\n------------------------------------------------------------";
                         }
 
-                        $respuesta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
-                        if (strcasecmp($rta2, "si") == 0) {
+                        $rta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
+                        if (strcasecmp($rta, "si") == 0) {
                             $importeViaje = leer("ingrese el importe del viaje: ");
                         }else{
                             $importeViaje = null;
+                        }
+                        $rta2 = leer("desea cargar pasajeros en el viaje ahora ? si/no: ");
+                        if(strcasecmp($rta2, "si") == 0){
+                            
+                        }else{
+                            $colPasajeros = null;
                         }
                         break;
                     case 2:

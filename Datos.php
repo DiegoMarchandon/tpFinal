@@ -1,4 +1,11 @@
 <?php
+include 'BaseDatos.php';
+include 'Empresa.php';
+include 'Persona.php';
+include 'Pasajero.php';
+include 'ResponsableV.php';
+include 'Viaje.php';
+
 /* EMPRESA DE VIAJES */
 $empresaViajes = new Empresa();
 /* ------------------------------ */
@@ -117,7 +124,7 @@ function leer($mensaje){
  * y se asegura de que los datos ingresados no coincidan con 
  * pasajeros o responsables ya creados.
  */
-function cargaDatoViaje($tipoPersona,$numViaje){
+/* function cargaDatoViaje($tipoPersona,$numViaje){
     #los datos generados aleatoriamente en las clases los voy guardando en arreglos 
         # para después validar en los bucles 'while' que no se repitan. 
     $arrDocs = [];
@@ -128,13 +135,13 @@ function cargaDatoViaje($tipoPersona,$numViaje){
 
 // variables que generan numeros aleatorios
 $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-/* 
-$numeroDocumento = rand(40000000,45000000);
-$numeroEmpleado = rand(100,999);
-$numeroLicencia = rand(1000,9999);
-$numeroTelefono = intval(rand(297,299) . rand(100000,999999));
-$numeroPasaporte = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
-*/
+
+// $numeroDocumento = rand(40000000,45000000);
+// $numeroEmpleado = rand(100,999);
+// $numeroLicencia = rand(1000,9999);
+// $numeroTelefono = intval(rand(297,299) . rand(100000,999999));
+// $numeroPasaporte = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
+
 
     $nombre = leer("ingrese el nombre de la persona: ");
     $apellido = leer("ahora ingrese el apellido: ");
@@ -153,7 +160,7 @@ $numeroPasaporte = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
 
     if(strcasecmp($tipoPersona, "pasajero") == 0){ #si el parametro es "pasajero". Se crea antes la persona.
         $pasajero = new Pasajero();
-        $pasajero->cargar($persona->getNrodoc(),$persona->getNombre(),$persona->getApellido(),$persona->getTelefono(),$numViaje,substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999));
+        $pasajero->cargar($persona->getNrodoc(),$persona->getNombre(),$persona->getApellido(),$persona->getTelefono(),$numViaje,(substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999)));
         #mientras sea TRUE que el pasaporte del pasajero se encuentre en el arreglo...
         while(in_array($pasajero->getNroPasaporte(),$arrNumPasaportes)){
             $pasajero->setNroPasaporte(substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999)); #seteo su numero de pasaporte a otro.
@@ -171,4 +178,4 @@ $numeroPasaporte = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
         #después de validar que posee datos unicos, lo inserto en la BD
         $responsable->insertar();
     }
-}
+} */

@@ -90,7 +90,7 @@ class Empresa{
 		if ($condicion!=""){
 		    $consultaEmpresas .= ' where '.$condicion;
 		}
-		$consultaEmpresas.=" order by idempresa ";
+		// $consultaEmpresas.=" order by idempresa ";
 		
 		if($base->Iniciar()){/* iniciar la conexión */
 			if($base->Ejecutar($consultaEmpresas)){				 /* ejecutar la consulta */
