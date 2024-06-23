@@ -132,8 +132,8 @@ do{
                             $resultado = $empresaViajes->insertar();
                             if($resultado){
                                 echo "datos cargados correctamente.\n";
-                                $coleccion = $empresaViajes->listar();
-                                foreach($coleccion as $dato){
+                                $empresaDatos = $empresaViajes->listar();
+                                foreach($empresaDatos as $dato){
                                     echo $dato;
                                     echo "-------------------------------------------------------";
                                 }
@@ -201,40 +201,35 @@ do{
                 switch($opcionViajes){
                     case 1:
                         // ingresar un viaje
-                        /* insertar viaje (INCOMPLETO) */
+
+                        /* insertar viaje */
                         /* NOT NULL destino, cantMaxPasajeros, responsable, fecha*/
-                        /* 
-                        echo "Antes de crear el viaje, debe crear al responsable del mismo.";
-                        echo "ingrese su numero de documento: ";
-                        $numDoc = trim(fgets(STDIN));
-                        echo "ingrese su nombre: ";
-                        $nombreResponsable = trim(fgets(STDIN));
-                        echo "ingrese su apellido: ";
-                        $apellResponsable = trim(fgets(STDIN));
-                        echo "ingrese su teléfono: ";
-                        $telefono = trim(fgets(STDIN));
-                        echo "Ingrese su numero de empleado: ";
-                        $numEmpleado = trim(fgets(STDIN));
-                        echo "ingrese su número de licencia:";
-                        $numLicencia = trim(fgets(STDIN));
-                        $responsable = new ResponsableV();
-                        $responsable->cargar($numDoc,$nombreResponsable,$apellResponsable,$telefono,$numEmpleado,$numLicencia);
-                        $respuesta = $responsable->insertar(); */
 
                         $destino = leer("ingrese un destino: ");
                         $cantMaxPasajeros = leer("ingrese una cantidad máxima de pasajeros para el viaje: ");
                         $fechaViaje = leer("ingrese la fecha del viaje (Formato YYYY-MM-DD): ");
 
                         echo "seleccione al responsable encargado del viaje. Los que se encuentran disponibles son: \n";
-                        // de un obj responsable, usamos el método listar() sin parámetro, para que nos devuelva todos los responsables
-                        $colResponsables = $responsable1->listar();
+                        // procedimiento para insertar un responsable que no esté asociado a un viaje:
+                        $responsables = new ResponsableV();
+                        $colResponsables = $responsables->listar(); 
+                        $viajes = new Viaje();
+                        $colViajes = $viajes->listar('');
                         foreach ($colResponsables as $responsable) {
+                            foreach($colViajes as $viaje){
+                                if($responsable->getNumEmpleado() == ){
+
+                                }
+                            }
                             echo $responsable .
                                 "\n------------------------------------------------------------";
                         }
+
                         $respuesta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
                         if (strcasecmp($rta2, "si") == 0) {
                             $importeViaje = leer("ingrese el importe del viaje: ");
+                        }else{
+                            $importeViaje = null;
                         }
                         break;
                     case 2:
