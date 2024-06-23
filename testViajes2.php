@@ -38,11 +38,7 @@ function solicitarNumeroEntre($min, $max){
     return $numero;
 }
 
-function leer($mensaje){
-    echo $mensaje;
-    $rta = trim(fgets(STDIN));
-    return $rta;
-}
+
 
 function menuPrincipal(){
     echo "|------------------------------------------------------------------|\n".

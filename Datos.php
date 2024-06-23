@@ -81,11 +81,45 @@ $nrodoc6 = rand(40000000,45000000);
 $persona6 = new Persona();
 $persona6->cargar($nrodoc6,"laura","hernandez",299456382);
 $pasajero6 = new Pasajero();
-$numPasaporte6 = 
+$numPasaporte6 = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
+$pasajero6->cargar($persona6->getNrodoc(),$persona6->getNombre(),$persona6->getApellido(),$persona6->getTelefono(),$viaje1,$numPasaporte6);
 
+/* cuarto pasajero */
 $nrodoc7 = rand(40000000,45000000);
 $persona7 = new Persona();
 $persona7->cargar($nrodoc7,"maria","martinez",299543321);
+$pasajero7 = new Pasajero();
+$numPasaporte7 = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
+$pasajero7->cargar($persona7->getNrodoc(),$persona7->getNombre(),$persona7->getApellido(),$persona7->getTelefono(),$viaje1,$numPasaporte7);
 
 
+function leer($mensaje){
+    echo $mensaje;
+    $rta = trim(fgets(STDIN));
+    return $rta;
+}
 
+/**
+ * crea un nuevo pasajero o responsable, y se asegura de que los datos ingresados 
+ * no coincidan con pasajeros o responsables ya creados
+ */
+$algo = "algo";
+function creaClase($tipo){
+    $arrDocs = [$pasajero4->getNrodoc()];
+    $arrNumEmpleados = [];
+    $arrNumLicencias = [];
+    $arrNumTelefonos = [];
+    $arrNumPasaportes = [];
+
+    if(strcasecmp($tipo, "pasajero") == 0){
+        leer("ingrese el nombre del pasajero: ");
+        leer("ahora ingrese el apellido: ");
+        $persona = new Persona();
+        
+        $pasajero = new Pasajero();
+    }else{
+        leer("ingrese el nombre del responsable: ");
+        leer("ingrese el apellido: ");
+
+    }
+}
