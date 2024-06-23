@@ -1,4 +1,9 @@
 <?php
+/* NOTAS DE COSAS A IMPLEMENTAR DESPUES
+conseguir que se pueda 
+
+*/
+
 
 /* 1. Ejecute el script sql provisto para crear la base de datos bdviajes y sus tablas.
 
@@ -13,45 +18,12 @@ include 'Empresa.php';
 include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
-
+include_once 'Datos.php';
 
 /* generador de caracteres random */
 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
 
-$nrodoc1 = rand(40000000,45000000);
-$numEmpleado1 = rand(100,999);
-/* instancias de responsable para ser seleccionados a un determinado viaje creado. 
-Se crean en la tabla Responsable y en la tabla Persona */
-$persona1 = new Persona();
-$persona1->cargar($nrodoc1,"jorge","rodriguez",299432123);
-$persona1->insertar();
-$responsable1 = new ResponsableV();
-$responsable1->cargar($persona1->getNrodoc(),$persona1->getNombre(),$persona1->getApellido(),$persona1->getTelefono(),$numEmpleado1,7070);
-$insercion1 = $responsable1->insertar();
-
-
-$nrodoc2 = rand(40000000,45000000);
-$numEmpleado2 = rand(100,999);
-
-$persona2 = new Persona();
-$persona2->cargar($nrodoc2,"luis","ramirez",298456432);
-$persona2->insertar();
-$responsable2 = new ResponsableV();
-$responsable2->cargar($persona2->getNrodoc(),$persona2->getNombre(),$persona2->getApellido(),$persona2->getTelefono(),$numEmpleado2,8888);
-$insercion2 = $responsable2->insertar();
-
-$nrodoc3 = rand(40000000,45000000);
-$numEmpleado3 = rand(100,999);
-
-$persona3 = new Persona();
-$persona3->cargar($nrodoc3,"pedro","sanchez",299143543);
-$persona3->insertar();
-$responsable3 = new ResponsableV();
-$responsable3->cargar($persona3->getNrodoc(),$persona3->getNombre(),$persona3->getApellido(),$persona3->getTelefono(),$numEmpleado3,1230);
-$insercion3 = $responsable3->insertar();
-
-
-
+/* ------------------------------------------------------------------------------------------------------------------------------------------- */
 function solicitarNumeroEntre($min, $max){
     //int $numero
     $numero = trim(fgets(STDIN));
@@ -66,11 +38,7 @@ function solicitarNumeroEntre($min, $max){
     return $numero;
 }
 
-function leer($mensaje){
-    echo $mensaje;
-    $rta = trim(fgets(STDIN));
-    return $rta;
-}
+
 
 function menuPrincipal(){
     echo "|------------------------------------------------------------------|\n".
@@ -140,7 +108,6 @@ function menuResponsables(){
     return $opcion;
 }
 
-$empresaViajes = new Empresa();
 $objViaje = new Viaje();
 $objPersona = new Persona();
 $objResponsable = new ResponsableV();
