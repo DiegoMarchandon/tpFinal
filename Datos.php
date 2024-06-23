@@ -2,6 +2,13 @@
 /* EMPRESA DE VIAJES */
 $empresaViajes = new Empresa();
 /* ------------------------------ */
+// variables que generan numeros aleatorios
+$numeroDocumento = rand(40000000,45000000);
+$numeroEmpleado = rand(100,999);
+$numeroLicencia = rand(1000,9999);
+$numeroTelefono = intval(rand(297,299) . rand(100000,999999));
+/* "el numero de pasaporte argentino... está compuesto por tres letras y seis números" */
+$numeroPasaporte = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
 
 /* ---------------------------------------RESPONSABLES (y personas) PRECARGADOS------------------------------------------- */
 $nrodoc1 = rand(40000000,45000000);
@@ -37,17 +44,48 @@ $insercion3 = $responsable3->insertar();
 
 
 /* -----------------------------------------------------------------VIAJES PRECARGADOS------------------------------------------------------- */
-$pasajero = new Pasajero();
+/* viajes */
+$pasajeros = new Pasajero();
 
 $viaje1 = new Viaje();
-$colPasajeros1 = $pasajero->listar('idviaje ='.$viaje1->getIdViaje());
-$viaje1->cargar(null,'2024-07-20','Jamaica',30,$empresaViajes,$colPasajeros1,$responsable1,14500);
+$colPasajeros1 = $pasajeros->listar('idviaje ='.$viaje1->getIdViaje());
+$viaje1->cargar(null,'2024-07-20','Jamaica',10,$empresaViajes,$colPasajeros1,$responsable1,14500);
 
 $viaje2 = new Viaje();
-$colPasajeros2 = $pasajero->listar('idviaje ='.$viaje2->getIdViaje());
-$viaje2->cargar(null,'2024-08-30','Nueva Zelanda',30,$empresaViajes,$colPasajeros2,$responsable2,15100);
+$colPasajeros2 = $pasajeros->listar('idviaje ='.$viaje2->getIdViaje());
+$viaje2->cargar(null,'2024-08-30','Nueva Zelanda',10,$empresaViajes,$colPasajeros2,$responsable2,15100);
 
 $viaje3 = new Viaje();
-$colPasajeros3 = $pasajero->listar('idviaje ='.$viaje3->getIdViaje());
-$viaje3->cargar(null,'2024-12-10','Paris',30,$empresaViajes,$colPasajeros3,$responsable3,25000);
+$colPasajeros3 = $pasajeros->listar('idviaje ='.$viaje3->getIdViaje());
+$viaje3->cargar(null,'2024-12-10','Paris',10,$empresaViajes,$colPasajeros3,$responsable3,25000);
+
+
+/* primer pasajero */
+$nrodoc4 = rand(40000000,45000000);
+$persona4 = new Persona();
+$persona4->cargar($nrodoc4,"pedro","perez",297465321);
+$pasajero4 = new Pasajero();
+$numPasaporte4 = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
+$pasajero4->cargar($persona4->getNrodoc(),$persona4->getNombre(),$persona4->getApellido(),$persona4->getTelefono(),$viaje1,$numPasaporte4);
+
+/* segundo pasajero */
+$nrodoc5 = rand(40000000,45000000);
+$persona5 = new Persona();
+$persona5->cargar($nrodoc5,"ana","figueroa",298432154);
+$pasajero5 = new Pasajero();
+$numPasaporte5 = substr(str_shuffle($caracteres), 0, 3) . rand(100000,999999);
+$pasajero5->cargar($persona5->getNrodoc(),$persona5->getNombre(),$persona5->getApellido(),$persona5->getTelefono(),$viaje1,$numPasaporte5);
+
+/* tercer pasajero */
+$nrodoc6 = rand(40000000,45000000);
+$persona6 = new Persona();
+$persona6->cargar($nrodoc6,"laura","hernandez",299456382);
+$pasajero6 = new Pasajero();
+$numPasaporte6 = 
+
+$nrodoc7 = rand(40000000,45000000);
+$persona7 = new Persona();
+$persona7->cargar($nrodoc7,"maria","martinez",299543321);
+
+
 
