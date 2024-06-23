@@ -266,7 +266,7 @@ do{
                             }
                             $idViaje = leer("ingrese la id del viaje del pasajero: ");
                             if ($objViaje->Buscar($idViaje)) {
-                                $colPasajeros = $objPasajero->listar($idViaje);
+                                $colPasajeros = $objPasajero->listar('where idviaje = '.$idViaje);
                                 if ($objViaje->getCantidadMaximaPasajeros() > count($colPasajeros)) {
                                     $nroDoc = leer("ingrese el numero de documento del pasajero: ");
                                     $persona = new Persona();
@@ -307,7 +307,17 @@ do{
                     case 2:
                         modificarpasajero:
                         // modificar
-
+                        // $colPasajeros = $objPasajero->listar();
+                        // if (count($colPasajeros)>0){
+                        //     $nroDoc = leer("ingrese el numero de documento del pasajero: ");
+                        //     if ($objPasajero->Buscar($nroDoc)){
+                        //         $nombre = leer("Ingrese el nombre del pasajero: ");
+                        //         $apellido = leer("Ingrese el apellido del pasajero: ");
+                        //         $telefono = leer("Ingrese el teléfono del pasajero: ");
+                        //         $nroPasaporte = leer("Ingrese el número de pasaporte: ");
+                                
+                        //     } else "no se halló pasajero con ese número de documento";
+                        // } else "no hay pasajeros cargados aún";
                         break;
                     case 3:
                         // eliminar
