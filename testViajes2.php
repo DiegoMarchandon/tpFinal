@@ -191,10 +191,7 @@ do{
                         break;
                     case 2:
                         // modificar una empresa
-                        # las líneas comentadas sirven de ejemplificación para implementar una estructura de control que busca (para eliminar o modificar) viajes por idViaje
-                        // echo "ingrese el id de la empresa: ";
-                        // $idEmpresa = trim(fgets(STDIN));
-                        // if($empresaViajes->buscar($idEmpresa)){ #devuelve true si el id existe. 
+                        
                         modificar: /* punto de destino especificado */
                         $rta1 = leer("desea modificar el nombre ? si/no: ");
                         if (strcasecmp($rta1, "si") == 0) {
@@ -213,9 +210,7 @@ do{
                         if ((strcasecmp($rta1, "si") != 0) && (strcasecmp($rta2, "si") != 0)) {
                             echo "No se modificó ningún dato.";
                         }
-                        // }else{
-                        //     echo "Error. id de empresa no encontrado. ";
-                        // }
+                        
                         break;
                     case 3:
                         // eliminar LA empresa
@@ -258,7 +253,7 @@ do{
                             // procedimiento para insertar un responsable que no esté asociado a un viaje:
                              foreach ($colResponsables as $responsable) {
                                  foreach($colViajes as $viaje){
-                                     
+                                    //  (!(in_array($responsable['rnumeroempleado'],$viaje['rnumeroempleado'])))
                                      if(!(in_array($responsable->getNumEmpleado(), $viaje->getObjResponsable()->getNumEmpleado()))){
                                          $numEmpleado = $responsable->getNumEmpleado();
                                          $responsable->listar('rnumeroempleado = '.$numEmpleado.";");
@@ -266,41 +261,93 @@ do{
                                      }
                                  }
                             }
-                            do{
-                                $numResp = leer("\n ingrese el numero de empleado del responsable seleccionado: ");
 
-                            }while($objResponsable->Buscar() );
-                            
+                        # si no hay viajes creados, directamente listamos todos los responsables.                            
                         }else{
                             $colResponsables = $objResponsable->listar(); 
                             foreach($colResponsables as $responsable){
                                 echo $responsable."\n------------------------------------------------------------";
                             }
-                        }   
-                        $rta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
-                        if (strcasecmp($rta, "si") == 0) {
-                            $importeViaje = leer("ingrese el importe del viaje: ");
-                        }else{
-                            $importeViaje = null;
                         }
-
+                        $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
+                            while(!$objResponsable->Buscar($numDoc)){
+                                $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
+                                $numDoc = $numDoc2;
+                            }
+                        $objResp = new ResponsableV();
+                        $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
+                        $viajeIngresado = new Viaje();
+                        $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
+                        $confirmacion = $viajeIngresado->insertar();
+                        if($confirmacion){
+                            echo "viaje insertado exitosamente.";
+                        }else{
+                            echo "el viaje no pudo ser insertado. ";
+                        }
                         break;
                     case 2:
                         // modificar un viaje
-                        /* Modificar Viaje 
-                        En Empresa le puse un parámetro al método modificar() 
-                        para que el usuario pudiera ingresar de a uno los atributos que quisiera modificar (case 2).
-                        Te encargo si querés hacer lo mismo ocn el método modificar de Viaje :))) 
-                        */
+                        $idViaje = leer("ingrese el id del viaje a modificar: ");
+                        if($objViaje->Buscar($idViaje)){
+                            // preguntar a pau si personalizo la función modificar() para que se aplique a cada atributo modificado
+                            // atributos propios de viaje:
+                            $newFecha = leer("ingrese una nueva fecha (formato YYYY-MM-DD): ");
+                            $objViaje->setFecha($newFecha);
+                            $newDestino = leer("ingrese un nuevo destino: ");
+                            $objViaje->setDestino($newDestino);
+                            $newCantMax = leer("ingrese una nueva cantidad maxima de pasajeros: ");
+                            $objViaje->setCantMaxPasajeros($newCantMax);
+                            /* $rta = leer("desea ingresar un pasajero al viaje ? si/no");
+                            if(strcasecmp($rta1, "si") != 0){
+                                goto agregarPasajero; 
+                            }
+                            $rta2 = leer("desea cambiar al responsable del viaje ? si/no: ");
+                            if(strcasecmp($rta2, "si") != 0){
+                                goto cambiarResp; 
+                            } */
+                            $newImporte = leer("ingrese un nuevo importe: ");
+                            $objViaje->setImporte($newImporte);
+                            $objViaje->modificar($idViaje);
+                        }else{
+                            echo "error. Id de viaje no encontrado";
+                        }
                         break;
                     case 3:
                         // eliminar un viaje
+                        $idViaje = leer("ingrese el id del viaje a eliminar: ");
+                        if($objViaje->Buscar($idViaje)){
+                            $arrViaje = $objViaje->listar(' idviaje = '.$idViaje);
+                            if($arrViaje['vcantmaxpasajeros'] > 0){
+                                echo "No se puede eliminar el viaje porque cuenta con pasajeros.";
+                            }else{
+                                $objViaje->eliminar($idViaje);
+                            }
+                        }else{
+                            echo "el id no existe. ";
+                        }
                         break;
                     case 4:
                         // ver viajes
+                        $idViaje = leer("ingrese el id del viaje a visualizar: ");
+                        if($objViaje->Buscar($idViaje)){
+
+                            $datosViajes = $objViaje->listar(' idviaje = '.$idViaje);
+                            
+                                foreach($datosViaje as $dato){
+                                    echo $dato."\n------------------------------------------------------------";
+                                }
+                        }else{
+                            echo "el id no existe.";
+                        }
                         break;
                     case 5:
-                        // buscar viajes
+                        // buscar viajes (verifica la existencia de un id viaje)
+                        $idViajeBuscado = leer("ingrese el id del viaje para comprobar su existencia: ");
+                        if($objViaje->Buscar($idViajeBuscado)){
+                            echo "el id existe y está asociado a un viaje.";
+                        }else{
+                            echo "el id no existe. ";
+                        }
                         break;
                 }
             } while ($opcionViajes <> 6);
@@ -311,6 +358,7 @@ do{
                 $opcionPasajero = menuPasajeros();
                 switch ($opcionPasajero){
                     case 1:
+                        agregarPasajero
                         // ingresar
                         if (count($objViaje->listar()) <> 0) {
                             echo "-------------- lista de viajes --------------\n";

@@ -182,7 +182,7 @@ class Viaje{
         if($condicion != ""){
             $consultaViajes .= ' WHERE '. $condicion;
         }
-        $consultaViajes.= ' ORDER BY idviaje;';
+        // $consultaViajes.= ' ORDER BY idviaje;';
     
         if($base->Iniciar()){ /* iniciar la conexión */
             if($base->Ejecutar($consultaViajes)){ #envío la consulta al gestor de base de datos
@@ -235,8 +235,9 @@ class Viaje{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
+        $objResponsable = $this->getObjResponsable()->getNumEmpleado();
         $consultaInsertar = "INSERT INTO viaje(vdestino, fecha ,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte)
-        VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$this->getObjResponsable()->getNumEmpleado().",".$this->getImporte().");";
+        VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$objResponsable.",".$this->getImporte().");";
 
         /*1) si se inicia la conexión*/
         if($base->Iniciar()){
@@ -254,12 +255,12 @@ class Viaje{
     }
 
     /* hacer que se puedan pedir modificaciones personalizadas*/
-    public function modificar(){
+    public function modificar($idviaje){
         $base = new BaseDatos();
         $resp = false;
         $consultaModificar = "UPDATE viaje SET vdestino= '".$this->getDestino()."', fecha= '".$this->getFecha()."' ,vcantmaxpasajeros=".$this->getCantMaxPasajeros().
         ", idempresa=".$this->getObjEmpresa()->getIdEmpresa().", rnumeroempleado=".$this->getObjResponsable()->getNumEmpleado().", vimporte=".$this->getImporte()."
-        WHERE idViaje = ".$this->getIdViaje().";";
+        WHERE idViaje = ".$idviaje.";";
         if($base->iniciar()){ # 1) iniciamos la conexión
             if($base->Ejecutar($consultaModificar)){#ejecutamos la consulta
                 $resp = true;
@@ -272,11 +273,11 @@ class Viaje{
         return $resp;
     }
 
-    public function eliminar(){
+    public function eliminar($idviaje){
         $base = new BaseDatos();
         $resp = false;
         if($base->Iniciar()){ # 1) iniciamos la conexión
-            $consultaEliminar = "DELETE FROM viaje WHERE idViaje = ".$this->getIdViaje().";";
+            $consultaEliminar = "DELETE FROM viaje WHERE idViaje = ".$idviaje.";";
             if($base->Ejecutar($consultaEliminar)){#ejecutamos la consulta
                 $resp = true;
             }else{

@@ -149,10 +149,10 @@ class Empresa{
         return $resp;
     }
 
-    public function eliminar(){
+    public function eliminar($idEmpresa){
         $resp = false;
         $base = new BaseDatos();
-        $consultaEliminar = "DELETE FROM empresa WHERE idEmpresa = ".$this->getIdEmpresa();
+        $consultaEliminar = "DELETE FROM empresa WHERE idEmpresa = ".$idEmpresa;
 
         if($base->Iniciar()){
             if($base->Ejecutar($consultaEliminar)){
