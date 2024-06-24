@@ -1,6 +1,7 @@
 <?php
-/* NOTAS DE COSAS A IMPLEMENTAR DESPUES
-conseguir que se pueda 
+/* NOTAS 
+
+revisar el "método de seguridad". Porque el id sigue autoincrementándose y el método me deja cambiar datos igual
 
 */
 
@@ -18,10 +19,48 @@ include 'Empresa.php';
 include 'Pasajero.php';
 include 'ResponsableV.php';
 include 'Viaje.php';
-include_once 'Datos.php';
+// include_once 'Datos.php';
 
 /* generador de caracteres random */
 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+
+/* --------------------------------- REPONSABLES PRECARGADOS ------------------------------------------------------------ */
+$nrodoc1 = rand(40000000,45000000);
+$numEmpleado1 = rand(100,999);
+$persona1 = new Persona();
+$persona1->cargar($nrodoc1,"jorge","rodriguez",299432123);
+$persona1->insertar();
+$responsable1 = new ResponsableV();
+$responsable1->cargar($persona1->getNrodoc(),$persona1->getNombre(),$persona1->getApellido(),$persona1->getTelefono(),$numEmpleado1,7070);
+$insercion1 = $responsable1->insertar();
+
+$nrodoc2 = rand(40000000,45000000);
+$numEmpleado2 = rand(100,999);
+$persona2 = new Persona();
+$persona2->cargar($nrodoc2,"luis","ramirez",298456432);
+$persona2->insertar();
+$responsable2 = new ResponsableV();
+$responsable2->cargar($persona2->getNrodoc(),$persona2->getNombre(),$persona2->getApellido(),$persona2->getTelefono(),$numEmpleado2,8888);
+$insercion2 = $responsable2->insertar();
+
+$nrodoc3 = rand(40000000,45000000);
+$numEmpleado3 = rand(100,999);
+$persona3 = new Persona();
+$persona3->cargar($nrodoc3,"pedro","sanchez",299143543);
+$persona3->insertar();
+$responsable3 = new ResponsableV();
+$responsable3->cargar($persona3->getNrodoc(),$persona3->getNombre(),$persona3->getApellido(),$persona3->getTelefono(),$numEmpleado3,1230);
+$insercion3 = $responsable3->insertar();
+
+$nrodoc4 = rand(40000000,45000000);
+$numEmpleado4 = rand(100,999);
+$persona4 = new Persona();
+$persona4->cargar($nrodoc4,"blas","parera",299694362);
+$persona4->insertar();
+$responsable4 = new ResponsableV();
+$responsable4->cargar($persona4->getNrodoc(),$persona4->getNombre(),$persona4->getApellido(),$persona4->getTelefono(),$numEmpleado4,5531);
+$insercion4 = $responsable4->insertar();
+
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------- */
 function solicitarNumeroEntre($min, $max){
@@ -108,11 +147,17 @@ function menuResponsables(){
     return $opcion;
 }
 
+function leer($mensaje){
+    echo $mensaje;
+    $rta = trim(fgets(STDIN));
+    return $rta;
+}
+
 $objViaje = new Viaje();
 $objPersona = new Persona();
 $objResponsable = new ResponsableV();
 $objPasajero = new Pasajero();
-
+$empresaViajes = new Empresa();
 do{
     $respuesta = menuPrincipal();
     switch($respuesta){
@@ -125,15 +170,14 @@ do{
                         // necesitamos sí o sí una empresa creada para acceder a sus métodos (o nos van a dar todos error),
                             //  por lo que siempre nos mostrará el mensaje de "Empresa existente".
                         if(count($empresaViajes->listar()) == 0){
-                            leer("no hay una empresa existente. Debe crearla primero: \n");
                             $nombre = leer("ingrese el nombre de la empresa: ");
                             $direccion = leer("ingrese la direccion de la empresa: ");
                             $empresaViajes->cargar(null, $nombre,$direccion); #cargo los datos en la clase
                             $resultado = $empresaViajes->insertar();
                             if($resultado){
                                 echo "datos cargados correctamente.\n";
-                                $empresaDatos = $empresaViajes->listar(); /* con la condicion vacía listaba todas las empresas. Como tenemos una sola da lo mismo. */
-                                foreach($empresaDatos as $dato){
+                                $arrDatosEmpresa = $empresaViajes->listar(); /* con la condicion vacía listaba todas las empresas. Como tenemos una sola da lo mismo. */
+                                foreach($arrDatosEmpresa as $dato){
                                     echo $dato;
                                     echo "-------------------------------------------------------";
                                 }
@@ -177,9 +221,9 @@ do{
                         // eliminar LA empresa
                         $idEmpresa = leer("como método de seguridad, inserte el id de la empresa: ");
                         if($empresaViajes->eliminar($idEmpresa)){ #con ponerlo acá ya se ejecuta
-                            leer("empresa eliminada.\n");
+                            echo "empresa eliminada.";
                         }else{
-                            leer("no se ha podido eliminar.\n");
+                            echo "no se ha podido eliminar.";
                         }
                         break;
                     case 4:
@@ -201,42 +245,45 @@ do{
                 switch($opcionViajes){
                     case 1:
                         // ingresar un viaje
-
                         /* insertar viaje */
                         /* NOT NULL destino, cantMaxPasajeros, responsable, fecha*/
-
                         $destino = leer("ingrese un destino: ");
                         $cantMaxPasajeros = leer("ingrese una cantidad máxima de pasajeros para el viaje: ");
                         $fechaViaje = leer("ingrese la fecha del viaje (Formato YYYY-MM-DD): ");
 
-                        echo "seleccione al responsable encargado del viaje. Los que se encuentran disponibles son: \n";
-                        // procedimiento para insertar un responsable que no esté asociado a un viaje:
-                        $responsables = new ResponsableV();
-                        $colResponsables = $responsables->listar(); 
-                        $viajes = new Viaje();
-                        $colViajes = $viajes->listar('');
-                        
-                        foreach ($colResponsables as $responsable) {
-                            
-                                if(!(in_array($responsable->getNumEmpleado(), $colViajes))){
-                                    $numEmpleado = $responsable->getNumEmpleado();
-                                    $responsable->listar('rnumeroempleado = '.$numEmpleado);
-                                    "\n------------------------------------------------------------";
-                                }
-                        }
+                        echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
+                        $colViajes = $objViaje->listar();
+                        $colResponsables = $objResponsable->listar(); 
+                        if(count($objViaje->listar()) <> 0){
+                            // procedimiento para insertar un responsable que no esté asociado a un viaje:
+                             foreach ($colResponsables as $responsable) {
+                                 foreach($colViajes as $viaje){
+                                     
+                                     if(!(in_array($responsable->getNumEmpleado(), $viaje->getObjResponsable()->getNumEmpleado()))){
+                                         $numEmpleado = $responsable->getNumEmpleado();
+                                         $responsable->listar('rnumeroempleado = '.$numEmpleado.";");
+                                         "\n------------------------------------------------------------";
+                                     }
+                                 }
+                            }
+                            do{
+                                $numResp = leer("\n ingrese el numero de empleado del responsable seleccionado: ");
 
+                            }while($objResponsable->Buscar() );
+                            
+                        }else{
+                            $colResponsables = $objResponsable->listar(); 
+                            foreach($colResponsables as $responsable){
+                                echo $responsable."\n------------------------------------------------------------";
+                            }
+                        }   
                         $rta = leer("desea ingresar el importe de viaje ahora ? si/no: ");
                         if (strcasecmp($rta, "si") == 0) {
                             $importeViaje = leer("ingrese el importe del viaje: ");
                         }else{
                             $importeViaje = null;
                         }
-                        $rta2 = leer("desea cargar pasajeros en el viaje ahora ? si/no: ");
-                        if(strcasecmp($rta2, "si") == 0){
-                            
-                        }else{
-                            $colPasajeros = null;
-                        }
+
                         break;
                     case 2:
                         // modificar un viaje

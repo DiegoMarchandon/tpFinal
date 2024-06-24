@@ -83,7 +83,8 @@ class Pasajero extends Persona{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$this->getObjViaje()->getIdViaje().",".$this->getNroPasaporte().")";
+        $idviaje = $this->getObjViaje()->getIdViaje();
+        $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$idviaje.",".$this->getNroPasaporte().")";
 
         if ($base->Iniciar()){
             if ($base->Ejecutar($consultaInsertar)){

@@ -178,11 +178,11 @@ class Viaje{
     public function listar($condicion = ""){
         $arregloViaje = null;
         $base = new BaseDatos();
-        $consultaViajes = "SELECT * FROM viaje"; /* consulta con la condicion vacía */
+        $consultaViajes = "SELECT * FROM viaje "; /* consulta con la condicion vacía */
         if($condicion != ""){
-            $consultaViajes .= 'WHERE '. $condicion;
+            $consultaViajes .= ' WHERE '. $condicion;
         }
-        $consultaViajes.= 'ORDER BY idviaje';
+        $consultaViajes.= ' ORDER BY idviaje;';
     
         if($base->Iniciar()){ /* iniciar la conexión */
             if($base->Ejecutar($consultaViajes)){ #envío la consulta al gestor de base de datos
@@ -235,7 +235,7 @@ class Viaje{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO viaje(vdestino, fecha ,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte) 
+        $consultaInsertar = "INSERT INTO viaje(vdestino, fecha ,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte)
         VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$this->getObjResponsable()->getNumEmpleado().",".$this->getImporte().");";
 
         /*1) si se inicia la conexión*/

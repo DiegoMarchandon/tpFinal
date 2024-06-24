@@ -27,7 +27,7 @@ class ResponsableV extends Persona{
 
     public function Buscar($dni){
         $base = new BaseDatos(); #creo la base de datos
-        $consulta = "SELECT * FROM responsable WHERE pdocumento=".$dni;
+        $consulta = "SELECT * FROM responsable WHERE rnrodoc =".$dni;
         $resp = false;
         if($base->Iniciar()){ # acá me conecto
             if($base->Ejecutar($consulta)){ #envío la consulta al gestor de base de datos
@@ -54,14 +54,14 @@ class ResponsableV extends Persona{
 		if ($condicion!=""){
 		    $consulta .=  " WHERE " .$condicion;
 		}
-		$consulta.=" ORDER BY rnumeroempleado";
+		// $consulta.=" ORDER BY rnumeroempleado";
 
         if($base->Iniciar()){ 
 		    if($base->Ejecutar($consulta)){				
 			    $arreglo = [];
 				while($registros=$base->Registro()){
 					$obj=new ResponsableV();
-					$obj->Buscar($registros['nrodoc']); 
+					$obj->Buscar($registros['rnrodoc']); 
 					$arreglo[] = $obj;
 				}
 		 	}	else $this->setmensajeoperacion($base->getError());
