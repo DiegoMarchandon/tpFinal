@@ -358,7 +358,8 @@ do{
                 $opcionPasajero = menuPasajeros();
                 switch ($opcionPasajero){
                     case 1:
-                        agregarPasajero
+                        // agregarPasajero;
+                        
                         // ingresar
                         if (count($objViaje->listar()) <> 0) {
                             echo "-------------- lista de viajes --------------\n";
