@@ -121,6 +121,18 @@ function menuViajes(){
     return $opcion;
 }
 
+function menuModificarViaje()
+{
+    echo "\n|---------------------------------------------------------------------------------|\n" .
+    "|(1) Modificar destino                       ||(4) Modificar responsable          |\n" .
+    "|(2) Modificar cantidad máxima de pasajeros  ||(5) Modificar importe              |\n" .
+    "|(3) Modificar fecha                         ||(6) Volver atrás                   |\n" .
+    "|_________________________________________________________________________________|\n" .
+    " Respuesta: ";
+    $opcion = solicitarNumeroEntre(1, 6);
+    return $opcion;
+}
+
 function menuPasajeros(){
     echo "\n|------------------------------------------------------------------|\n".
 "|                        MENÚ DE PASAJEROS                         |\n".
@@ -134,6 +146,18 @@ function menuPasajeros(){
     return $opcion;
 }
 
+function menuModificarPasajeros()
+{
+    echo "\n|------------------------------------------------------------------|\n" .
+    "|(1) Modificar nombre         ||(4) Modificar id de viaje          |\n" .
+    "|(2) Modificar apellido       ||(5) Modificar número de pasaporte  |\n" .
+    "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
+    "|__________________________________________________________________|\n" .
+    " Respuesta: ";
+    $opcion = solicitarNumeroEntre(1, 6);
+    return $opcion;
+}
+
 function menuResponsables(){
     echo "\n|------------------------------------------------------------------|\n".
 "|                      MENÚ DE RESPONSABLES                        |\n".
@@ -143,6 +167,18 @@ function menuResponsables(){
 "|(3) Eliminar un responsable        ||(6) Volver atrás             |\n".
 "|__________________________________________________________________|\n".
 " Respuesta: ";
+    $opcion = solicitarNumeroEntre(1, 6);
+    return $opcion;
+}
+
+function menuModificarResponsable()
+{
+    echo "\n|------------------------------------------------------------------|\n" .
+    "|(1) Modificar nombre         ||(4) Modificar número de empleado   |\n" .
+    "|(2) Modificar apellido       ||(5) Modificar número de licencia   |\n" .
+    "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
+    "|__________________________________________________________________|\n" .
+    " Respuesta: ";
     $opcion = solicitarNumeroEntre(1, 6);
     return $opcion;
 }
@@ -424,17 +460,38 @@ do{
                     case 2:
                         modificarpasajero:
                         // modificar
-                        // $colPasajeros = $objPasajero->listar();
-                        // if (count($colPasajeros)>0){
-                        //     $nroDoc = leer("ingrese el numero de documento del pasajero: ");
-                        //     if ($objPasajero->Buscar($nroDoc)){
-                        //         $nombre = leer("Ingrese el nombre del pasajero: ");
-                        //         $apellido = leer("Ingrese el apellido del pasajero: ");
-                        //         $telefono = leer("Ingrese el teléfono del pasajero: ");
-                        //         $nroPasaporte = leer("Ingrese el número de pasaporte: ");
+                        $colPasajeros = $objPasajero->listar();
+                        if (count($colPasajeros)>0){
+                            $nroDoc = leer("ingrese el numero de documento del pasajero: ");
+                            if ($objPasajero->Buscar($nroDoc)){
+                                $respuesta = menuModificarPasajeros();
+                                do{
+                                    switch($respuesta){
+                                        case 1:
+                                            // nombre
+                                            $nombre = leer("nombre actual: ". $objPasajero->getNombre(). "\ningrese el nuevo nombre:");
+                                            $objPasajero->setNombre($nombre);
+                                            if ($objPasajero->modificar()){
+                                                echo "El nombre ha sido modificado.\n-----PASAJERO-----\n".$objPasajero;
+                                            } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
+                                            break;
+                                        case 2:
+                                            // apellido
+                                            break;
+                                        case 3:
+                                            // telefono
+                                            break;
+                                        case 4:
+                                            // id viaje
+                                            break;
+                                        case 5:
+                                            // nro pasaporte
+                                            break;
+                                    }
+                                } while ($respuesta <> 6);
                                 
-                        //     } else "no se halló pasajero con ese número de documento";
-                        // } else "no hay pasajeros cargados aún";
+                            } else "no se halló pasajero con ese número de documento";
+                        } else "no hay pasajeros cargados aún";
                         break;
                     case 3:
                         // eliminar
