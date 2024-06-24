@@ -25,6 +25,7 @@ include 'Viaje.php';
 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
 
 /* --------------------------------- REPONSABLES PRECARGADOS ------------------------------------------------------------ */
+/* 
 $nrodoc1 = rand(40000000,45000000);
 $numEmpleado1 = rand(100,999);
 $persona1 = new Persona();
@@ -61,6 +62,8 @@ $responsable4 = new ResponsableV();
 $responsable4->cargar($persona4->getNrodoc(),$persona4->getNombre(),$persona4->getApellido(),$persona4->getTelefono(),$numEmpleado4,5531);
 $insercion4 = $responsable4->insertar();
 
+ */
+// echo $responsable1->listar('rnumeroempleado = 496')[0]->getNumEmpleado();
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------- */
 function solicitarNumeroEntre($min, $max){
@@ -99,9 +102,6 @@ function menuEmpresa(){
 "|(1) Ingresar una empresa           ||(4) Ver datos de la empresa  |\n".
 "|(2) Modificar empresa              ||(5) Volver atrás             |\n".
 "|(3) Eliminar empresa                                              |\n".
-"|(1) Ingresar empresa               ||(4) Ver empresa              |\n".
-"|(2) Modificar empresa              ||(5) Volver atrás             |\n".
-"|(3) Eliminar empresa               ||                             |\n".
 "|__________________________________________________________________|\n".
 " Respuesta: ";
     $opcion = solicitarNumeroEntre(1, 5);
@@ -158,6 +158,11 @@ $objPersona = new Persona();
 $objResponsable = new ResponsableV();
 $objPasajero = new Pasajero();
 $empresaViajes = new Empresa();
+
+$resps = $objResponsable->listar('rnumeroempleado = 226');
+foreach($resps as $responsable){
+    echo $responsable->getNumEmpleado()."\n---";
+} 
 do{
     $respuesta = menuPrincipal();
     switch($respuesta){
@@ -222,6 +227,7 @@ do{
                         }
                         break;
                     case 4:
+                        // ver datos de empresa
                         $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
                         if($empresaViajes->Buscar($idEmpresa)){
                             $coleccion = $empresaViajes->listar();
@@ -251,30 +257,44 @@ do{
                         $colResponsables = $objResponsable->listar(); 
                         if(count($objViaje->listar()) <> 0){
                             // procedimiento para insertar un responsable que no esté asociado a un viaje:
-                             foreach ($colResponsables as $responsable) {
-                                 foreach($colViajes as $viaje){
-                                    //  (!(in_array($responsable['rnumeroempleado'],$viaje['rnumeroempleado'])))
-                                     if(!(in_array($responsable->getNumEmpleado(), $viaje->getObjResponsable()->getNumEmpleado()))){
-                                         $numEmpleado = $responsable->getNumEmpleado();
-                                         $responsable->listar('rnumeroempleado = '.$numEmpleado.";");
-                                         "\n------------------------------------------------------------";
-                                     }
-                                 }
+                            $numsResponsables = [];
+                            foreach($colViajes as $viaje){
+                                
+                                $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
+                                $numsResponsables[] = $numEmpleado;
+                                  
+                            }
+                            
+                            foreach ($colResponsables as $responsable) {
+
+                                
+
+                                if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
+                                    $numEmpleado = $responsable->getNumEmpleado();
+                                    $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
+                                    echo $empleado;
+                                    "\n------------------------------------------------------------";
+                                }
                             }
 
-                        # si no hay viajes creados, directamente listamos todos los responsables.                            
-                        }else{
-                            $colResponsables = $objResponsable->listar(); 
-                            foreach($colResponsables as $responsable){
-                                echo $responsable."\n------------------------------------------------------------";
+                            # si no hay viajes creados, directamente listamos todos los responsables.                            
+                        } else {
+                            $colResponsables = $objResponsable->listar();
+                            foreach ($colResponsables as $responsable) {
+                                echo $responsable . "\n------------------------------------------------------------";
                             }
                         }
                         $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
-                            while(!$objResponsable->Buscar($numDoc)){
+                        $objResp = new ResponsableV();
+                            while(!$objResp->Buscar($numDoc)){
                                 $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
                                 $numDoc = $numDoc2;
                             }
-                        $objResp = new ResponsableV();
+                        $idEmpresa = leer("ingrese el id de la empresa: ");
+                            while(!$empresaViajes->Buscar($idEmpresa)){
+                                $idEmpresa2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
+                                $idEmpresa = $idEmpresa2;
+                            }
                         $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
                         $viajeIngresado = new Viaje();
                         $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
@@ -327,18 +347,13 @@ do{
                         }
                         break;
                     case 4:
-                        // ver viajes
-                        $idViaje = leer("ingrese el id del viaje a visualizar: ");
-                        if($objViaje->Buscar($idViaje)){
-
-                            $datosViajes = $objViaje->listar(' idviaje = '.$idViaje);
+                        // ver viajes    
+                            $datosViajes = $objViaje->listar();
                             
-                                foreach($datosViaje as $dato){
-                                    echo $dato."\n------------------------------------------------------------";
+                                foreach($datosViajes as $viaje){
+                                    echo $viaje."\n------------------------------------------------------------";
                                 }
-                        }else{
-                            echo "el id no existe.";
-                        }
+                        
                         break;
                     case 5:
                         // buscar viajes (verifica la existencia de un id viaje)

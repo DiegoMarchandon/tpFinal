@@ -19,9 +19,9 @@ class Viaje{
         $this->fecha;
         $this->destino ="";
         $this->cantMaxPasajeros = "";
-        // $this->objEmpresa = "";
+        $this->objEmpresa = null;
         $this->colObjPasajeros = []; /* no */
-        // $this->objResponsable = "";
+        $this->objResponsable = null;
         $this->importe = "";
     }
 
@@ -182,14 +182,16 @@ class Viaje{
         if($condicion != ""){
             $consultaViajes .= ' WHERE '. $condicion;
         }
-        // $consultaViajes.= ' ORDER BY idviaje;';
+        $consultaViajes.= ' ORDER BY idviaje;';
     
         if($base->Iniciar()){ /* iniciar la conexión */
             if($base->Ejecutar($consultaViajes)){ #envío la consulta al gestor de base de datos
                 $arregloViaje = [];
                 while($registros = $base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
+                    $objResponsable = new ResponsableV();
+                    $objEmpresa = new Empresa();
                     $idviaje = $registros['idviaje'];
-                    $destino = $registros['destino'];
+                    $destino = $registros['vdestino'];
                     $fecha = $registros['fecha'];
                     $cantmax = $registros['vcantmaxpasajeros'];
                     $idempresa = $registros['idempresa'];
@@ -200,7 +202,9 @@ class Viaje{
                     #almaceno en colPasajeros los pasajeros que tengan ese idViaje
                     $colPasajeros = $pasajero->listar('idviaje = '.$this->getIdViaje());
                     $viaje = new Viaje();
-                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$idempresa, $colPasajeros, $numEmpleado,$importe);
+                    $responsable = $objResponsable->listar('rnumeroempleado = '.$numEmpleado)[0]; 
+                    $objEmpresa->Buscar($idempresa);
+                    $viaje->cargar($idviaje,$fecha,$destino,$cantmax,$objEmpresa, $colPasajeros, $responsable,$importe);
                     $arregloViaje[] = $viaje;
                 }
             }else $this->setmensajeoperacion($base->getERROR());
@@ -235,9 +239,8 @@ class Viaje{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
-        $objResponsable = $this->getObjResponsable()->getNumEmpleado();
         $consultaInsertar = "INSERT INTO viaje(vdestino, fecha ,vcantmaxpasajeros,idempresa,rnumeroempleado,vimporte)
-        VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$objResponsable.",".$this->getImporte().");";
+        VALUES ("."'".$this->getDestino()."', '".$this->getFecha()."' ,".$this->getCantMaxPasajeros().",".$this->getObjEmpresa()->getIdEmpresa().",".$this->getObjResponsable()->getNumEmpleado().",".$this->getImporte().");";
 
         /*1) si se inicia la conexión*/
         if($base->Iniciar()){
@@ -258,8 +261,9 @@ class Viaje{
     public function modificar($idviaje){
         $base = new BaseDatos();
         $resp = false;
+        $numEmpleado = $this->getObjResponsable()->getNumEmpleado();
         $consultaModificar = "UPDATE viaje SET vdestino= '".$this->getDestino()."', fecha= '".$this->getFecha()."' ,vcantmaxpasajeros=".$this->getCantMaxPasajeros().
-        ", idempresa=".$this->getObjEmpresa()->getIdEmpresa().", rnumeroempleado=".$this->getObjResponsable()->getNumEmpleado().", vimporte=".$this->getImporte()."
+        ", idempresa=".$this->getObjEmpresa()->getIdEmpresa().", rnumeroempleado=".$numEmpleado.", vimporte=".$this->getImporte()."
         WHERE idViaje = ".$idviaje.";";
         if($base->iniciar()){ # 1) iniciamos la conexión
             if($base->Ejecutar($consultaModificar)){#ejecutamos la consulta
@@ -301,3 +305,4 @@ class Viaje{
     }
 
 }
+

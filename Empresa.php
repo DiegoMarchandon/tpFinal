@@ -70,11 +70,16 @@ class Empresa{
         $resp = false;
         if($base->Iniciar()){ #para cualquier consulta, lo que necesito hacer primero es establacer una conexión.
             if($base->Ejecutar($consultaEmpresa)){ #envío la consulta al gestor de base de datos
-                $resp = true;
-            }   
-        }else {
-            $this->setmensajeoperacion($base->getError());
-        }
+                if($registros =$base->Registro()){	 # registro devolverá un arreglo asociativo
+				    $this->setIdEmpresa($idEmpresa); #$this->setNrodoc($registros['nrodoc]);
+					$this->setNombre($registros['enombre']);
+					$this->setDireccion($registros['edireccion']);
+					$resp= true;
+				}
+                
+            }else $this->setmensajeoperacion($base->getError());   
+        }else $this->setmensajeoperacion($base->getError());
+        
         return $resp;
     }
 
