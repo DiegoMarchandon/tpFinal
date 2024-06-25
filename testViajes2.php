@@ -478,7 +478,9 @@ do{
                             echo "-------------- lista de viajes con lugares disponibles --------------\n";
                             
                             for ($i = 0; $i < count($objViaje->listar()); $i++) {
-                                $cantPasajeros = count($objViaje->listar()[$i]->getColObjPasajeros());
+                                // $cantPasajeros = count($objViaje->listar()[$i]->getColObjPasajeros());
+                                
+                                $cantPasajeros = count($objPasajero->listar(' idviaje = '.$objViaje->listar()[$i]->getIdViaje())); # ?
                                 $cantMaxPasajeros = $objViaje->listar()[$i]->getCantMaxPasajeros();
                                 if($cantMaxPasajeros > $cantPasajeros){
                                     echo "Viaje ID N°" . $objViaje->listar()[$i]->getIdViaje() . ", destino: " . $objViaje->listar()[$i]->getDestino() . ", importe: $" . $objViaje->listar()[$i]->getImporte() . 
@@ -520,7 +522,7 @@ do{
                                         $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
                                         if ($pasajero->insertar()){
                                             echo "El pasajero ha sido cargado";
-                                        };
+                                        }
                                     }
                                 } else echo "No hay espacio disponible en el viaje seleccionado";
                             } else echo "no existe viaje con ese id";

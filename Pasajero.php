@@ -68,7 +68,7 @@ class Pasajero extends Persona{
 			    $arreglo= array();
 				while($registros=$base->Registro()){
 					$obj = new Pasajero();
-					$obj->Buscar($registros['prodcumento']); 
+					$obj->Buscar($registros['nrodoc']); 
 					array_push($arreglo,$obj);
 				}
 		 	}	else {
