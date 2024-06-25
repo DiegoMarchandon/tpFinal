@@ -372,7 +372,10 @@ do{
                         if(count($objViaje->listar()) <> 0){
                             $idViaje = leer("ingrese el id del viaje a modificar: ");
                             if($objViaje->Buscar($idViaje)){
-                                
+                                do{
+                                    $objViaje->Buscar($idViaje);
+                                    $respuesta = menuModificarViaje(); 
+                                }while($respuesta <> 6);
                                 $newFecha = leer("ingrese una nueva fecha (formato YYYY-MM-DD): ");
                                 $objViaje->setFecha($newFecha);
                                 $newDestino = leer("ingrese un nuevo destino: ");
@@ -422,7 +425,7 @@ do{
                         if(count($objViaje->listar()) <> 0){
                             $idViaje = leer("ingrese el id del viaje a eliminar: ");
                             if($objViaje->Buscar($idViaje)){
-                                $cantPasajeros = count($objViaje->getColObjPasajeros());
+                                $cantPasajeros = count($objPasajero->listar('idviaje = '.$idViaje));
                                 if($cantPasajeros > 0){
                                     #CARGAR pasajeros en un viaje para verificar si este condicional se cumple
                                     echo "No se puede eliminar el viaje porque cuenta con pasajeros.";
