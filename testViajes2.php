@@ -636,8 +636,25 @@ do{
                 switch($opcionResponsable){
                     case 1:
                         // ingresar responsable
-                        if(count($objViaje->listar()) <> 0){
-
+                        $nroDoc = leer("ingrese el número de documento: ");
+                        if ($objPersona->Buscar($nroDoc)){
+                            $nroEmpleado = leer("ingrese el número de empleado: ");
+                            $nroLicencia = leer("ingrese el número de licencia: ");
+                            $objResponsable->cargar($nroDoc, $objPersona->getNombre(), $objPersona->getApellido(), $objPersona->getTelefono(), $nroEmpleado, $nroLicencia);
+                            if ($objResponsable->insertar()){
+                                echo "el responsable ha sido cargado";
+                            } else echo "no ha sido posible la operación. " . $objResponsable->getmensajeoperacion();
+                        } else{
+                            $nombre = leer("ingrese el nombre: ");
+                            $apellido = leer("ingrese el apellido: ");
+                            $telefono = leer("ingrese el teléfono: ");
+                            $nroEmpleado = leer("ingrese el número de empleado");
+                            $nroLicencia = leer("ingrese el número de licencia: ");
+                            $objPersona->cargar($nroDoc, $nombre, $apellido, $telefono);
+                            $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono, $nroEmpleado, $nroLicencia);
+                            if ($objPersona->insertar() && $objResponsable->insertar()){
+                                echo "el responsable ha sido cargado";
+                            } else echo "no ha sido posible la operación. " . $objPersona->getmensajeoperacion() . $objResponsable->getmensajeoperacion();
                         }
                         break;
                     case 2:
