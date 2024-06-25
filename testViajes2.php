@@ -549,7 +549,6 @@ do{
                                         case 1:
                                             // nombre
                                             $nombre = leer("\ningrese el nuevo nombre:");
-                                            // $objPasajero->setNombre($nombre);
                                             $objPersona->setNombre($nombre);
                                             if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
@@ -558,7 +557,6 @@ do{
                                         case 2:
                                             // apellido
                                             $apellido = leer("\ningrese el nuevo apellido:");
-                                            $objPasajero->setApellido($apellido);
                                             $objPersona->setApellido($apellido);
                                             if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
@@ -567,7 +565,6 @@ do{
                                         case 3:
                                             // telefono
                                             $telefono = leer("\ningrese el nuevo teléfono:");
-                                            $objPasajero->setTelefono($telefono);
                                             $objPersona->setTelefono($telefono);
                                             if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
@@ -671,29 +668,50 @@ do{
                     case 2:
                         // modificar responsable
                         $nroDoc = leer("ingrese el número de documento: ");
-                        if ($objResponsable->Buscar($nroDoc)){
+                        if ($objResponsable->Buscar($nroDoc) && $objPersona->Buscar($nroDoc)){
                             do{
+                                $objResponsable->Buscar($nroDoc);
+                                echo "\n------------RESPONSABLE------------\n".$objResponsable;
                                 $rta = menuModificarResponsable();
                                 switch ($rta){
                                     case 1:
                                         // nombre
                                         $nombre = leer("ingrese el nuevo nombre: ");
-                                        $objResponsable->setNombre($nombre);
-                                        if ($objResponsable->modificar()){
+                                        $objPersona->setNombre($nombre);
+                                        if ($objPersona->modificar()){
                                             echo "el responsable ha sido modificado";
-                                        } else echo "no ha podido ejecutarse. " . $objResponsable->
+                                        } else echo "no ha podido ejecutarse. " . $objPersona->getmensajeoperacion();
                                         break;
                                     case 2:
                                         // apellido
+                                        $apellido = leer("ingrese el nuevo apellido: ");
+                                        $objPersona->setApellido($apellido);
+                                        if ($objPersona->modificar()){
+                                            echo "el apellido ha sido modificado";
+                                        } else echo "no ha podido ejecutarse. " . $objPersona->getmensajeoperacion();
                                         break;
                                     case 3:
                                         // telefono
-                                        break;
+                                        $telefono = leer("ingrese el nuevo teléfono: ");
+                                        $objPersona->setTelefono($telefono);
+                                        if ($objPersona->modificar()){
+                                            echo "el teléfono ha sido modificado";
+                                        } else echo "no ha podido ejecutarse. " . $objPersona->getmensajeoperacion();                                        break;
                                     case 4:
                                         // nro empleado
+                                        $nroEmpleado = leer("ingrese el nuevo número de empleado: ");
+                                        $objResponsable->setNroEmpleado($nroEmpleado);
+                                        if ($objResponsable->modificar()){
+                                            echo "el número de empleado ha sido modificado";
+                                        } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                     case 5:
                                         // nro licencia
+                                        $nroLicencia = leer("ingrese el nuevo número de licencia");
+                                        $objResponsable->setNroLicencia($nroLicencia);
+                                        if ($objResponsable->modificar()){
+                                            echo "el número de licencia ha sido modificado";
+                                        } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                 }
                             } while ($rta <> 6);
@@ -701,12 +719,31 @@ do{
                         break;
                     case 3:
                         // eliminar responsable
+                        $nroDoc = leer("ingrese el número de documento del responsable a eliminar");
+                        if ($objResponsable->Buscar($nroDoc)){
+                            if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNroEmpleado()))>0){
+                                echo "el responsable está asociado a un viaje. no es posible eliminarlo";
+                            } else{
+                                if ($objResponsable->eliminar()){
+                                    echo "el responsable se ha eliminado";
+                                } else "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
+                            }
+                        } else echo "no se ha hallado un responsable con ese documento";
                         break;
                     case 4:
                         // ver responsables
+                        $colResponsables = $objResponsable->listar();
+
+                        foreach ($colResponsables as $responsable){
+                            echo "\n----------------------------------\n$responsable\n----------------------------------\n";
+                        }
                         break;
                     case 5:
                         // buscar un responsable x dni
+                        $nroDoc = leer("ingrese el número de documento: ");
+                        if ($objResponsable->Buscar($dni)){
+                            echo "\n-----------RESPONSABLE-----------\n$objResponsable";
+                        } else echo "no existe un responsable asociado a ese número de documento";
                         break;
                 }
             } while ($opcionResponsable <> 6);
