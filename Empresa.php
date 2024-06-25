@@ -137,10 +137,10 @@ class Empresa{
         return $resp;
     }
 
-    public function modificar($consultaModificar){
+    public function modificar(){
         $resp = false;
         $base = new BaseDatos();
-        $consulta="UPDATE empresa SET ".$consultaModificar. ";"; /* WHERE idEmpresa = ".$this->getIdEmpresa(); */
+        $consulta="UPDATE empresa SET enombre = '".$this->getNombre()."', edireccion = '".$this->getDireccion()."';"; /* WHERE idEmpresa = ".$this->getIdEmpresa(); */
 
         if($base->Iniciar()){ #iniciamos la conexión
             if($base->Ejecutar($consulta)){
@@ -154,10 +154,10 @@ class Empresa{
         return $resp;
     }
 
-    public function eliminar($idEmpresa){
+    public function eliminar(){
         $resp = false;
-        $base = new BaseDatos();
-        $consultaEliminar = "DELETE FROM empresa WHERE idEmpresa = ".$idEmpresa;
+        $base = new BaseDatos();                                    
+        $consultaEliminar = "DELETE FROM empresa WHERE idEmpresa = ".$this->getIdEmpresa();
 
         if($base->Iniciar()){
             if($base->Ejecutar($consultaEliminar)){
