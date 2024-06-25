@@ -539,6 +539,7 @@ do{
                             $nroDoc = leer("ingrese el numero de documento del pasajero: ");
                             if ($objPasajero->Buscar($nroDoc) && $objPersona->Buscar($nroDoc)){
                                 do{
+                                    $objPasajero->Buscar($nroDoc);
                                     echo "\n------------PASAJERO------------\n".$objPasajero;
                                     $respuesta = menuModificarPasajeros();
                                     switch($respuesta){
