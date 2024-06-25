@@ -26,8 +26,8 @@ $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /* --------------------------------- REPONSABLES PRECARGADOS ------------------------------------------------------------ */
 
-/* 
-$persona1 = new Persona();
+
+/* $persona1 = new Persona();
 $persona1->cargar(42539876,"jorge","rodriguez",299432123);
 $persona1->insertar();
 $responsable1 = new ResponsableV();
@@ -444,6 +444,7 @@ do{
                             $datosViajes = $objViaje->listar();
                             
                             foreach($datosViajes as $viaje){
+                                $viaje->setColObjPasajeros($objPasajero->listar(" idviaje = ".$viaje->getIdViaje()));
                                 echo $viaje."\n------------------------------------------------------------\n";
                             }
                         }else echo "debe crear al menos un viaje para poder ver sus datos. ";
@@ -481,6 +482,7 @@ do{
                                 // $cantPasajeros = count($objViaje->listar()[$i]->getColObjPasajeros());
                                 
                                 $cantPasajeros = count($objPasajero->listar(' idviaje = '.$objViaje->listar()[$i]->getIdViaje())); # ?
+
                                 $cantMaxPasajeros = $objViaje->listar()[$i]->getCantMaxPasajeros();
                                 if($cantMaxPasajeros > $cantPasajeros){
                                     echo "Viaje ID N°" . $objViaje->listar()[$i]->getIdViaje() . ", destino: " . $objViaje->listar()[$i]->getDestino() . ", importe: $" . $objViaje->listar()[$i]->getImporte() . 
