@@ -283,7 +283,7 @@ do{
                                 }else echo "no se ha podido eliminar.";
                             }
                         }else echo "no se puede eliminar la empresa sin antes crearla.";
-                        
+
                         break;
                     case 4:
                         // ver datos de empresa
@@ -475,15 +475,22 @@ do{
                         
                         // ingresar
                         if (count($objViaje->listar()) <> 0) {
-                            echo "-------------- lista de viajes --------------\n";
+                            echo "-------------- lista de viajes con lugares disponibles --------------\n";
+                            
                             for ($i = 0; $i < count($objViaje->listar()); $i++) {
-                                echo "Viaje ID N°" . $objViaje->listar()[$i]->getIdViaje() . ", destino: " . $objViaje->listar()[$i]->getDestino() . ", importe: $" . $objViaje->listar()[$i]->getImporte() . "\n";
+                                $cantPasajeros = count($objViaje->listar()[$i]->getColObjPasajeros());
+                                $cantMaxPasajeros = $objViaje->listar()[$i]->getCantMaxPasajeros();
+                                if($cantMaxPasajeros > $cantPasajeros){
+                                    echo "Viaje ID N°" . $objViaje->listar()[$i]->getIdViaje() . ", destino: " . $objViaje->listar()[$i]->getDestino() . ", importe: $" . $objViaje->listar()[$i]->getImporte() . 
+                                    " con ".$cantMaxPasajeros ." de capacidad y ".$cantPasajeros." lugares ocupados. \n";
+
+                                }
                             }
-                            $idViaje = leer("ingrese el id del viaje del pasajero: "); #
+                            $idViaje = leer("ingrese el id del viaje del pasajero: "); 
 
                             if ($objViaje->Buscar($idViaje)) {
-                                $colPasajeros = $objPasajero->listar('where idviaje = '.$idViaje);
-                                if ($objViaje->getCantidadMaximaPasajeros() > count($colPasajeros)) {
+                                $colPasajeros = $objPasajero->listar(' idviaje = '.$idViaje);
+                                if ($objViaje->getCantMaxPasajeros() > count($colPasajeros)) {
                                     $nroDoc = leer("ingrese el numero de documento del pasajero: ");
                                     $persona = new Persona();
                                     $pasajero = new Pasajero();
@@ -507,7 +514,7 @@ do{
                                         $nombre = leer("Ingrese el nombre del pasajero: ");
                                         $apellido = leer("Ingrese el apellido del pasajero: ");
                                         $telefono = leer("Ingrese el teléfono del pasajero: ");
-                                        $nroPasaporte = leer("Ingrese el número de pasaporte: ");
+                                        $nroPasaporte = leer("Ingrese el número de pasaporte: "); #
                                         $persona->cargar($nroDoc, $nombre, $apellido, $telefono);
                                         $persona->insertar();
                                         $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
