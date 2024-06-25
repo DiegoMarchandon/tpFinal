@@ -567,7 +567,9 @@ do{
                                         case 4:
                                             // id viaje
                                             $idViaje = leer("\ningrese el nuevo id de viaje:");
-                                            $objPasajero->setobjViaje($objViaje->Buscar($idViaje));
+                                            if ($objViaje->Buscar($idViaje)){
+                                                $objPasajero->setObjViaje($objViaje);
+                                            } else echo "\nno hay un viaje relacionado a esa id";
                                             if ($objPasajero->modificar()){
                                                 echo "El nombre ha sido modificado.";
                                             } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
@@ -636,12 +638,14 @@ do{
                         // ingresar responsable
                         $nroDoc = leer("ingrese el número de documento: ");
                         if ($objPersona->Buscar($nroDoc)){
-                            $nroEmpleado = leer("ingrese el número de empleado: ");
-                            $nroLicencia = leer("ingrese el número de licencia: ");
-                            $objResponsable->cargar($nroDoc, $objPersona->getNombre(), $objPersona->getApellido(), $objPersona->getTelefono(), $nroEmpleado, $nroLicencia);
-                            if ($objResponsable->insertar()){
-                                echo "el responsable ha sido cargado";
-                            } else echo "no ha sido posible la operación. " . $objResponsable->getmensajeoperacion();
+                            if (!$objPasajero->Buscar($nroDoc)) {
+                                $nroEmpleado = leer("ingrese el número de empleado: ");
+                                $nroLicencia = leer("ingrese el número de licencia: ");
+                                $objResponsable->cargar($nroDoc, $objPersona->getNombre(), $objPersona->getApellido(), $objPersona->getTelefono(), $nroEmpleado, $nroLicencia);
+                                if ($objResponsable->insertar()) {
+                                    echo "el responsable ha sido cargado";
+                                } else echo "no ha sido posible la operación. " . $objResponsable->getmensajeoperacion();
+                            } else echo "ese número de documento está asociado a un PASAJERO";
                         } else{
                             $nombre = leer("ingrese el nombre: ");
                             $apellido = leer("ingrese el apellido: ");
@@ -657,6 +661,30 @@ do{
                         break;
                     case 2:
                         // modificar responsable
+                        $nroDoc = leer("ingrese el número de documento: ");
+                        if ($objResponsable->Buscar($nroDoc)){
+                            do{
+                                $rta = menuModificarResponsable();
+                                switch ($rta){
+                                    case 1:
+                                        // nombre
+                                        $nombre = leer("ingrese el nuevo nombre: ");
+                                        break;
+                                    case 2:
+                                        // apellido
+                                        break;
+                                    case 3:
+                                        // telefono
+                                        break;
+                                    case 4:
+                                        // nro empleado
+                                        break;
+                                    case 5:
+                                        // nro licencia
+                                        break;
+                                }
+                            } while ($rta <> 6);
+                        } else echo "no hay un responsable cargado con ese número de documento";
                         break;
                     case 3:
                         // eliminar responsable
