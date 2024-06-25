@@ -539,13 +539,14 @@ do{
                             $nroDoc = leer("ingrese el numero de documento del pasajero: ");
                             if ($objPasajero->Buscar($nroDoc) && $objPersona->Buscar($nroDoc)){
                                 do{
+                                    $objPasajero->Buscar($nroDoc);
                                     echo "\n------------PASAJERO------------\n".$objPasajero;
                                     $respuesta = menuModificarPasajeros();
                                     switch($respuesta){
                                         case 1:
                                             // nombre
                                             $nombre = leer("\ningrese el nuevo nombre:");
-                                            $objPasajero->setNombre($nombre);
+                                            // $objPasajero->setNombre($nombre);
                                             $objPersona->setNombre($nombre);
                                             if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
