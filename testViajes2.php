@@ -596,8 +596,8 @@ do{
                         if (count($colPasajeros) > 0){
                             if ($objPasajero->Buscar($nroDoc)){
                                 if ($objPasajero->eliminar()){
-                                    echo "el pasajero ha sido eliminado";
-                                    $rta= leer("desea además eliminar sus datos de PERSONA? (si/no)");
+                                    echo "el pasajero ha sido eliminado.\n";
+                                    $rta= leer("Desea además eliminar sus datos de PERSONA? (si/no)");
                                     if (strcasecmp($rta, "si")==0){
                                         $objPersona->Buscar($nroDoc);
                                         if ($objPersona->eliminar()){

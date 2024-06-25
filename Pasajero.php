@@ -42,7 +42,8 @@ class Pasajero extends Persona{
                 if($registros = $base->Registro()){
                     parent::Buscar($dni);
                     $viaje = new Viaje();
-                    $this->setObjViaje($viaje->Buscar($registros['idviaje']));
+                    $viaje->Buscar($registros['idviaje']);
+                    $this->setObjViaje($viaje);
                     $this->setNroPasaporte($registros['nroPasaporte']);
                     $resp = true;
                 }
