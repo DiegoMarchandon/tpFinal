@@ -527,28 +527,49 @@ do{
                         if (count($colPasajeros)>0){
                             $nroDoc = leer("ingrese el numero de documento del pasajero: ");
                             if ($objPasajero->Buscar($nroDoc)){
-                                $respuesta = menuModificarPasajeros();
                                 do{
+                                    echo "\n------------PASAJERO------------\n".$objPasajero;
+                                    $respuesta = menuModificarPasajeros();
                                     switch($respuesta){
                                         case 1:
                                             // nombre
-                                            $nombre = leer("nombre actual: ". $objPasajero->getNombre(). "\ningrese el nuevo nombre:");
+                                            $nombre = leer("\ningrese el nuevo nombre:");
                                             $objPasajero->setNombre($nombre);
                                             if ($objPasajero->modificar()){
-                                                echo "El nombre ha sido modificado.\n-----PASAJERO-----\n".$objPasajero;
+                                                echo "El nombre ha sido modificado.";
                                             } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
                                         case 2:
                                             // apellido
+                                            $apellido = leer("\ningrese el nuevo apellido:");
+                                            $objPasajero->setApellido($apellido);
+                                            if ($objPasajero->modificar()){
+                                                echo "El nombre ha sido modificado.";
+                                            } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
                                         case 3:
                                             // telefono
+                                            $telefono = leer("\ningrese el nuevo teléfono:");
+                                            $objPasajero->setTelefono($telefono);
+                                            if ($objPasajero->modificar()){
+                                                echo "El nombre ha sido modificado.";
+                                            } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
                                         case 4:
                                             // id viaje
+                                            $idViaje = leer("\ningrese el nuevo id de viaje:");
+                                            $objPasajero->setobjViaje($objViaje->Buscar($idViaje));
+                                            if ($objPasajero->modificar()){
+                                                echo "El nombre ha sido modificado.";
+                                            } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
                                         case 5:
                                             // nro pasaporte
+                                            $nroPasaporte = leer("\ningrese el nuevo número de pasaporte:");
+                                            $objPasajero->setNroPasaporte($nroPasaporte);
+                                            if ($objPasajero->modificar()){
+                                                echo "El nombre ha sido modificado.";
+                                            } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
                                     }
                                 } while ($respuesta <> 6);
@@ -558,12 +579,41 @@ do{
                         break;
                     case 3:
                         // eliminar
+                        $colPasajeros = $objPasajero->listar();
+                        $nroDoc = leer("ingrese el número de documento: ");
+
+                        if (count($colPasajeros) > 0){
+                            if ($objPasajero->Buscar($nroDoc)){
+                                if ($objPasajero->eliminar()){
+                                    echo "el pasajero ha sido eliminado";
+                                    $rta= leer("desea además eliminar sus datos de PERSONA? (si/no)");
+                                    if (strcasecmp($rta, "si")==0){
+                                        $objPersona->Buscar($nroDoc);
+                                        if ($objPersona->eliminar()){
+                                            echo "sus datos han sido eliminados completamente";
+                                        } else echo "no ha podido efectuarse. " . $objPersona->getmensajeoperacion();
+                                    }
+                                } else echo "no pudo eliminarse. " . $objPasajero->getmensajeoperacion();
+                            } else "no se halló pasajero con ese número de documento";
+                        } else "no hay pasajeros cargados aún";
+
                         break;
                     case 4:
                         // ver pasajeros
+                        $colPasajeros = $objPasajero->listar();
+                        foreach ($colPasajeros as $pasajero){
+                            echo "\n$pasajero\n-----------------------------";
+                        }
                         break;
                     case 5:
                         // buscar un pasajero x dni
+                        $nroDoc = leer("ingrese el número de documento: ");
+                        $colPasajeros = $objPasajero->listar();
+                        if (count($colPasajeros) > 0){
+                            if ($objPasajero->Buscar($nroDoc)){
+                                echo "\n-------------------------\n$pasajero\n-------------------------\n";
+                            } else "no se ha encontrado un pasajero con ese número";
+                        } else "no hay pasajeros cargados aún";
                         break;
                 }
             } while ($opcionPasajero <> 6);
