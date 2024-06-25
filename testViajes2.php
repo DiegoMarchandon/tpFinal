@@ -537,7 +537,7 @@ do{
                         $colPasajeros = $objPasajero->listar();
                         if (count($colPasajeros)>0){
                             $nroDoc = leer("ingrese el numero de documento del pasajero: ");
-                            if ($objPasajero->Buscar($nroDoc)){
+                            if ($objPasajero->Buscar($nroDoc) && $objPersona->Buscar($nroDoc)){
                                 do{
                                     echo "\n------------PASAJERO------------\n".$objPasajero;
                                     $respuesta = menuModificarPasajeros();
@@ -546,7 +546,8 @@ do{
                                             // nombre
                                             $nombre = leer("\ningrese el nuevo nombre:");
                                             $objPasajero->setNombre($nombre);
-                                            if ($objPasajero->modificar()){
+                                            $objPersona->setNombre($nombre);
+                                            if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
                                             } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
@@ -554,7 +555,8 @@ do{
                                             // apellido
                                             $apellido = leer("\ningrese el nuevo apellido:");
                                             $objPasajero->setApellido($apellido);
-                                            if ($objPasajero->modificar()){
+                                            $objPersona->setApellido($apellido);
+                                            if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
                                             } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
@@ -562,7 +564,8 @@ do{
                                             // telefono
                                             $telefono = leer("\ningrese el nuevo teléfono:");
                                             $objPasajero->setTelefono($telefono);
-                                            if ($objPasajero->modificar()){
+                                            $objPersona->setTelefono($telefono);
+                                            if ($objPersona->modificar()){
                                                 echo "El nombre ha sido modificado.";
                                             } else echo "No pudo modificarse. " . $objPasajero->getmensajeoperacion();
                                             break;
@@ -671,6 +674,10 @@ do{
                                     case 1:
                                         // nombre
                                         $nombre = leer("ingrese el nuevo nombre: ");
+                                        $objResponsable->setNombre($nombre);
+                                        if ($objResponsable->modificar()){
+                                            echo "el responsable ha sido modificado";
+                                        } else echo "no ha podido ejecutarse. " . $objResponsable->
                                         break;
                                     case 2:
                                         // apellido
