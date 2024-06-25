@@ -258,13 +258,13 @@ class Viaje{
     }
 
     /* hacer que se puedan pedir modificaciones personalizadas*/
-    public function modificar($idviaje){
+    public function modificar(){
         $base = new BaseDatos();
         $resp = false;
         $numEmpleado = $this->getObjResponsable()->getNumEmpleado();
         $consultaModificar = "UPDATE viaje SET vdestino= '".$this->getDestino()."', fecha= '".$this->getFecha()."' ,vcantmaxpasajeros=".$this->getCantMaxPasajeros().
         ", idempresa=".$this->getObjEmpresa()->getIdEmpresa().", rnumeroempleado=".$numEmpleado.", vimporte=".$this->getImporte()."
-        WHERE idViaje = ".$idviaje.";";
+        WHERE idViaje = ".$this->getIdViaje().";";
         if($base->iniciar()){ # 1) iniciamos la conexión
             if($base->Ejecutar($consultaModificar)){#ejecutamos la consulta
                 $resp = true;
