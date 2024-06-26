@@ -723,6 +723,13 @@ do{
                             } else{
                                 if ($objResponsable->eliminar()){
                                     echo "el responsable se ha eliminado";
+                                    $rta= leer("Desea además eliminar sus datos de PERSONA? (si/no)");
+                                    if (strcasecmp($rta, "si")==0){
+                                        $objPersona->Buscar($nroDoc);
+                                        if ($objPersona->eliminar()){
+                                            echo "sus datos han sido eliminados completamente";
+                                        } else echo "no ha podido efectuarse. " . $objPersona->getmensajeoperacion();
+                                    }
                                 } else "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                             }
                         } else echo "no se ha hallado un responsable con ese documento";
