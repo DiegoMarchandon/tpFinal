@@ -145,6 +145,8 @@ function menuViajes(){
 function menuModificarViaje()
 {
     echo "\n|---------------------------------------------------------------------------------|\n" .
+    "|                           MENU MODIFICAR VIAJE                                  |\n" .
+    "|---------------------------------------------------------------------------------|\n" .
     "|(1) Modificar destino                       ||(4) Modificar responsable          |\n" .
     "|(2) Modificar cantidad máxima de pasajeros  ||(5) Modificar importe              |\n" .
     "|(3) Modificar fecha                         ||(6) Volver atrás                   |\n" .
@@ -170,6 +172,8 @@ function menuPasajeros(){
 function menuModificarPasajeros()
 {
     echo "\n|------------------------------------------------------------------|\n" .
+    "|                      MENU MODIFICAR PASAJERO                     |\n" .
+    "|------------------------------------------------------------------|\n" .
     "|(1) Modificar nombre         ||(4) Modificar id de viaje          |\n" .
     "|(2) Modificar apellido       ||(5) Modificar número de pasaporte  |\n" .
     "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
@@ -195,6 +199,8 @@ function menuResponsables(){
 function menuModificarResponsable()
 {
     echo "\n|------------------------------------------------------------------|\n" .
+    "|                      MENÚ MODIFICAR RESPONSABLE                        |\n".
+    "|------------------------------------------------------------------|\n".
     "|(1) Modificar nombre         ||(4) Modificar número de empleado   |\n" .
     "|(2) Modificar apellido       ||(5) Modificar número de licencia   |\n" .
     "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
@@ -593,7 +599,7 @@ do{
                                             break;
                                         case 4:
                                             // id viaje
-                                            $idViaje = leer("\ningrese el nuevo id de viaje:");
+                                            $idViaje = leer("\ningrese el nuevo id de viaje: ");
                                             if ($objViaje->Buscar($idViaje)){
                                                 $objPasajero->setObjViaje($objViaje);
                                             } else echo "\nno hay un viaje relacionado a esa id";
@@ -603,7 +609,7 @@ do{
                                             break;
                                         case 5:
                                             // nro pasaporte
-                                            $nroPasaporte = leer("\ningrese el nuevo número de pasaporte:");
+                                            $nroPasaporte = leer("\ningrese el nuevo número de pasaporte: ");
                                             $objPasajero->setNroPasaporte($nroPasaporte);
                                             if ($objPasajero->modificar()){
                                                 echo "El nombre ha sido modificado.";
@@ -677,7 +683,7 @@ do{
                             $nombre = leer("ingrese el nombre: ");
                             $apellido = leer("ingrese el apellido: ");
                             $telefono = leer("ingrese el teléfono: ");
-                            $nroEmpleado = leer("ingrese el número de empleado");
+                            $nroEmpleado = leer("ingrese el número de empleado: ");
                             $nroLicencia = leer("ingrese el número de licencia: ");
                             $objPersona->cargar($nroDoc, $nombre, $apellido, $telefono);
                             $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono, $nroEmpleado, $nroLicencia);
@@ -721,17 +727,17 @@ do{
                                     case 4:
                                         // nro empleado
                                         $nroEmpleado = leer("ingrese el nuevo número de empleado: ");
-                                        $objResponsable->setNroEmpleado($nroEmpleado);
+                                        $objResponsable->setNumEmpleado($nroEmpleado);
                                         if ($objResponsable->modificar()){
                                             echo "el número de empleado ha sido modificado";
                                         } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                     case 5:
                                         // nro licencia
-                                        $nroLicencia = leer("ingrese el nuevo número de licencia");
-                                        $objResponsable->setNroLicencia($nroLicencia);
+                                        $nroLicencia = leer("ingrese el nuevo número de licencia: ");
+                                        $objResponsable->setNumLicencia($nroLicencia);
                                         if ($objResponsable->modificar()){
-                                            echo "el número de licencia ha sido modificado";
+                                            echo "el número de licencia ha sido modificado. ";
                                         } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                 }
@@ -742,7 +748,7 @@ do{
                         // eliminar responsable
                         $nroDoc = leer("ingrese el número de documento del responsable a eliminar");
                         if ($objResponsable->Buscar($nroDoc)){
-                            if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNroEmpleado()))>0){
+                            if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNumEmpleado()))>0){
                                 echo "el responsable está asociado a un viaje. no es posible eliminarlo";
                             } else{
                                 if ($objResponsable->eliminar()){
@@ -762,7 +768,7 @@ do{
                     case 5:
                         // buscar un responsable x dni
                         $nroDoc = leer("ingrese el número de documento: ");
-                        if ($objResponsable->Buscar($dni)){
+                        if ($objResponsable->Buscar($nroDoc)){
                             echo "\n-----------RESPONSABLE-----------\n$objResponsable";
                         } else echo "no existe un responsable asociado a ese número de documento";
                         break;
