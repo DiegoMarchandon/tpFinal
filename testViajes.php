@@ -222,10 +222,6 @@ $objResponsable = new ResponsableV();
 $objPasajero = new Pasajero();
 $empresaViajes = new Empresa();
 
-$resps = $objResponsable->listar('rnumeroempleado = 226');
-foreach($resps as $responsable){
-    echo $responsable->getNumEmpleado()."\n---";
-} 
 do{
     $respuesta = menuPrincipal();
     switch($respuesta){
