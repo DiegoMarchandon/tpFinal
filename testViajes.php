@@ -26,8 +26,8 @@ $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /* --------------------------------- REPONSABLES PRECARGADOS ------------------------------------------------------------ */
 
-
-/* $persona1 = new Persona();
+/* 
+$persona1 = new Persona();
 $persona1->cargar(42539876,"jorge","rodriguez",299432123);
 $persona1->insertar();
 $responsable1 = new ResponsableV();
@@ -82,8 +82,8 @@ $persona8->insertar();
 $responsable8 = new ResponsableV();
 $responsable8->cargar($persona8->getNrodoc(),$persona8->getNombre(),$persona8->getApellido(),$persona8->getTelefono(),263,9843);
 $insercion8 = $responsable8->insertar();
- */
 
+ */
 // echo $responsable1->listar('rnumeroempleado = 496')[0]->getNumEmpleado();
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -512,7 +512,8 @@ do{
                         // ingresar
                         if (count($objViaje->listar()) <> 0) {
                             echo "-------------- lista de viajes con lugares disponibles --------------\n";
-                            
+
+                            $hayDisponibles = 0;
                             for ($i = 0; $i < count($objViaje->listar()); $i++) {
                                 // $cantPasajeros = count($objViaje->listar()[$i]->getColObjPasajeros());
                                 
@@ -520,49 +521,54 @@ do{
 
                                 $cantMaxPasajeros = $objViaje->listar()[$i]->getCantMaxPasajeros();
                                 if($cantMaxPasajeros > $cantPasajeros){
+                                    $hayDisponibles++;
                                     echo "Viaje ID N°" . $objViaje->listar()[$i]->getIdViaje() . ", destino: " . $objViaje->listar()[$i]->getDestino() . ", importe: $" . $objViaje->listar()[$i]->getImporte() . 
                                     " con ".$cantMaxPasajeros ." de capacidad y ".$cantPasajeros." lugares ocupados. \n";
 
                                 }
                             }
-                            $idViaje = leer("ingrese el id del viaje del pasajero: "); 
 
-                            if ($objViaje->Buscar($idViaje)) {
-                                $colPasajeros = $objPasajero->listar(' idviaje = '.$idViaje);
-                                if ($objViaje->getCantMaxPasajeros() > count($colPasajeros)) {
-                                    $nroDoc = leer("ingrese el numero de documento del pasajero: ");
-                                    $persona = new Persona();
-                                    $pasajero = new Pasajero();
-                                    if ($persona->Buscar($nroDoc)) {
-                                        if (!$objResponsable->Buscar($nroDoc)) {
-                                            if ($pasajero->Buscar($nroDoc)) {
-                                                $rta = leer("este pasajero ya existe. desea modificar sus datos? s/n");
-                                                if ($rta = 's') {
-                                                    goto modificarpasajero;
+                            if ($hayDisponibles > 0) {
+                                $idViaje = leer("ingrese el id del viaje del pasajero: ");
+
+                                if ($objViaje->Buscar($idViaje)) {
+                                    $colPasajeros = $objPasajero->listar(' idviaje = ' . $idViaje);
+                                    if ($objViaje->getCantMaxPasajeros() > count($colPasajeros)) {
+                                        $nroDoc = leer("ingrese el numero de documento del pasajero: ");
+                                        $persona = new Persona();
+                                        $pasajero = new Pasajero();
+                                        if ($persona->Buscar($nroDoc)) {
+                                            if (!$objResponsable->Buscar($nroDoc)) {
+                                                if ($pasajero->Buscar($nroDoc)) {
+                                                    $rta = leer("este pasajero ya existe. desea modificar sus datos? s/n");
+                                                    if ($rta = 's'
+                                                    ) {
+                                                        goto modificarpasajero;
+                                                    }
+                                                } else {
+                                                    $nroPasaporte = leer("ingrese numero de pasaporte: ");
+                                                    $pasajero->cargar($nroDoc, $persona->getNombre(), $persona->getApellido(), $persona->getTelefono(), $objViaje, $nroPasaporte);
+                                                    if ($pasajero->insertar()) {
+                                                        echo "El pasajero ha sido cargado";
+                                                    } else echo "El pasajero no ha podido ser cargado. " . $pasajero->getmensajeoperacion();
                                                 }
-                                            } else {
-                                                $nroPasaporte = leer("ingrese numero de pasaporte: ");
-                                                $pasajero->cargar($nroDoc, $persona->getNombre(), $persona->getApellido(), $persona->getTelefono(), $objViaje, $nroPasaporte);
-                                                if ($pasajero->insertar()){
-                                                    echo "El pasajero ha sido cargado";
-                                                } else echo "El pasajero no ha podido ser cargado. ". $pasajero->getmensajeoperacion();
+                                            } else echo "ese numero de documento ya está asociado a un RESPONSABLE";
+                                        } else {
+                                            // cargar persona
+                                            $nombre = leer("Ingrese el nombre del pasajero: ");
+                                            $apellido = leer("Ingrese el apellido del pasajero: ");
+                                            $telefono = leer("Ingrese el teléfono del pasajero: ");
+                                            $nroPasaporte = leer("Ingrese el número de pasaporte: "); #
+                                            $persona->cargar($nroDoc, $nombre, $apellido, $telefono);
+                                            $persona->insertar();
+                                            $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
+                                            if ($pasajero->insertar()) {
+                                                echo "El pasajero ha sido cargado";
                                             }
-                                        } else echo "ese numero de documento ya está asociado a un RESPONSABLE";
-                                    } else{
-                                        // cargar persona
-                                        $nombre = leer("Ingrese el nombre del pasajero: ");
-                                        $apellido = leer("Ingrese el apellido del pasajero: ");
-                                        $telefono = leer("Ingrese el teléfono del pasajero: ");
-                                        $nroPasaporte = leer("Ingrese el número de pasaporte: "); #
-                                        $persona->cargar($nroDoc, $nombre, $apellido, $telefono);
-                                        $persona->insertar();
-                                        $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
-                                        if ($pasajero->insertar()){
-                                            echo "El pasajero ha sido cargado";
                                         }
-                                    }
-                                } else echo "No hay espacio disponible en el viaje seleccionado";
-                            } else echo "no existe viaje con ese id";
+                                    } else echo "No hay espacio disponible en el viaje seleccionado";
+                                } else echo "no existe viaje con ese id";
+                            } else echo "no hay viajes con lugares disponibles para nuevos pasajeros";
                         } else echo "no hay viajes en los que cargar pasajeros";
                         
                         break;
