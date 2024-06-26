@@ -155,8 +155,11 @@ class Viaje{
                     $this->setDestino($registros['vdestino']);
                     $this->setFecha($registros['fecha']);
                     $this->setCantMaxPasajeros($registros['vcantmaxpasajeros']);
-                    $this->setObjEmpresa($registros['idempresa']);
-                    $this->setObjResponsable($registros['rnumeroempleado']);
+                    $empresa = new Empresa();
+                    $empresa->Buscar($registros['idempresa']);
+                    $this->setObjEmpresa($empresa);
+                    $responsable = new ResponsableV();
+                    $this->setObjResponsable($responsable->listar("rnumeroempleado = ".$registros['rnumeroempleado'])[0]);
                     $this->setImporte($registros['vimporte']);
                     $resp = true;
                 }
