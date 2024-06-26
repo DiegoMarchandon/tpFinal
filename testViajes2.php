@@ -145,6 +145,8 @@ function menuViajes(){
 function menuModificarViaje()
 {
     echo "\n|---------------------------------------------------------------------------------|\n" .
+    "|                           MENU MODIFICAR VIAJE                                  |\n" .
+    "|---------------------------------------------------------------------------------|\n" .
     "|(1) Modificar destino                       ||(4) Modificar responsable          |\n" .
     "|(2) Modificar cantidad máxima de pasajeros  ||(5) Modificar importe              |\n" .
     "|(3) Modificar fecha                         ||(6) Volver atrás                   |\n" .
@@ -170,6 +172,8 @@ function menuPasajeros(){
 function menuModificarPasajeros()
 {
     echo "\n|------------------------------------------------------------------|\n" .
+    "|                      MENU MODIFICAR PASAJERO                     |\n" .
+    "|------------------------------------------------------------------|\n" .
     "|(1) Modificar nombre         ||(4) Modificar id de viaje          |\n" .
     "|(2) Modificar apellido       ||(5) Modificar número de pasaporte  |\n" .
     "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
@@ -195,6 +199,8 @@ function menuResponsables(){
 function menuModificarResponsable()
 {
     echo "\n|------------------------------------------------------------------|\n" .
+    "|                      MENÚ MODIFICAR RESPONSABLE                        |\n".
+    "|------------------------------------------------------------------|\n".
     "|(1) Modificar nombre         ||(4) Modificar número de empleado   |\n" .
     "|(2) Modificar apellido       ||(5) Modificar número de licencia   |\n" .
     "|(3) Modificar teléfono       ||(6) Volver atrás                   |\n" .
@@ -315,54 +321,59 @@ do{
                             $destino = leer("ingrese un destino: ");
                             $cantMaxPasajeros = leer("ingrese una cantidad máxima de pasajeros para el viaje: ");
                             $fechaViaje = leer("ingrese la fecha del viaje (Formato YYYY-MM-DD): ");
-    
-                            echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
                             $colViajes = $objViaje->listar();
                             $colResponsables = $objResponsable->listar(); 
-                            if(count($objViaje->listar()) <> 0){
-                                // procedimiento para insertar un responsable que no esté asociado a un viaje:
-                                $numsResponsables = [];
-                                foreach($colViajes as $viaje){
-                                    
-                                    $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
-                                    $numsResponsables[] = $numEmpleado;
-                                      
-                                }
-                                
-                                foreach ($colResponsables as $responsable) {
-    
-                                    if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
-                                        $numEmpleado = $responsable->getNumEmpleado();
-                                        $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
-                                        echo $empleado."\n------------------------------------------------------------";
+                            if(count($colResponsables) > 0){
+
+                                echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
+                                if(count($objViaje->listar()) <> 0){
+                                    // procedimiento para insertar un responsable que no esté asociado a un viaje:
+                                    $numsResponsables = [];
+                                    foreach($colViajes as $viaje){
+                                        
+                                        $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
+                                        $numsResponsables[] = $numEmpleado;
+                                          
+                                    }
+                                    $contador = 0;                            
+                                    foreach ($colResponsables as $responsable) {
+        
+                                        if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
+                                            $contador++;
+                                            $numEmpleado = $responsable->getNumEmpleado();
+                                            $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
+                                            echo $empleado."\n------------------------------------------------------------";
+                                        }
+                                    }
+                                    if($contador == 0){
+                                        echo "no hay responsables disponibles para asignar.";
+                                    }
+                                    # si no hay viajes creados, directamente listamos todos los responsables.                            
+                                } else {
+                                    $colResponsables = $objResponsable->listar();
+                                    foreach ($colResponsables as $responsable) {
+                                        echo $responsable . "\n------------------------------------------------------------";
                                     }
                                 }
-    
-                                # si no hay viajes creados, directamente listamos todos los responsables.                            
-                            } else {
-                                $colResponsables = $objResponsable->listar();
-                                foreach ($colResponsables as $responsable) {
-                                    echo $responsable . "\n------------------------------------------------------------";
-                                }
-                            }
-                            $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
-                            $objResp = new ResponsableV();
-                                while(!$objResp->Buscar($numDoc)){
-                                    $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
-                                    $numDoc = $numDoc2;
-                                }
-                            $idEmpresa = leer("ingrese el id de la empresa: ");
-                                while(!$empresaViajes->Buscar($idEmpresa)){
-                                    $idEmpresa2 = leer("\n id de empresa incorrecto. Ingréselo nuevamente: ");
-                                    $idEmpresa = $idEmpresa2;
-                                }
-                            $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
-                            $viajeIngresado = new Viaje();
-                            $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
-                            $confirmacion = $viajeIngresado->insertar();
-                            if($confirmacion){
-                                echo "viaje insertado exitosamente.";
-                            }else echo "el viaje no pudo ser insertado. ";
+                                $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
+                                $objResp = new ResponsableV();
+                                    while(!$objResp->Buscar($numDoc)){
+                                        $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
+                                        $numDoc = $numDoc2;
+                                    }
+                                $idEmpresa = leer("ingrese el id de la empresa: ");
+                                    while(!$empresaViajes->Buscar($idEmpresa)){
+                                        $idEmpresa2 = leer("\n id de empresa incorrecto. Ingréselo nuevamente: ");
+                                        $idEmpresa = $idEmpresa2;
+                                    }
+                                $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
+                                $viajeIngresado = new Viaje();
+                                $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
+                                $confirmacion = $viajeIngresado->insertar();
+                                if($confirmacion){
+                                    echo "viaje insertado exitosamente.";
+                                }else echo "el viaje no pudo ser insertado. ";
+                            }else echo "no hay responsables creados";
                             
                         }else echo "no pueden crear viajes sin antes crear la empresa.";
                         
@@ -372,46 +383,70 @@ do{
                         if(count($objViaje->listar()) <> 0){
                             $idViaje = leer("ingrese el id del viaje a modificar: ");
                             if($objViaje->Buscar($idViaje)){
-                                
-                                $newFecha = leer("ingrese una nueva fecha (formato YYYY-MM-DD): ");
-                                $objViaje->setFecha($newFecha);
-                                $newDestino = leer("ingrese un nuevo destino: ");
-                                $objViaje->setDestino($newDestino);
-                                $newCantMax = leer("ingrese una nueva cantidad maxima de pasajeros: ");
-                                $objViaje->setCantMaxPasajeros($newCantMax);
-                                
-                                $rta2 = leer("desea cambiar al responsable del viaje ? si/no: ");
-                                if(strcasecmp($rta2, "si") != 0){
-                                    echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
-                                    $colViajes = $objViaje->listar();
-                                    $colResponsables = $objResponsable->listar();
-                                    $numsResponsables = [];
-                                    
-                                    foreach($colViajes as $viaje){
-                                        
-                                        $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
-                                        $numsResponsables[] = $numEmpleado;
-                                        
+                                do{
+                                    $objViaje->Buscar($idViaje);
+                                    $respuesta = menuModificarViaje(); 
+                                    switch($respuesta){
+                                        case 1:
+                                            // destino
+                                            $newDestino = leer("ingrese el nuevo destino: ");
+                                            $objViaje->setDestino($newDestino);
+                                            
+                                            break;
+                                        case 2: 
+                                            // cantidad maxima de pasajeros
+                                            $newCantMax = leer("ingrese la nueva cantidad maxima de pasajeros: ");
+                                            $cantPasajeros = count($objPasajero->listar('idviaje = '.$objViaje->getIdViaje()));
+                                            if($newCantMax < $cantPasajeros){
+                                                echo "la cantidad actual de pasajeros ($cantPasajeros) excede la cantidad maxima ingresada. ";
+                                            }else $objViaje->setCantMaxPasajeros($newCantMax);
+                                            break;
+                                        case 3: 
+                                            // fecha
+                                            $newFecha = leer("ingrese una nueva fecha (formato YYYY-MM-DD): ");
+                                            
+                                            $fechaValida = "/^202[4-9]-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/";
+                                            if(preg_match($fechaValida, $newFecha) == 0){
+                                                echo "fecha invalida. ";
+                                            }else $objViaje->setFecha($newFecha);   
+
+                                            break;
+                                        case 4:
+                                            // responsable
+                                            echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
+                                            $colViajes = $objViaje->listar();
+                                            $colResponsables = $objResponsable->listar();
+                                            $numsResponsables = [];
+
+                                            foreach($colViajes as $viaje){
+                                                
+                                                $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
+                                                $numsResponsables[] = $numEmpleado;
+                                                
+                                            }
+                                            foreach($colResponsables as $responsable) {
+                                                # si no se encuentra en el arreglo el numero de responsable
+                                                if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
+                                                    $numEmpleado = $responsable->getNumEmpleado();
+                                                    $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
+                                                    echo $empleado."\n------------------------------------------------------------";
+                                                }
+                                            }
+                                            $dniResponsable = leer("\ningrese el dni de un responsable: ");
+                                            if($objResponsable->Buscar($dniResponsable)){
+                                                $objViaje->setObjResponsable($objResponsable);
+                                            }else echo "el dni no está asociado a un responsable. ";
+                                            break;
+                                        case 5:
+                                            // importe
+                                            $newImporte = leer("ingrese el nuevo importe: ");
+                                            $objViaje->setImporte($newImporte);
+                                            break;
                                     }
-                                    foreach($colResponsables as $responsable) {
-                                        # si no se encuentra en el arreglo el numero de responsable
-                                        if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
-                                            $numEmpleado = $responsable->getNumEmpleado();
-                                            $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
-                                            echo $empleado;
-                                            "\n------------------------------------------------------------";
-                                        }
-                                    }
-                                    $DNIresp = leer("ingrese el numero de documento del nuevo responsable: ");
-                                    if($objResponsable->Buscar($DNIresp)){
-                                        $objViaje->setObjResponsable($objResponsable);
-                                        
-                                    }else echo "el DNI no pertenece a ningún responsable.";
-                                    
-                                }
-                                $newImporte = leer("ingrese un nuevo importe: ");
-                                $objViaje->setImporte($newImporte);
-                                $objViaje->modificar();
+                                    if($objViaje->modificar()){
+                                        echo "el dato se ha modificado correctamente. ";
+                                    }else echo "el dato no se ha podido modificar. ";
+                                }while($respuesta <> 6);
                             }else echo "error. Id de viaje no encontrado";
                             
                         }else echo "no pueden modificar datos porque no hay viajes creados. ";
@@ -422,7 +457,7 @@ do{
                         if(count($objViaje->listar()) <> 0){
                             $idViaje = leer("ingrese el id del viaje a eliminar: ");
                             if($objViaje->Buscar($idViaje)){
-                                $cantPasajeros = count($objViaje->getColObjPasajeros());
+                                $cantPasajeros = count($objPasajero->listar('idviaje = '.$idViaje));
                                 if($cantPasajeros > 0){
                                     #CARGAR pasajeros en un viaje para verificar si este condicional se cumple
                                     echo "No se puede eliminar el viaje porque cuenta con pasajeros.";
@@ -569,7 +604,7 @@ do{
                                             break;
                                         case 4:
                                             // id viaje
-                                            $idViaje = leer("\ningrese el nuevo id de viaje:");
+                                            $idViaje = leer("\ningrese el nuevo id de viaje: ");
                                             if ($objViaje->Buscar($idViaje)){
                                                 $objPasajero->setObjViaje($objViaje);
                                             } else echo "\nno hay un viaje relacionado a esa id";
@@ -579,7 +614,7 @@ do{
                                             break;
                                         case 5:
                                             // nro pasaporte
-                                            $nroPasaporte = leer("\ningrese el nuevo número de pasaporte:");
+                                            $nroPasaporte = leer("\ningrese el nuevo número de pasaporte: ");
                                             $objPasajero->setNroPasaporte($nroPasaporte);
                                             if ($objPasajero->modificar()){
                                                 echo "El nombre ha sido modificado.";
@@ -653,7 +688,7 @@ do{
                             $nombre = leer("ingrese el nombre: ");
                             $apellido = leer("ingrese el apellido: ");
                             $telefono = leer("ingrese el teléfono: ");
-                            $nroEmpleado = leer("ingrese el número de empleado");
+                            $nroEmpleado = leer("ingrese el número de empleado: ");
                             $nroLicencia = leer("ingrese el número de licencia: ");
                             $objPersona->cargar($nroDoc, $nombre, $apellido, $telefono);
                             $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono, $nroEmpleado, $nroLicencia);
@@ -697,17 +732,17 @@ do{
                                     case 4:
                                         // nro empleado
                                         $nroEmpleado = leer("ingrese el nuevo número de empleado: ");
-                                        $objResponsable->setNroEmpleado($nroEmpleado);
+                                        $objResponsable->setNumEmpleado($nroEmpleado);
                                         if ($objResponsable->modificar()){
                                             echo "el número de empleado ha sido modificado";
                                         } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                     case 5:
                                         // nro licencia
-                                        $nroLicencia = leer("ingrese el nuevo número de licencia");
-                                        $objResponsable->setNroLicencia($nroLicencia);
+                                        $nroLicencia = leer("ingrese el nuevo número de licencia: ");
+                                        $objResponsable->setNumLicencia($nroLicencia);
                                         if ($objResponsable->modificar()){
-                                            echo "el número de licencia ha sido modificado";
+                                            echo "el número de licencia ha sido modificado. ";
                                         } else echo "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                                         break;
                                 }
@@ -718,7 +753,7 @@ do{
                         // eliminar responsable
                         $nroDoc = leer("ingrese el número de documento del responsable a eliminar");
                         if ($objResponsable->Buscar($nroDoc)){
-                            if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNroEmpleado()))>0){
+                            if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNumEmpleado()))>0){
                                 echo "el responsable está asociado a un viaje. no es posible eliminarlo";
                             } else{
                                 if ($objResponsable->eliminar()){
@@ -745,7 +780,7 @@ do{
                     case 5:
                         // buscar un responsable x dni
                         $nroDoc = leer("ingrese el número de documento: ");
-                        if ($objResponsable->Buscar($dni)){
+                        if ($objResponsable->Buscar($nroDoc)){
                             echo "\n-----------RESPONSABLE-----------\n$objResponsable";
                         } else echo "no existe un responsable asociado a ese número de documento";
                         break;
