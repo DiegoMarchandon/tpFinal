@@ -751,14 +751,14 @@ do{
                         break;
                     case 3:
                         // eliminar responsable
-                        $nroDoc = leer("ingrese el número de documento del responsable a eliminar");
+                        $nroDoc = leer("ingrese el número de documento del responsable a eliminar: ");
                         if ($objResponsable->Buscar($nroDoc)){
                             if (count($objViaje->listar("rnumeroempleado = ".$objResponsable->getNumEmpleado()))>0){
                                 echo "el responsable está asociado a un viaje. no es posible eliminarlo";
                             } else{
                                 if ($objResponsable->eliminar()){
                                     echo "el responsable se ha eliminado";
-                                    $rta= leer("Desea además eliminar sus datos de PERSONA? (si/no)");
+                                    $rta= leer("\nDesea además eliminar sus datos de PERSONA? (si/no)");
                                     if (strcasecmp($rta, "si")==0){
                                         $objPersona->Buscar($nroDoc);
                                         if ($objPersona->eliminar()){
