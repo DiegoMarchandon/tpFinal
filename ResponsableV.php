@@ -13,10 +13,7 @@ class ResponsableV extends Persona{
 
     /* METODOS SQL */
     public function cargar($NroD,$Nom,$Ape,$NroTel, $numEmpleado = null, $numLicencia = null){
-        $this->setNrodoc($NroD);
-		$this->setNombre($Nom);
-		$this->setApellido($Ape);
-		$this->setTelefono($NroTel);
+        parent::cargar($NroD,$Nom,$Ape,$NroTel);
         if($numEmpleado != null){
             $this->setNumEmpleado($numEmpleado);
         }

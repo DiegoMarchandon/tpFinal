@@ -15,11 +15,7 @@ class Pasajero extends Persona{
     /* METODOS INSERTAR, MODIFICAR Y ELIMINAR */
 
     public function cargar($NroD,$Nom,$Ape,$NroTel, $objViaje = null, $nroPasaporte = null){
-        $this->setNrodoc($NroD);
-		$this->setNombre($Nom);
-		$this->setApellido($Ape);
-		$this->setTelefono($NroTel);
-        // parent::cargar($NroD,$Nom,$Ape,$NroTel);
+        parent::cargar($NroD,$Nom,$Ape,$NroTel);
         if($objViaje != null){
             $this->setObjViaje($objViaje);
         }
@@ -90,6 +86,7 @@ class Pasajero extends Persona{
         // implementar herencia con insertar persona
 
         if ($base->Iniciar()){
+            parent::insertar();
             if ($base->Ejecutar($consultaInsertar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
