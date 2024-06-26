@@ -637,13 +637,6 @@ do{
                             if ($objPasajero->Buscar($nroDoc)){
                                 if ($objPasajero->eliminar()){
                                     echo "el pasajero ha sido eliminado.\n";
-                                    $rta= leer("Desea además eliminar sus datos de PERSONA? (si/no)");
-                                    if (strcasecmp($rta, "si")==0){
-                                        $objPersona->Buscar($nroDoc);
-                                        if ($objPersona->eliminar()){
-                                            echo "sus datos han sido eliminados completamente";
-                                        } else echo "no ha podido efectuarse. " . $objPersona->getmensajeoperacion();
-                                    }
                                 } else echo "no pudo eliminarse. " . $objPasajero->getmensajeoperacion();
                             } else "no se halló pasajero con ese número de documento";
                         } else "no hay pasajeros cargados aún";
@@ -760,13 +753,6 @@ do{
                             } else{
                                 if ($objResponsable->eliminar()){
                                     echo "el responsable se ha eliminado";
-                                    $rta= leer("\nDesea además eliminar sus datos de PERSONA? (si/no)");
-                                    if (strcasecmp($rta, "si")==0){
-                                        $objPersona->Buscar($nroDoc);
-                                        if ($objPersona->eliminar()){
-                                            echo "sus datos han sido eliminados completamente";
-                                        } else echo "no ha podido efectuarse. " . $objPersona->getmensajeoperacion();
-                                    }
                                 } else "no ha podido ejecutarse. " . $objResponsable->getmensajeoperacion();
                             }
                         } else echo "no se ha hallado un responsable con ese documento";

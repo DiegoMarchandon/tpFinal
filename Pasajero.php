@@ -83,7 +83,6 @@ class Pasajero extends Persona{
         $base = new BaseDatos();
         $resp = false;
         $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$this->getObjViaje()->getIdViaje().",".$this->getNroPasaporte().")";
-        // implementar herencia con insertar persona
 
         if ($base->Iniciar()){
             parent::insertar();
@@ -101,9 +100,9 @@ class Pasajero extends Persona{
 
         $consultaModificar = "UPDATE pasajero SET idviaje=".$this->getObjViaje()->getIdViaje().", nroPasaporte=".$this->getNroPasaporte().
         " WHERE pdocumento = " . $this->getNrodoc();
-        // implementar herencia
 
         if ($base->Iniciar()){
+            parent::modificar();
             if ($base->Ejecutar($consultaModificar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
@@ -113,18 +112,10 @@ class Pasajero extends Persona{
     }
 
     public function eliminar(){
-        $base = new BaseDatos();
         $resp = false;
-
-        $consultaEliminar = "DELETE FROM pasajero WHERE pdocumento = " . $this->getNrodoc();
-        // implementar herencia
-
-        if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaEliminar)){
-                $resp = true;
-            } else $this->setmensajeoperacion($base->getERROR());
-        } else $this->setmensajeoperacion($base->getERROR());
-
+        if (parent::eliminar()){
+            $resp = true;
+        }
         return $resp;
     }
 

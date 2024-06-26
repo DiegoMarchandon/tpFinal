@@ -99,17 +99,10 @@ class ResponsableV extends Persona{
     }
 
     public function eliminar(){
-        $base = new BaseDatos();
         $resp = false;
-
-        $consultaEliminar = "DELETE FROM responsable WHERE rnrodoc = " . $this->getNrodoc();
-
-        if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaEliminar)){
-                $resp = true;
-            } else $this->setmensajeoperacion($base->getERROR());
-        } else $this->setmensajeoperacion($base->getERROR());
-
+        if (parent::eliminar()){
+            $resp = true;
+        }
         return $resp;
     }
 
