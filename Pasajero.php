@@ -48,10 +48,10 @@ class Pasajero extends Persona{
                     $resp = true;
                 }
             }else{
-                $this->getmensajeoperacion($base->getERROR());
+                $this->setmensajeoperacion($base->getERROR());
             }
         }else{
-            $this->getmensajeoperacion($base->getERROR());
+            $this->setmensajeoperacion($base->getERROR());
         }
         return $resp;
     }

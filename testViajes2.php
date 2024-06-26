@@ -728,7 +728,8 @@ do{
                                         $objPersona->setTelefono($telefono);
                                         if ($objPersona->modificar()){
                                             echo "el teléfono ha sido modificado";
-                                        } else echo "no ha podido ejecutarse. " . $objPersona->getmensajeoperacion();                                        break;
+                                        } else echo "no ha podido ejecutarse. " . $objPersona->getmensajeoperacion();                                        
+                                        break;
                                     case 4:
                                         // nro empleado
                                         $nroEmpleado = leer("ingrese el nuevo número de empleado: ");
