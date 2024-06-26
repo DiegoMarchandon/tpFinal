@@ -321,54 +321,59 @@ do{
                             $destino = leer("ingrese un destino: ");
                             $cantMaxPasajeros = leer("ingrese una cantidad máxima de pasajeros para el viaje: ");
                             $fechaViaje = leer("ingrese la fecha del viaje (Formato YYYY-MM-DD): ");
-    
-                            echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
                             $colViajes = $objViaje->listar();
                             $colResponsables = $objResponsable->listar(); 
-                            if(count($objViaje->listar()) <> 0){
-                                // procedimiento para insertar un responsable que no esté asociado a un viaje:
-                                $numsResponsables = [];
-                                foreach($colViajes as $viaje){
-                                    
-                                    $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
-                                    $numsResponsables[] = $numEmpleado;
-                                      
-                                }
-                                
-                                foreach ($colResponsables as $responsable) {
-    
-                                    if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
-                                        $numEmpleado = $responsable->getNumEmpleado();
-                                        $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
-                                        echo $empleado."\n------------------------------------------------------------";
+                            if(count($colResponsables) > 0){
+
+                                echo "seleccione un numero de empleado del responsable del viaje. Los que se encuentran disponibles son: \n";
+                                if(count($objViaje->listar()) <> 0){
+                                    // procedimiento para insertar un responsable que no esté asociado a un viaje:
+                                    $numsResponsables = [];
+                                    foreach($colViajes as $viaje){
+                                        
+                                        $numEmpleado = $viaje->getObjResponsable()->getNumEmpleado();
+                                        $numsResponsables[] = $numEmpleado;
+                                          
+                                    }
+                                    $contador = 0;                            
+                                    foreach ($colResponsables as $responsable) {
+        
+                                        if (!(in_array($responsable->getNumEmpleado(), $numsResponsables))) {
+                                            $contador++;
+                                            $numEmpleado = $responsable->getNumEmpleado();
+                                            $empleado = $responsable->listar('rnumeroempleado = ' . $numEmpleado . ";")[0];
+                                            echo $empleado."\n------------------------------------------------------------";
+                                        }
+                                    }
+                                    if($contador == 0){
+                                        echo "no hay responsables disponibles para asignar.";
+                                    }
+                                    # si no hay viajes creados, directamente listamos todos los responsables.                            
+                                } else {
+                                    $colResponsables = $objResponsable->listar();
+                                    foreach ($colResponsables as $responsable) {
+                                        echo $responsable . "\n------------------------------------------------------------";
                                     }
                                 }
-    
-                                # si no hay viajes creados, directamente listamos todos los responsables.                            
-                            } else {
-                                $colResponsables = $objResponsable->listar();
-                                foreach ($colResponsables as $responsable) {
-                                    echo $responsable . "\n------------------------------------------------------------";
-                                }
-                            }
-                            $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
-                            $objResp = new ResponsableV();
-                                while(!$objResp->Buscar($numDoc)){
-                                    $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
-                                    $numDoc = $numDoc2;
-                                }
-                            $idEmpresa = leer("ingrese el id de la empresa: ");
-                                while(!$empresaViajes->Buscar($idEmpresa)){
-                                    $idEmpresa2 = leer("\n id de empresa incorrecto. Ingréselo nuevamente: ");
-                                    $idEmpresa = $idEmpresa2;
-                                }
-                            $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
-                            $viajeIngresado = new Viaje();
-                            $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
-                            $confirmacion = $viajeIngresado->insertar();
-                            if($confirmacion){
-                                echo "viaje insertado exitosamente.";
-                            }else echo "el viaje no pudo ser insertado. ";
+                                $numDoc = leer("\n ingrese el numero de documento del responsable seleccionado: ");
+                                $objResp = new ResponsableV();
+                                    while(!$objResp->Buscar($numDoc)){
+                                        $numDoc2 = leer("\n numero de documento incorrecto. Ingréselo nuevamente: ");
+                                        $numDoc = $numDoc2;
+                                    }
+                                $idEmpresa = leer("ingrese el id de la empresa: ");
+                                    while(!$empresaViajes->Buscar($idEmpresa)){
+                                        $idEmpresa2 = leer("\n id de empresa incorrecto. Ingréselo nuevamente: ");
+                                        $idEmpresa = $idEmpresa2;
+                                    }
+                                $importeViaje = leer("Ingrese el importe del viaje. '0' si aún no desea ingresarlo. ");
+                                $viajeIngresado = new Viaje();
+                                $viajeIngresado->cargar(null,$fechaViaje,$destino,$cantMaxPasajeros,$empresaViajes,[],$objResp,$importeViaje);
+                                $confirmacion = $viajeIngresado->insertar();
+                                if($confirmacion){
+                                    echo "viaje insertado exitosamente.";
+                                }else echo "el viaje no pudo ser insertado. ";
+                            }else echo "no hay responsables creados";
                             
                         }else echo "no pueden crear viajes sin antes crear la empresa.";
                         
