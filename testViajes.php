@@ -571,7 +571,11 @@ do{
                         // modificar
                         $colPasajeros = $objPasajero->listar();
                         if (count($colPasajeros)>0){
-                            $nroDoc = leer("ingrese el numero de documento del pasajero: ");
+                            echo "estos son los pasajeros: \n";
+                            foreach($colPasajeros as $pasajero){
+                                echo $pasajero."\n-----------------------------";
+                            }
+                            $nroDoc = leer("\ningrese el numero de documento del pasajero: ");
                             if ($objPasajero->Buscar($nroDoc) && $objPersona->Buscar($nroDoc)){
                                 do{
                                     $objPasajero->Buscar($nroDoc);
