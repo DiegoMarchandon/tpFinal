@@ -255,20 +255,23 @@ do{
                         
                         modificar: /* punto de destino especificado */
                         if(count($empresaViajes->listar()) <> 0){
-                            $rta1 = leer("desea modificar el nombre ? si/no: ");
-                            if (strcasecmp($rta1, "si") == 0) {
-                                $newNombre = leer("ingrese el nuevo nombre: ");
-                                $empresaViajes->setNombre($newNombre);
-                                // $empresaViajes->modificar();
-                            }
-                            $rta2 = leer("desea modificar la direccion ? si/no: ");
-                            if (strcasecmp($rta2, "si") == 0) {
-                                $newDireccion = leer("ingrese la nueva dirección: ");
-                                $empresaViajes->setDireccion($newDireccion);
-                            }
-                            $empresaViajes->modificar();
-                            if ((strcasecmp($rta1, "si") != 0) && (strcasecmp($rta2, "si") != 0)) {
-                                echo "No se modificó ningún dato.";
+                            $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
+                            if($empresaViajes->Buscar($idEmpresa)){
+                                $rta1 = leer("desea modificar el nombre ? si/no: ");
+                                if (strcasecmp($rta1, "si") == 0) {
+                                    $newNombre = leer("ingrese el nuevo nombre: ");
+                                    $empresaViajes->setNombre($newNombre);
+                                    // $empresaViajes->modificar();
+                                }
+                                $rta2 = leer("desea modificar la direccion ? si/no: ");
+                                if (strcasecmp($rta2, "si") == 0) {
+                                    $newDireccion = leer("ingrese la nueva dirección: ");
+                                    $empresaViajes->setDireccion($newDireccion);
+                                }
+                                $empresaViajes->modificar();
+                                if ((strcasecmp($rta1, "si") != 0) && (strcasecmp($rta2, "si") != 0)) {
+                                    echo "No se modificó ningún dato.";
+                                }
                             }
                         }else echo "no se pueden modificar datos porque no existe ninguna empresa. ";
                         
@@ -276,8 +279,10 @@ do{
                     case 3:
                         // eliminar LA empresa
                         if(count($empresaViajes->listar()) <> 0){
-                            $rta = leer("ADVERTENCIA. Si elimina la empresa, se eliminarán los viajes asociados. Desea continuar ? si/no: ");
-                            if(strcasecmp($rta, "si") == 0){
+                            // $rta = leer("ADVERTENCIA. Si elimina la empresa, se eliminarán los viajes asociados. Desea continuar ? si/no: ");
+                            $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
+                            // if(strcasecmp($rta, "si") == 0){
+                            if($empresaViajes->Buscar($idEmpresa)){
                                 if($empresaViajes->eliminar()){ #con ponerlo acá ya se ejecuta
                                     echo "empresa eliminada.";
                                 }else echo "no se ha podido eliminar.";
