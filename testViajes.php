@@ -687,11 +687,10 @@ do{
                             $telefono = leer("ingrese el teléfono: ");
                             $nroEmpleado = leer("ingrese el número de empleado: ");
                             $nroLicencia = leer("ingrese el número de licencia: ");
-                            $objPersona->cargar($nroDoc, $nombre, $apellido, $telefono);
                             $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono, $nroEmpleado, $nroLicencia);
-                            if ($objPersona->insertar() && $objResponsable->insertar()){
+                            if ( $objResponsable->insertar()){
                                 echo "el responsable ha sido cargado";
-                            } else echo "no ha sido posible la operación. " . $objPersona->getmensajeoperacion() . $objResponsable->getmensajeoperacion();
+                            } else echo "no ha sido posible la operación. ". $objResponsable->getmensajeoperacion();
                         }
                         break;
                     case 2:
