@@ -255,7 +255,7 @@ do{
                         
                         modificar: /* punto de destino especificado */
                         if(count($empresaViajes->listar()) <> 0){
-                            $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
+                            $idEmpresa = $empresaViajes->listar()[0]->getIdEmpresa();
                             if($empresaViajes->Buscar($idEmpresa)){
                                 $rta1 = leer("desea modificar el nombre ? si/no: ");
                                 if (strcasecmp($rta1, "si") == 0) {
@@ -279,13 +279,14 @@ do{
                     case 3:
                         // eliminar LA empresa
                         if(count($empresaViajes->listar()) <> 0){
-                            // $rta = leer("ADVERTENCIA. Si elimina la empresa, se eliminarán los viajes asociados. Desea continuar ? si/no: ");
-                            $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
-                            // if(strcasecmp($rta, "si") == 0){
-                            if($empresaViajes->Buscar($idEmpresa)){
-                                if($empresaViajes->eliminar()){ #con ponerlo acá ya se ejecuta
-                                    echo "empresa eliminada.";
-                                }else echo "no se ha podido eliminar.";
+                            $idEmpresa = $empresaViajes->listar()[0]->getIdEmpresa();
+                            $eliminar = leer("ADVERTENCIA. Si elimina la empresa, se eliminarán los viajes asociados. Desea continuar ? si/no: ");
+                            if (strcasecmp($eliminar, "si") == 0) {
+                                if ($empresaViajes->Buscar($idEmpresa)) {
+                                    if ($empresaViajes->eliminar()) { #con ponerlo acá ya se ejecuta
+                                        echo "empresa eliminada.";
+                                    } else echo "no se ha podido eliminar.";
+                                }
                             }
                         }else echo "no se puede eliminar la empresa sin antes crearla.";
 
@@ -294,7 +295,7 @@ do{
                         // ver datos de empresa
                         if(count($empresaViajes->listar()) <> 0){
 
-                            $idEmpresa = leer("como método de seguridad, ingrese el id de empresa: ");
+                            $idEmpresa = $empresaViajes->listar()[0]->getIdEmpresa();
                             if($empresaViajes->Buscar($idEmpresa)){
                                 $coleccion = $empresaViajes->listar();
                                     foreach($coleccion as $dato){
@@ -458,8 +459,12 @@ do{
                             if($objViaje->Buscar($idViaje)){
                                 $cantPasajeros = count($objPasajero->listar('idviaje = '.$idViaje));
                                 if($cantPasajeros > 0){
-                                    
-                                    echo "No se puede eliminar el viaje porque cuenta con pasajeros.";
+                                    $eliminar = leer("Eliminar el viaje eliminará los datos de los PASAJEROS asociados. Desea continuar? si/no");
+                                    if (strcasecmp($eliminar,"si")==0){
+                                        if($objViaje->eliminar($idViaje)){
+                                            echo "viaje eliminado exitosamente. ";
+                                        }else echo "no se pudo ejecutar la consulta. Error al eliminar el viaje. ";
+                                    }
                                 }else{
                                     if($objViaje->eliminar($idViaje)){
                                         echo "viaje eliminado exitosamente. ";
