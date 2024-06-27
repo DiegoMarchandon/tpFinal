@@ -550,13 +550,11 @@ do{
                                                 }
                                             } else echo "ese numero de documento ya está asociado a un RESPONSABLE";
                                         } else {
-                                            // cargar persona
+                                            // cargar pasajero
                                             $nombre = leer("Ingrese el nombre del pasajero: ");
                                             $apellido = leer("Ingrese el apellido del pasajero: ");
                                             $telefono = leer("Ingrese el teléfono del pasajero: ");
-                                            $nroPasaporte = leer("Ingrese el número de pasaporte: "); #
-                                            $persona->cargar($nroDoc, $nombre, $apellido, $telefono);
-                                            $persona->insertar();
+                                            $nroPasaporte = leer("Ingrese el número de pasaporte: "); 
                                             $pasajero->cargar($nroDoc, $nombre, $apellido, $telefono, $objViaje, $nroPasaporte);
                                             if ($pasajero->insertar()) {
                                                 echo "El pasajero ha sido cargado";
