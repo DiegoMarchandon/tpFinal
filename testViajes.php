@@ -231,8 +231,6 @@ do{
                 switch ($opcionEmpresa){
                     case 1:
                         // Acceder a LA empresa
-                        // necesitamos sí o sí una empresa creada para acceder a sus métodos (o nos van a dar todos error),
-                            //  por lo que siempre nos mostrará el mensaje de "Empresa existente".
                         if(count($empresaViajes->listar()) == 0){
                             $nombre = leer("ingrese el nombre de la empresa: ");
                             $direccion = leer("ingrese la direccion de la empresa: ");

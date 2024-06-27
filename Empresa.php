@@ -66,7 +66,7 @@ class Empresa{
     /* utilizo a buscar exclusivamente para buscar a la empresa por id en lugar de modificar los datos. */
     public function Buscar($idEmpresa){
         $base = new BaseDatos(); 
-        $consultaEmpresa = "SELECT * FROM empresa WHERE idEmpresa = ".$idEmpresa;
+        $consultaEmpresa = "SELECT * FROM empresa WHERE idempresa = ".$idEmpresa;
         $resp = false;
         if($base->Iniciar()){ #para cualquier consulta, lo que necesito hacer primero es establacer una conexión.
             if($base->Ejecutar($consultaEmpresa)){ #envío la consulta al gestor de base de datos
@@ -135,7 +135,7 @@ class Empresa{
     public function modificar(){
         $resp = false;
         $base = new BaseDatos();
-        $consulta="UPDATE empresa SET enombre = '".$this->getNombre()."', edireccion = '".$this->getDireccion()."';"; /* WHERE idEmpresa = ".$this->getIdEmpresa(); */
+        $consulta="UPDATE empresa SET enombre = '".$this->getNombre()."', edireccion = '".$this->getDireccion()."' WHERE idempresa = ".$this->getIdEmpresa();
 
         if($base->Iniciar()){ #iniciamos la conexión
             if($base->Ejecutar($consulta)){
@@ -152,7 +152,7 @@ class Empresa{
     public function eliminar(){
         $resp = false;
         $base = new BaseDatos();                                    
-        $consultaEliminar = "DELETE FROM empresa WHERE idEmpresa = ".$this->getIdEmpresa();
+        $consultaEliminar = "DELETE FROM empresa WHERE idempresa = ".$this->getIdEmpresa();
 
         if($base->Iniciar()){
             if($base->Ejecutar($consultaEliminar)){
