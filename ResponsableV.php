@@ -74,7 +74,7 @@ class ResponsableV extends Persona{
         $consultaInsertar = "INSERT INTO responsable VALUES (".$this->getNumEmpleado().",".$this->getNumLicencia().",".$this->getNrodoc().")";
 
         if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaInsertar)){
+            if (parent::insertar() && $base->Ejecutar($consultaInsertar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
         } else $this->setmensajeoperacion($base->getERROR());
@@ -90,7 +90,7 @@ class ResponsableV extends Persona{
         " WHERE rnrodoc = " . $this->getNrodoc();
 
         if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaModificar)){
+            if (parent::modificar() && $base->Ejecutar($consultaModificar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
         } else $this->setmensajeoperacion($base->getERROR());

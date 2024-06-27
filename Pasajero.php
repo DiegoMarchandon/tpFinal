@@ -86,8 +86,7 @@ class Pasajero extends Persona{
         $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$this->getObjViaje()->getIdViaje().",".$this->getNroPasaporte().")";
 
         if ($base->Iniciar()){
-            parent::insertar();
-            if ($base->Ejecutar($consultaInsertar)){
+            if (parent::insertar() && $base->Ejecutar($consultaInsertar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
         } else $this->setmensajeoperacion($base->getERROR());
@@ -103,8 +102,7 @@ class Pasajero extends Persona{
         " WHERE pdocumento = " . $this->getNrodoc();
 
         if ($base->Iniciar()){
-            parent::modificar();
-            if ($base->Ejecutar($consultaModificar)){
+            if (parent::modificar() && $base->Ejecutar($consultaModificar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
         } else $this->setmensajeoperacion($base->getERROR());
