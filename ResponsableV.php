@@ -13,10 +13,7 @@ class ResponsableV extends Persona{
 
     /* METODOS SQL */
     public function cargar($NroD,$Nom,$Ape,$NroTel, $numEmpleado = null, $numLicencia = null){
-        $this->setNrodoc($NroD);
-		$this->setNombre($Nom);
-		$this->setApellido($Ape);
-		$this->setTelefono($NroTel);
+        parent::cargar($NroD,$Nom,$Ape,$NroTel);
         if($numEmpleado != null){
             $this->setNumEmpleado($numEmpleado);
         }
@@ -102,17 +99,10 @@ class ResponsableV extends Persona{
     }
 
     public function eliminar(){
-        $base = new BaseDatos();
         $resp = false;
-
-        $consultaEliminar = "DELETE FROM responsable WHERE rnrodoc = " . $this->getNrodoc();
-
-        if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaEliminar)){
-                $resp = true;
-            } else $this->setmensajeoperacion($base->getERROR());
-        } else $this->setmensajeoperacion($base->getERROR());
-
+        if (parent::eliminar()){
+            $resp = true;
+        }
         return $resp;
     }
 

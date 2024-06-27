@@ -71,9 +71,7 @@ class Empresa{
         if($base->Iniciar()){ #para cualquier consulta, lo que necesito hacer primero es establacer una conexión.
             if($base->Ejecutar($consultaEmpresa)){ #envío la consulta al gestor de base de datos
                 if($registros =$base->Registro()){	 # registro devolverá un arreglo asociativo
-				    $this->setIdEmpresa($idEmpresa); #$this->setNrodoc($registros['nrodoc]);
-					$this->setNombre($registros['enombre']);
-					$this->setDireccion($registros['edireccion']);
+				    $this->cargar($idEmpresa, $registros['enombre'], $registros['edireccion']);
 					$resp= true;
 				}
                 
@@ -102,11 +100,8 @@ class Empresa{
 				$arregloEmpresa= array();
 				while($registros=$base->Registro()){ #mientras la base de datos me devuelva registros, se seguirán recorriendo
 					
-					$Nombre=$registros['enombre'];
-					$Direccion=$registros['edireccion'];
-                    $idEmpresa=$registros['idempresa'];
 					$empresa=new Empresa();
-					$empresa->cargar($idEmpresa,$Nombre,$Direccion);
+					$empresa->Buscar($registros['idempresa']);
 					array_push($arregloEmpresa,$empresa);
 	
 				}

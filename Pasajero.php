@@ -15,10 +15,7 @@ class Pasajero extends Persona{
     /* METODOS INSERTAR, MODIFICAR Y ELIMINAR */
 
     public function cargar($NroD,$Nom,$Ape,$NroTel, $objViaje = null, $nroPasaporte = null){
-        $this->setNrodoc($NroD);
-		$this->setNombre($Nom);
-		$this->setApellido($Ape);
-		$this->setTelefono($NroTel);
+        parent::cargar($NroD,$Nom,$Ape,$NroTel);
         if($objViaje != null){
             $this->setObjViaje($objViaje);
         }
@@ -89,7 +86,11 @@ class Pasajero extends Persona{
         $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$this->getObjViaje()->getIdViaje().",".$this->getNroPasaporte().")";
 
         if ($base->Iniciar()){
+<<<<<<< HEAD
 
+=======
+            parent::insertar();
+>>>>>>> e812f81ec4974d6179360d16b508c9ad6881a45f
             if ($base->Ejecutar($consultaInsertar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
@@ -106,6 +107,7 @@ class Pasajero extends Persona{
         " WHERE pdocumento = " . $this->getNrodoc();
 
         if ($base->Iniciar()){
+            parent::modificar();
             if ($base->Ejecutar($consultaModificar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
@@ -116,7 +118,11 @@ class Pasajero extends Persona{
 
     public function eliminar(){
         $resp = false;
+<<<<<<< HEAD
         if(parent::eliminar()){
+=======
+        if (parent::eliminar()){
+>>>>>>> e812f81ec4974d6179360d16b508c9ad6881a45f
             $resp = true;
         }
         return $resp;
