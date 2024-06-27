@@ -49,7 +49,9 @@ class Viaje{
 
     public function getColObjPasajeros()
     {
-        return $this->colObjPasajeros;
+        $pasajeros = new Pasajero();
+        $colPasajeros = $pasajeros->listar('idviaje = '.$this->getIdViaje());;
+        return $colPasajeros;
     }
 
     public function setColObjPasajeros($colObjPasajeros)
@@ -157,7 +159,7 @@ class Viaje{
                     $this->setCantMaxPasajeros($registros['vcantmaxpasajeros']);
                     $empresa = new Empresa();
                     $empresa->Buscar($registros['idempresa']);
-                    $this->setObjEmpresa($empresa);
+                    $this->setObjEmpresa($empresa);                    
                     $responsable = new ResponsableV();
                     $this->setObjResponsable($responsable->listar("rnumeroempleado = ".$registros['rnumeroempleado'])[0]);
                     $this->setImporte($registros['vimporte']);

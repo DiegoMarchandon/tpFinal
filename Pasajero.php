@@ -85,9 +85,11 @@ class Pasajero extends Persona{
     public function insertar(){
         $base = new BaseDatos();
         $resp = false;
+
         $consultaInsertar = "INSERT INTO pasajero VALUES (".$this->getNrodoc().",".$this->getObjViaje()->getIdViaje().",".$this->getNroPasaporte().")";
 
         if ($base->Iniciar()){
+
             if ($base->Ejecutar($consultaInsertar)){
                 $resp = true;
             } else $this->setmensajeoperacion($base->getERROR());
@@ -113,17 +115,10 @@ class Pasajero extends Persona{
     }
 
     public function eliminar(){
-        $base = new BaseDatos();
         $resp = false;
-
-        $consultaEliminar = "DELETE FROM pasajero WHERE pdocumento = " . $this->getNrodoc();
-
-        if ($base->Iniciar()){
-            if ($base->Ejecutar($consultaEliminar)){
-                $resp = true;
-            } else $this->setmensajeoperacion($base->getERROR());
-        } else $this->setmensajeoperacion($base->getERROR());
-
+        if(parent::eliminar()){
+            $resp = true;
+        }
         return $resp;
     }
 
