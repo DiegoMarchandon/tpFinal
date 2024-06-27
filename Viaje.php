@@ -304,7 +304,9 @@ class Viaje{
         "\n Fecha: ".$this->getFecha().
         "\n Cantidad maxima de pasajeros: ".$this->getCantMaxPasajeros().
         "\n id de la empresa: ".$this->getObjEmpresa()->getIdEmpresa().
-        "\n pasajeros: \n".((count($this->getColObjPasajeros()) == 0) ? "\n| No hay pasajeros en el viaje |\n" : "-----------------------\n".$this->arrToString($this->getColObjPasajeros())."\n-----------------------").
+        "\n pasajeros: \n".((count($this->getColObjPasajeros()) == 0) ? "\n| No hay pasajeros en el viaje |\n" :
+         "Hay ".count($this->getColObjPasajeros())." pasajeros. Sus datos son: \n-----------------------\n".
+         $this->arrToString($this->getColObjPasajeros())."\n-----------------------").
         "\n Responsable del viaje: ".$this->getObjResponsable().
         "\n Importe del viaje: $".$this->getImporte();
     }
