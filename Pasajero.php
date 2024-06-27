@@ -56,9 +56,9 @@ class Pasajero extends Persona{
     public function listar($condicion=""){
 	    $arreglo = null;
 		$base=new BaseDatos();
-		$consulta="Select * from pasajero ";
+		$consulta="SELECT * FROM pasajero ";
 		if ($condicion!=""){
-		    $consulta .=' where '.$condicion;
+		    $consulta .=' WHERE '.$condicion;
 		}
 		$consulta.=" order by nroPasaporte ";
 

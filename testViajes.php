@@ -455,7 +455,7 @@ do{
                             if($objViaje->Buscar($idViaje)){
                                 $cantPasajeros = count($objPasajero->listar('idviaje = '.$idViaje));
                                 if($cantPasajeros > 0){
-                                    #CARGAR pasajeros en un viaje para verificar si este condicional se cumple
+                                    
                                     echo "No se puede eliminar el viaje porque cuenta con pasajeros.";
                                 }else{
                                     if($objViaje->eliminar($idViaje)){
@@ -475,7 +475,7 @@ do{
                             $datosViajes = $objViaje->listar();
                             
                             foreach($datosViajes as $viaje){
-                                $viaje->setColObjPasajeros($objPasajero->listar(" idviaje = ".$viaje->getIdViaje()));
+                                // $viaje->setColObjPasajeros($objPasajero->listar(" idviaje = ".$viaje->getIdViaje()));
                                 echo $viaje."\n------------------------------------------------------------\n";
                             }
                         }else echo "debe crear al menos un viaje para poder ver sus datos. ";

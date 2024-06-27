@@ -50,7 +50,7 @@ class Viaje{
     public function getColObjPasajeros()
     {
         $pasajeros = new Pasajero();
-        $colPasajeros = $pasajeros->listar('idviaje = '.$this->getIdViaje());;
+        $colPasajeros = $pasajeros->listar('idviaje = '.$this->getIdViaje());
         return $colPasajeros;
     }
 
@@ -304,9 +304,9 @@ class Viaje{
         "\n Fecha: ".$this->getFecha().
         "\n Cantidad maxima de pasajeros: ".$this->getCantMaxPasajeros().
         "\n id de la empresa: ".$this->getObjEmpresa()->getIdEmpresa().
-        "pasajeros: \n".$this->arrToString($this->getColObjPasajeros()).
+        "\n pasajeros: \n".((count($this->getColObjPasajeros()) == 0) ? "\n| No hay pasajeros en el viaje |\n" : "-----------------------\n".$this->arrToString($this->getColObjPasajeros())."\n-----------------------").
         "\n Responsable del viaje: ".$this->getObjResponsable().
-        "\n Importe del viaje: ".$this->getImporte();
+        "\n Importe del viaje: $".$this->getImporte();
     }
 
 }
