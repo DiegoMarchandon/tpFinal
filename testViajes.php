@@ -690,7 +690,7 @@ do{
                             $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono, $nroEmpleado, $nroLicencia);
                             if ($objResponsable->insertar()){
                                 echo "el responsable ha sido cargado";
-                            } else echo "no ha sido posible la operación. " . $objResponsable->getmensajeoperacion() . $objResponsable->getmensajeoperacion();
+                            } else echo "no ha sido posible la operación. " . $objPersona->getmensajeoperacion() . $objResponsable->getmensajeoperacion();
                         }
                         break;
                     case 2:
